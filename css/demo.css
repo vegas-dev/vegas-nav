@@ -1,0 +1,46 @@
+html, body, .container {
+	background: #cccccc;
+	height: 100%;
+}
+
+section{
+	height: 100%;
+	width: 100%;
+	position:relative;
+	box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+	background: #ffffff url("../images/bg.jpg") no-repeat center;
+	background-size: cover;
+	z-index: 0;
+}
+section:after {
+	z-index: -1;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, .5);
+}
+
+header .top {
+	font-size: 13px;
+	color: #cccccc;
+	border-bottom: 1px solid rgba(0, 0, 0, .4);
+	background: rgba(0, 0, 0, .2);
+}
+header .top p{
+	margin: 0;
+	padding: 7px 15px;
+}
+header .top a{
+	color: #dddddd;
+}
+header .navigation {
+	min-height: 50px;
+}
+header h2 {
+	padding: 2rem;
+	margin: 0;
+	color: #f1f1f1;
+}
