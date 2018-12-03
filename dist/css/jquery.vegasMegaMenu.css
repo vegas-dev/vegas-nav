@@ -24,7 +24,7 @@
 .vg-menu .dropdown {
 	position: relative;
 }
-.vg-menu .dropdown > a span {
+.vg-menu .dropdown > a span.toggle {
 	transition: all 0.4s ease;
 	display: inline-block;
 	width: 0;
@@ -38,16 +38,29 @@
 	border-left: .3em solid transparent;
 	transform: rotate(0);
 }
-.vg-menu .dropdown.show > a span {
+.vg-menu .dropdown.show > a span.toggle {
 	transform: rotate(-180deg);
 }
 
-.vg-menu .dropdown > ul {
-	position: absolute;
+.vg-menu .dropdown.show > ul {
+	visibility: visible;
+	opacity: 1;
 	top: 100%;
-	left: 0;
+}
+.vg-menu .dropdown > ul {
+	transition: all 0.4s ease;
+	position: absolute;
+	top: 120%;
+	opacity: 0;
+	visibility: hidden;
 	width: 200px;
 	background: rgba(255, 255, 255, .4);
+}
+.vg-menu .dropdown > ul.left {
+	left: 0;
+}
+.vg-menu .dropdown > ul.right {
+	right: 0;
 }
 .vg-menu .dropdown > ul a {
 	transition: all 0.4s ease;
