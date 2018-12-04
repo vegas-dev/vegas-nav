@@ -28,7 +28,7 @@
 .vg-menu .dropdown {
 	position: relative;
 }
-.vg-menu .dropdown > a span.toggle {
+.vg-menu span.toggle {
 	transition: all 0.4s ease;
 	display: inline-block;
 	width: 0;
@@ -42,7 +42,8 @@
 	border-left: .3em solid transparent;
 	transform: rotate(0);
 }
-.vg-menu .dropdown.show > a span.toggle {
+.vg-menu .dropdown.show > a span.toggle,
+.vg-menu .dropdown-mega.show > a span.toggle{
 	transform: rotate(-180deg);
 }
 
@@ -98,4 +99,21 @@
 	visibility: visible;
 	opacity: 1;
 	top: 0;
+}
+
+.vg-menu .dropdown-mega-container {
+	transition: all 0.4s ease;
+	position: absolute;
+	top: 120%;
+	opacity: 0;
+	visibility: hidden;
+	left: 0;
+	width: 100%;
+	min-height: 300px;
+	background: rgba(255, 255, 255, .4);
+}
+.vg-menu  .dropdown-mega.show > .dropdown-mega-container {
+	visibility: visible;
+	opacity: 1;
+	top: 100%;
 }

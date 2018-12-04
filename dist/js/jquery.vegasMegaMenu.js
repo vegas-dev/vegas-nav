@@ -17,9 +17,11 @@
 
 		$self.addClass(mainClass);
 
-		$(document).on('click', 'li a', function () {
+		$(document).on('click', 'li:not(.dropdown-mega) a', function () {
 			var $_self = $(this);
 			var $li = $_self.parent('li');
+
+			$('.dropdown-mega').removeClass('show');
 
 			if ($li.hasClass('dropdown')) {
 				if($li.parent('ul').hasClass(mainClass)) {
@@ -50,6 +52,20 @@
 				$self.find('.'+ show).removeClass(show).removeClass('current');
 				return $_self;
 			}
+		});
+
+		$(document).on('click', 'li.dropdown-mega a', function () {
+			var $_self = $(this);
+			var $li = $_self.parent('li');
+
+			if ($li.hasClass('show')) {
+				$li.removeClass('show');
+			} else {
+				$self.find('.'+ show).removeClass(show).removeClass('current');
+				$li.addClass('show');
+			}
+
+			return false;
 		});
 
 		$(document).mouseup(function (e) {
