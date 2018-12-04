@@ -1,3 +1,7 @@
+.vg-menu {
+	position: relative;
+	z-index: 100;
+}
 .vg-menu, ul {
 	list-style: none;
 	padding: 0;
@@ -62,7 +66,7 @@
 .vg-menu .dropdown > ul.right {
 	right: 0;
 }
-.vg-menu .dropdown > ul a {
+.vg-menu .dropdown  ul a {
 	transition: all 0.4s ease;
 	text-decoration: none;
 	font-size: 14px;
@@ -71,6 +75,37 @@
 	color: #333;
 	border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
-.vg-menu .dropdown > ul li:last-child a {
-	border: none;
+
+.vg-menu .dropdown > ul ul {
+	transition: all 0.4s ease;
+	position: absolute;
+	top: 20%;
+	opacity: 0;
+	visibility: hidden;
+	width: 200px;
+	background: rgba(255, 255, 255, .4);
+}
+.vg-menu .dropdown > ul .dropdown ul.left {
+	border-left: 1px solid rgba(0, 0, 0, .1);
+	left: 100%;
+}
+.vg-menu .dropdown > ul .dropdown ul.right {
+	border-right: 1px solid rgba(0, 0, 0, .1);
+	right: 100%;
+}
+
+.vg-menu  .dropdown > ul .dropdown.show > ul {
+	visibility: visible;
+	opacity: 1;
+	top: 0;
+}
+
+.vg-menu-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99;
+	background: #000;
 }
