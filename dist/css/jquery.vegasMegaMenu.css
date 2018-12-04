@@ -117,3 +117,113 @@
 	opacity: 1;
 	top: 100%;
 }
+
+/** Mobile **/
+.vg-menu-mobile .layout__state {
+	position: absolute;
+	left: -5000px;
+}
+.vg-menu-mobile section.hamburger {
+	height: 56px;
+	color: #fff;
+	font-size: 24px;
+	line-height: 56px;
+	font-weight: 300;
+	background: transparent;
+}
+.vg-menu-mobile .header__trigger {
+	position: relative;
+	float: left;
+	width: 56px;
+	height: 56px;
+	margin: 0;
+	vertical-align: top;
+	cursor: pointer;
+}
+.vg-menu-mobile .header__trigger:hover {
+	background: rgba(255,255,255,0.1);
+}
+.vg-menu-mobile .header__bar {
+	position: absolute;
+	top: 50%;
+	left: 16px;
+	width: 24px;
+	height: 2px;
+	margin: -1px 0 0;
+	background: #fff;
+	-webkit-transform: rotate(0);
+	-moz-transform: rotate(0);
+	-o-transform: rotate(0);
+	-ms-transform: rotate(0);
+	transform: rotate(0);
+	-webkit-transition: 0.3s linear;
+	-moz-transition: 0.3s linear;
+	-o-transition: 0.3s linear;
+	-ms-transition: 0.3s linear;
+	transition: 0.3s linear;
+}
+.vg-menu-mobile .header__bar:before,
+.vg-menu-mobile .header__bar:after {
+	content: '';
+	position: absolute;
+	top: -7px;
+	right: 0;
+	width: 24px;
+	height: 2px;
+	background: #fff;
+	-webkit-transform: rotate(0);
+	-moz-transform: rotate(0);
+	-o-transform: rotate(0);
+	-ms-transform: rotate(0);
+	transform: rotate(0);
+	-webkit-transition: 0.3s linear;
+	-moz-transition: 0.3s linear;
+	-o-transition: 0.3s linear;
+	-ms-transition: 0.3s linear;
+	transition: 0.3s linear;
+}
+.vg-menu-mobile .header__bar:after {
+	top: 7px;
+}
+.vg-menu-mobile .layout__state:checked ~ .hamburger .header__bar {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	transform: rotate(180deg);
+	bacground: #fcc;
+}
+.vg-menu-mobile .layout__state:checked ~ .hamburger .header__bar:before,
+.vg-menu-mobile .layout__state:checked ~ .hamburger .header__bar:after {
+	content: '';
+	top: -5px;
+	right: -3px;
+	width: 16px;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.vg-menu-mobile .layout__state:checked ~ .hamburger .header__bar:after {
+	top: 5px;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+
+
+@media (max-width: 1190px){
+	.vg-menu > li > a {
+		font-size: 1.45vw;
+		padding: 15px 9px;
+	}
+}
+@media (max-width: 992px) {
+	.vg-menu {
+		display: none;
+	}
+}

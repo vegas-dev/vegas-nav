@@ -3,3 +3,21 @@
 		max-width: 80%;
 	}
 }
+@media (max-width: 1190px){
+	h2 {
+		font-size: 1.5rem;
+	}
+}
+@media (min-width: 992px) {
+	.container {
+		max-width: 90%;
+	}
+}
+@media (max-width: 992px) {
+	.container {
+		max-width: 90%;
+	}
+	h2 {
+		font-size: 2rem;
+	}
+}

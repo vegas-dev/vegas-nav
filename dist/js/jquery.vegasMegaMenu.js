@@ -13,9 +13,12 @@
 
 		var $self = this,
 			mainClass = 'vg-menu-main-content',
-			show = 'show';
+			show = 'show',
+			mobile = 992;
 
 		$self.addClass(mainClass);
+
+		mobileMenu();
 
 		$(document).on('click', 'li.dropdown a', function () {
 			var $_self = $(this);
@@ -69,6 +72,28 @@
 				$self.find('.'+ show).removeClass(show).removeClass('current');
 			}
 		});
+
+		$(window).resize(function () {
+			mobileMenu()
+		});
+
+		function mobileMenu() {
+			var $parent = $self.parent();
+
+			if ($(window).width() <= mobile ) {
+
+				$parent.prepend('<div class="vg-menu-mobile">' +
+					'<input class="layout__state" type="checkbox" id="layoutState">' +
+					'<section class="hamburger" role="banner">' +
+						'<label class="header__trigger" for="layoutState">' +
+							'<span class="header__bar"></span>' +
+						'</label>' +
+					'</section>' +
+					'</div>');
+			} else {
+				$parent.remove('.vg-menu-mobile');
+			}
+		}
 
 		return false;
 	};
