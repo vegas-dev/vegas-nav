@@ -121,7 +121,7 @@
 
 /** Mobile **/
 .vg-menu-hamburger {
-	display: block;
+	display: none;
 	position: relative;
 	top: 0;
 	z-index: 101;
