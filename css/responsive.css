@@ -20,6 +20,9 @@
 	h2 {
 		font-size: 2rem;
 	}
+	.nav-tabs .nav-link {
+		padding: .9rem .6rem;
+	}
 }
 @media (max-width: 412px) {
 	.container {
@@ -34,6 +37,9 @@
 
 	.pt-5, .py-5 {
 		padding-top: 1rem!important;
+	}
+	.nav-tabs .nav-link {
+		padding: .9rem .6rem;
 	}
 }
 
