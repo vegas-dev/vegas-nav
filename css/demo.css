@@ -11,7 +11,7 @@ a:hover {
 	color: #000;
 }
 
-section{
+section.content{
 	height: 100%;
 	width: 100%;
 	position:relative;
@@ -20,7 +20,7 @@ section{
 	background-size: cover;
 	z-index: 0;
 }
-section:after {
+section.content:after {
 	z-index: -1;
 	content: '';
 	position: absolute;

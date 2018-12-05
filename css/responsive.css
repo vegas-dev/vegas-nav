@@ -21,3 +21,19 @@
 		font-size: 2rem;
 	}
 }
+@media (max-width: 412px) {
+	.container {
+		max-width: 100%;
+	}
+	h2 {
+		font-size: 1.5rem;
+	}
+	.pb-5, .py-5 {
+		padding-bottom: 1rem!important;
+	}
+
+	.pt-5, .py-5 {
+		padding-top: 1rem!important;
+	}
+}
+

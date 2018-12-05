@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="container pt-5 pb-5">
-		<section class="shadow">
+		<section class="content">
 			<header>
 				<div class="top">
 					<div class="row">
@@ -29,129 +29,137 @@
 				</div>
 				<div class="navigation">
 					<div class="row">
-						<div class="col-md-10 col-lg-4">
-							<h2>Drop Down Menu</h2>
+						<div class="col-9 col-lg-4">
+							<h2 class="text-center">Drop Down Menu</h2>
 						</div>
-						<div class="col-md-2 col-lg-8 d-flex align-items-center justify-content-end">
-							<ul class="vg-menu">
-								<li class="active dropdown">
-									<a href="#">Home page <span class="toggle"></span></a>
-									<ul class="left">
-										<li class="dropdown">
-											<a href="#">Second level <span class="toggle"></span></a>
-											<ul class="left">
-												<li><a href="#">Another page</a></li>
-												<li><a href="#">Any page</a></li>
-												<li class="dropdown">
-													<a href="#">Third level <span class="toggle"></span></a>
-													<ul class="left">
-														<li><a href="#">Any page</a></li>
-														<li><a href="#">Another page</a></li>
-													</ul>
+						<div class="col-3 col-lg-8 d-flex align-items-center justify-content-end">
+							<nav class="vg-menu">
+								<div class="vg-menu-hamburger">
+									<input type="checkbox" />
+									<span></span>
+									<span></span>
+									<span></span>
+								</div>
+								<ul>
+									<li class="active dropdown">
+										<a href="#">Home page <span class="toggle"></span></a>
+										<ul class="left">
+											<li class="dropdown">
+												<a href="#">Second level <span class="toggle"></span></a>
+												<ul class="left">
+													<li><a href="#">Another page</a></li>
+													<li><a href="#">Any page</a></li>
+													<li class="dropdown">
+														<a href="#">Third level <span class="toggle"></span></a>
+														<ul class="left">
+															<li><a href="#">Any page</a></li>
+															<li><a href="#">Another page</a></li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<li><a href="#">Any page</a></li>
+											<li><a href="#">Another page</a></li>
+										</ul>
+									</li>
+									<li><a href="#">About us</a></li>
+									<li class="dropdown-mega">
+										<a href="#">Our services <span class="toggle"></span></a>
+										<div class="dropdown-mega-container">
+											<!-- Nav tabs -->
+											<ul class="nav nav-tabs" id="myTab" role="tablist">
+												<li class="nav-item">
+													<a class="nav-link active" id="salads-tab" data-toggle="tab" href="#salads" role="tab" aria-controls="salads" aria-selected="true">Salads</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" id="first-meal-tab" data-toggle="tab" href="#first-meal" role="tab" aria-controls="first-meal" aria-selected="false">First Meal</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link" id="hot-dishes-tab" data-toggle="tab" href="#hot-dishes" role="tab" aria-controls="hot-dishes" aria-selected="false">Hot Dishes</a>
 												</li>
 											</ul>
-										</li>
-										<li><a href="#">Any page</a></li>
-										<li><a href="#">Another page</a></li>
-									</ul>
-								</li>
-								<li><a href="#">About us</a></li>
-								<li class="dropdown-mega">
-									<a href="#">Our services <span class="toggle"></span></a>
-									<div class="dropdown-mega-container">
-										<!-- Nav tabs -->
-										<ul class="nav nav-tabs" id="myTab" role="tablist">
-											<li class="nav-item">
-												<a class="nav-link active" id="salads-tab" data-toggle="tab" href="#salads" role="tab" aria-controls="salads" aria-selected="true">Salads</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" id="first-meal-tab" data-toggle="tab" href="#first-meal" role="tab" aria-controls="first-meal" aria-selected="false">First Meal</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" id="hot-dishes-tab" data-toggle="tab" href="#hot-dishes" role="tab" aria-controls="hot-dishes" aria-selected="false">Hot Dishes</a>
-											</li>
-										</ul>
 
-										<!-- Tab panes -->
-										<div class="tab-content">
-											<div class="tab-pane active" id="salads" role="tabpanel" aria-labelledby="salads-tab">
-												<div class="row p-4">
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
+											<!-- Tab panes -->
+											<div class="tab-content">
+												<div class="tab-pane active" id="salads" role="tabpanel" aria-labelledby="salads-tab">
+													<div class="row p-4">
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+													</div>
 												</div>
-											</div>
-											<div class="tab-pane" id="first-meal" role="tabpanel" aria-labelledby="first-meal-tab">
-												<div class="row p-4">
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
+												<div class="tab-pane" id="first-meal" role="tabpanel" aria-labelledby="first-meal-tab">
+													<div class="row p-4">
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+													</div>
 												</div>
-											</div>
-											<div class="tab-pane" id="hot-dishes" role="tabpanel" aria-labelledby="hot-dishes-tab">
-												<div class="row p-4">
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
-													<ul class="col">
-														<li><a href="#">Undergraduate</a></li>
-														<li><a href="#">Masters</a></li>
-														<li><a href="#">International</a></li>
-														<li><a href="#">Online</a></li>
-													</ul>
+												<div class="tab-pane" id="hot-dishes" role="tabpanel" aria-labelledby="hot-dishes-tab">
+													<div class="row p-4">
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+														<ul class="col">
+															<li><a href="#">Undergraduate</a></li>
+															<li><a href="#">Masters</a></li>
+															<li><a href="#">International</a></li>
+															<li><a href="#">Online</a></li>
+														</ul>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-								</li>
-								<li><a href="#">Team</a></li>
-								<li class="dropdown">
-									<a href="#">Contacts us <span class="toggle"></span></a>
-									<ul class="right">
-										<li><a href="#">Another page</a></li>
-										<li class="dropdown">
-											<a href="#">Second level <span class="toggle"></span></a>
-											<ul class="right">
-												<li><a href="#">Any page</a></li>
-												<li><a href="#">Another page</a></li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
+									</li>
+									<li><a href="#">Team</a></li>
+									<li class="dropdown">
+										<a href="#">Contacts us <span class="toggle"></span></a>
+										<ul class="right">
+											<li><a href="#">Another page</a></li>
+											<li class="dropdown">
+												<a href="#">Second level <span class="toggle"></span></a>
+												<ul class="right">
+													<li><a href="#">Any page</a></li>
+													<li><a href="#">Another page</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</nav>
 						</div>
 					</div>
 				</div>

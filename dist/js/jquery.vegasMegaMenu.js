@@ -12,11 +12,12 @@
 		}, arguments[0] || {});
 
 		var $self = this,
-			mainClass = 'vg-menu-main-content',
+			$menu = $self.children('ul'),
+			mainClass = 'vg-menu-main-container',
 			show = 'show',
 			mobile = 992;
 
-		$self.addClass(mainClass);
+		$menu.addClass(mainClass);
 
 		mobileMenu();
 
@@ -27,7 +28,7 @@
 			$('.dropdown-mega').removeClass('show');
 
 			if($li.parent('ul').hasClass(mainClass)) {
-				var $lvl = $self.find('.'+ show);
+				var $lvl = $menu.find('.'+ show);
 				if($lvl.hasClass('current')) {
 					$lvl.removeClass(show);
 				}
@@ -42,7 +43,7 @@
 				if ($li.hasClass('show')) {
 					$_self.parent('li').removeClass('show');
 					if ($li.parent('ul').hasClass(mainClass)) {
-						$self.find('.show').removeClass('show');
+						$menu.find('.show').removeClass('show');
 					}
 				} else {
 					$_self.parent('li').addClass('show');
@@ -59,7 +60,7 @@
 			if ($li.hasClass('show')) {
 				$li.removeClass('show');
 			} else {
-				$self.find('.'+ show).removeClass(show).removeClass('current');
+				$menu.find('.'+ show).removeClass(show).removeClass('current');
 				$li.addClass('show');
 			}
 
@@ -69,7 +70,7 @@
 		$(document).mouseup(function (e) {
 			var container = $('.' + mainClass);
 			if (container.has(e.target).length === 0){
-				$self.find('.'+ show).removeClass(show).removeClass('current');
+				$menu.find('.'+ show).removeClass(show).removeClass('current');
 			}
 		});
 
@@ -78,22 +79,17 @@
 		});
 
 		function mobileMenu() {
-			var $parent = $self.parent();
-
 			if ($(window).width() <= mobile ) {
-
-				$parent.prepend('<div class="vg-menu-mobile">' +
-					'<input class="layout__state" type="checkbox" id="layoutState">' +
-					'<section class="hamburger" role="banner">' +
-						'<label class="header__trigger" for="layoutState">' +
-							'<span class="header__bar"></span>' +
-						'</label>' +
-					'</section>' +
-					'</div>');
+				$('.vg-menu-hamburger').css('display', 'block');
 			} else {
-				$parent.remove('.vg-menu-mobile');
+				$('.vg-menu-hamburger').css('display', 'none');
 			}
 		}
+
+		$(document).on('click', '.vg-menu-hamburger', function () {
+			$('.vg-menu-hamburger').toggleClass(show);
+			$menu.toggleClass(show);
+		});
 
 		return false;
 	};
