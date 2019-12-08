@@ -50,6 +50,8 @@
 				} else {
 					$li.removeClass(show).removeClass('current');
 				}
+				
+				return false;
 			} else {
 				if ($li.hasClass('show')) {
 					$_self.parent('li').removeClass('show');
@@ -60,8 +62,6 @@
 					$_self.parent('li').addClass('show');
 				}
 			}
-			
-			return false;
 		});
 		
 		$(document).on('click', 'li.dropdown-mega > a', function () {
