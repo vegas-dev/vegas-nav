@@ -6,7 +6,7 @@
   width: 100%;
   
   > ul:not(.vg-nav-main-container) {
-    display: none;
+	display: none;
   }
 }
 
@@ -14,156 +14,157 @@
   padding: 0;
   margin: 0;
   display: block;
-
+  
   li {
-    list-style: none;
+	list-style: none;
   }
-
+  
   > li {
-    display: inline-block;
+	display: inline-block;
   }
-
+  
   span.toggle {
-    transition: $transition;
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: .255em;
-    vertical-align: .255em;
-    content: "";
-    border-top: .3em solid;
-    border-right: .3em solid transparent;
-    border-bottom: 0;
-    border-left: .3em solid transparent;
-    transform: rotate(0);
+	transition: $transition;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	margin-left: .255em;
+	vertical-align: .255em;
+	content: "";
+	border-top: .3em solid;
+	border-right: .3em solid transparent;
+	border-bottom: 0;
+	border-left: .3em solid transparent;
+	transform: rotate(0);
   }
-
+  
   .dropdown {
-    position: relative;
-    
-    ul {
-      padding: 0;
-    }
-    
-    > ul {
-      transition: $transition;
-      position: absolute;
-      top: 120%;
-      opacity: 0;
-      visibility: hidden;
-      width: $dropdown-width;
-      
-      .left {
-        left: 0;
-      }
-      
-      .right {
-        right: 0;
-      }
-      
-      ul {
-        transition: $transition;
-        position: absolute;
-        top: 20%;
-        opacity: 0;
-        visibility: hidden;
-        width: $dropdown-width;
-      }
-      
-      .dropdown {
-        ul.left {
-          left: 100%;
-        }
-        
-        ul.right {
-          right: 100%;
-        }
-        
-        &.show > ul {
-          visibility: visible;
-          opacity: 1;
-          top: 0;
-        }
-      }
-    }
-    
-    &.show {
-      > ul {
-        visibility: visible;
-        opacity: 1;
-        top: 100%;
-      }
-      
-      > a span.toggle {
-        transform: rotate(-180deg);
-      }
-    }
+	position: relative;
+	
+	ul {
+	  padding: 0;
+	}
+	
+	> ul {
+	  transition: $transition;
+	  position: absolute;
+	  top: 120%;
+	  opacity: 0;
+	  visibility: hidden;
+	  width: $dropdown-width;
+	  
+	  .left {
+		left: 0;
+	  }
+	  
+	  .right {
+		right: 0;
+	  }
+	  
+	  ul {
+		transition: $transition;
+		position: absolute;
+		top: 20%;
+		opacity: 0;
+		visibility: hidden;
+		width: $dropdown-width;
+	  }
+	  
+	  .dropdown {
+		ul.left {
+		  left: 100%;
+		}
+		
+		ul.right {
+		  right: 100%;
+		}
+		
+		&.show > ul {
+		  visibility: visible;
+		  opacity: 1;
+		  top: 0;
+		}
+	  }
+	}
+	
+	&.show {
+	  > ul {
+		visibility: visible;
+		opacity: 1;
+		top: 100%;
+	  }
+	  
+	  > a span.toggle {
+		transform: rotate(-180deg);
+	  }
+	}
   }
-
+  
   .dropdown-mega {
-    .dropdown-mega-container {
-      transition: all 0.4s ease;
-      position: absolute;
-      top: 120%;
-      opacity: 0;
-      visibility: hidden;
-      left: 0;
-      width: 100%;
-      min-height: 300px;
-    }
-
-    &.show {
-      > a span.toggle {
-        transform: rotate(-180deg);
-      }
-      > .dropdown-mega-container {
-        visibility: visible;
-        opacity: 1;
-        top: 100%;
-      }
-    }
+	.dropdown-mega-container {
+	  transition: all 0.4s ease;
+	  position: absolute;
+	  top: 120%;
+	  opacity: 0;
+	  visibility: hidden;
+	  left: 0;
+	  width: 100%;
+	  min-height: 300px;
+	}
+	
+	&.show {
+	  > a span.toggle {
+		transform: rotate(-180deg);
+	  }
+	  
+	  > .dropdown-mega-container {
+		visibility: visible;
+		opacity: 1;
+		top: 100%;
+	  }
+	}
   }
   
   &.vg-nav-cloned {
-    > li {
-      display: block;
-    }
-    
-    .dropdown {
-      ul {
-        position: relative;
-        width: 100%;
-        height: 0;
-        
-        .left, .right {
-          left: 0 !important;
-        }
-      }
-  
-      &.show {
-         > ul {
-          height: auto;
-        }
-      }
-    }
-  
-    .dropdown-mega {
-      .dropdown-mega-container {
-        position: relative;
-        height: 0;
-        min-height: 0;
-        top: 0;
-        display: none;
-      }
-  
-      &.show {
-        .dropdown-mega-container {
-          display: block;
-          height: auto;
-          top: 0;
-        }
-      }
-    }
+	> li {
+	  display: block;
+	}
+	
+	.dropdown {
+	  ul {
+		position: relative;
+		width: 100%;
+		height: 0;
+		
+		.left, .right {
+		  left: 0 !important;
+		}
+	  }
+	  
+	  &.show {
+		> ul {
+		  height: auto;
+		}
+	  }
+	}
+	
+	.dropdown-mega {
+	  .dropdown-mega-container {
+		position: relative;
+		height: 0;
+		min-height: 0;
+		top: 0;
+		display: none;
+	  }
+	  
+	  &.show {
+		.dropdown-mega-container {
+		  display: block;
+		  height: auto;
+		  top: 0;
+		}
+	  }
+	}
   }
 }
 
@@ -177,32 +178,32 @@
   transition: all .3s ease;
   
   span, span:after, span:before {
-    cursor: pointer;
-    border-radius: 1px;
-    height: 5px;
-    width: 35px;
-    background: rgba(0, 0, 0, .3);
-    position: absolute;
-    display: block;
-    content: '';
+	cursor: pointer;
+	border-radius: 1px;
+	height: 5px;
+	width: 35px;
+	background: rgba(0, 0, 0, .3);
+	position: absolute;
+	display: block;
+	content: '';
   }
   
   span {
-    top: 15px;
-    left: 0;
-  }
-  
-  span:before {
-    top: -10px;
-  }
-  
-  span:after {
-    bottom: -10px;
+	top: 15px;
+	left: 0;
+	
+	&:before {
+	  top: -10px;
+	}
+	
+	&:after {
+	  bottom: -10px;
+	}
   }
   
   &.show {
-    visibility: hidden;
-    opacity: 0;
+	visibility: hidden;
+	opacity: 0;
   }
 }
 
@@ -215,52 +216,52 @@
   z-index: 9990;
   transition: $transition;
   background: $sidebar-bg;
-
+  
   @media #{$xl-device} {
-    right: -#{$sidebar-xl};
-    width: $sidebar-xl;
+	right: -#{$sidebar-xl};
+	width: $sidebar-xl;
   }
   
   @media #{$lg-device} {
-    right: -#{$sidebar-lg};
-    width: $sidebar-lg;
+	right: -#{$sidebar-lg};
+	width: $sidebar-lg;
   }
   
   @media #{$md-device} {
-    right: -#{$sidebar-md};
-    width: $sidebar-md;
+	right: -#{$sidebar-md};
+	width: $sidebar-md;
   }
   
   @media #{$sm-device} {
-    right: -#{$sidebar-sm};
-    width: $sidebar-sm;
+	right: -#{$sidebar-sm};
+	width: $sidebar-sm;
   }
   
   @media #{$xs-device} {
-    right: -#{$sidebar-xs};
-    width: $sidebar-xs;
+	right: -#{$sidebar-xs};
+	width: $sidebar-xs;
   }
   
   &.show {
-    right: 0;
-    opacity: 1;
+	right: 0;
+	opacity: 1;
   }
   
   &__close {
-    position: absolute;
-    font-size: 56px;
-    font-weight: 300;
-    top: 0;
-    right: 15px;
-    color: #333333;
-    cursor: pointer;
+	position: absolute;
+	font-size: 56px;
+	font-weight: 300;
+	top: 0;
+	right: 15px;
+	color: #333333;
+	cursor: pointer;
   }
   
   &__content {
-    margin-top: 50px;
-    height: calc(100% - 60px);
-    overflow-y: auto;
-    overflow-x: hidden;
+	margin-top: 50px;
+	height: calc(100% - 60px);
+	overflow-y: auto;
+	overflow-x: hidden;
   }
 }
 
@@ -277,67 +278,67 @@
   z-index: 9989;
   
   &.show {
-    left: 0;
-    opacity: 1;
+	left: 0;
+	opacity: 1;
   }
 }
 
 .vg-nav-xl {
   @media #{$xl-device}, #{$lg-device}, #{$md-device}, #{$sm-device}, #{$xs-device} {
-    .vg-nav-hamburger {
-      display: block;
-    }
-  
-    > ul {
-      display: none;
-    }
+	.vg-nav-hamburger {
+	  display: block;
+	}
+	
+	> ul {
+	  display: none;
+	}
   }
 }
 
 .vg-nav-lg {
   @media #{$lg-device}, #{$md-device}, #{$sm-device}, #{$xs-device} {
-    .vg-nav-hamburger {
-      display: block;
-    }
-  
-    > ul {
-      display: none;
-    }
+	.vg-nav-hamburger {
+	  display: block;
+	}
+	
+	> ul {
+	  display: none;
+	}
   }
 }
 
 .vg-nav-md {
   @media #{$md-device}, #{$sm-device}, #{$xs-device} {
-    .vg-nav-hamburger {
-      display: block;
-    }
-  
-    > ul {
-      display: none;
-    }
+	.vg-nav-hamburger {
+	  display: block;
+	}
+	
+	> ul {
+	  display: none;
+	}
   }
 }
 
 .vg-nav-sm {
   @media #{$sm-device}, #{$xs-device} {
-    .vg-nav-hamburger {
-      display: block;
-    }
-  
-    > ul {
-      display: none;
-    }
+	.vg-nav-hamburger {
+	  display: block;
+	}
+	
+	> ul {
+	  display: none;
+	}
   }
 }
 
 .vg-nav-xs {
   @media #{$xs-device} {
-    .vg-nav-hamburger {
-      display: block;
-    }
-  
-    > ul {
-      display: none;
-    }
+	.vg-nav-hamburger {
+	  display: block;
+	}
+	
+	> ul {
+	  display: none;
+	}
   }
 }
