@@ -6,7 +6,6 @@ body {
 
 .wrapper {
 	width: 1400px;
-	height: calc(100vh - 30px);
 	margin: 15px auto;
 	background: url("../image/demo.jpg") no-repeat center fixed;
 	background-size: cover;
@@ -15,7 +14,7 @@ body {
 	box-shadow: 0 0 6px rgba(0, 0, 0, .25);
 }
 
-.wrapper:after {
+.wrapper:before {
 	content: '';
 	position: absolute;
 	top: 0;
@@ -28,6 +27,8 @@ body {
 
 .container {
 	max-width: 100%;
+	position: relative;
+	z-index: 1;
 }
 
 .header {
@@ -43,6 +44,20 @@ body {
 
 .header .navigation {
 	text-transform: capitalize;
+}
+
+.content {
+	padding: 40px;
+}
+
+.content p, .footer p {
+	margin-bottom: 0;
+}
+
+.footer {
+	border-top: 1px solid #dddddd;
+	padding: 20px 0;
+	font-size: 14px;
 }
 
 @media screen and (max-width: 460px){

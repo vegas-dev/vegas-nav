@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>vegas menu</title>
+	<link rel="shortcut icon" href="favicon.ico">
 	<!-- Main css -->
 	<link href="dist/css/vgnav.css" rel="stylesheet" type="text/css">
 	<link href="dist/css/vgnav-theme.css" rel="stylesheet" type="text/css">
@@ -96,6 +97,78 @@
 						</div>
 					</div>
 				</div>
+			</div>
+			
+			<div class="content">
+				<h1>
+					vegasNavigation
+					<a href="https://www.npmjs.com/package/vgnav" target="_blank"><img src="https://img.shields.io/npm/v/vgnav.svg?style=flat-square&maxAge=600"></a>
+					<a href="http://www.opensource.org/licenses/mit-license" target="_blank"><img src="https://img.shields.io/npm/l/vgnav.svg?style=flat-square"></a>
+				</h1>
+				<p>
+					A script for implementing navigation on a site with a normal drop-down list and with mega content.
+				</p>
+				<p>
+					The application is written in JQuery, html5 and ССS3 using the compiler SCSS
+				</p>
+				
+				<h3 class="mt-4">Install</h3>
+				<code>
+					npm i vgnav
+				</code>
+				<p class="mt-3">or download <a href="https://github.com/vegas-dev/vegas-nav/archive/master.zip">here</a></p>
+				
+				<h3 class="mt-4">Dependencies</h3>
+				<p class="mt-3">jQuery >= 3</p>
+				
+				<h3 class="mt-4">Usage</h3>
+				<h5>HTML markup</h5>
+				<pre style="color:#000000;"><span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">nav</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"vg-nav vg-nav-lg"</span><span style="color:#000080; ">&gt;</span>
+    <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
+        <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"active"</span><span style="color:#000080; ">&gt;</span><span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"/"</span><span style="color:#000080; ">&gt;</span>Home page<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span><span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
+		<span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown"</span><span style="color:#000080; ">&gt;</span>
+            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"#"</span><span style="color:#000080; ">&gt;</span>Left dropdown<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span>
+            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"left"</span><span style="color:#000080; ">&gt;</span>
+                ...
+            <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
+        <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
+        <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown-mega"</span><span style="color:#000080; ">&gt;</span>
+            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"#"</span><span style="color:#000080; ">&gt;</span>Mega Menu<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span>
+            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">div</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown-mega-container"</span><span style="color:#000080; ">&gt;</span>
+                ...
+            <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">div</span><span style="color:#000080; ">&gt;</span>
+        <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
+        <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown"</span><span style="color:#000080; ">&gt;</span>
+            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"#"</span><span style="color:#000080; ">&gt;</span>Right dropdown<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span>
+            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"right"</span><span style="color:#000080; ">&gt;</span>
+		       ...
+            <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
+        <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
+    <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
+<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">nav</span><span style="color:#000080; ">&gt;</span>
+</pre>
+				
+				<h5 class="mt-3">JQuery init</h5>
+				<pre style="color:#000000">$<span style="color:#0000ff; ">(</span>document<span style="color:#0000ff; ">)</span><span style="color:#0000ff; ">.</span>ready<span style="color:#0000ff; ">(</span><span style="color:#0000ff; font-weight:bold; ">function</span> <span style="color:#0000ff; ">(</span><span style="color:#0000ff; ">)</span> <span style="color:#0000ff; ">{</span>
+    $<span style="color:#0000ff; ">(</span><span style="color:#0000e6; ">'</span><span style="color:#0000e6; ">.vg-nav</span><span style="color:#0000e6; ">'</span><span style="color:#0000ff; ">)</span><span style="color:#0000ff; ">.</span>vegasMenu<span style="color:#0000ff; ">(</span><span style="color:#0000ff; ">)</span><span style="color:#0000ff; ">;</span>
+<span style="color:#0000ff; ">}</span><span style="color:#0000ff; ">)</span>
+</pre>
+				
+				<h5 class="mt-3">Hamburger folding. Use the following classes next to the main:</h5>
+				<code>
+					.vg-nav-xl // Desktop and laptop<br>
+					.vg-nav-lg // Tablets landscape<br>
+					.vg-nav-md // Tablets portrait<br>
+					.vg-nav-sm // Phone landscape<br>
+					.vg-nav-xs // Phone portrait
+				</code>
+				
+				<h3 class="mt-4">License</h3>
+				<p>Is published under the <a href="http://www.opensource.org/licenses/mit-license" target="_blank">MIT license</a></p>
+			</div>
+			
+			<div class="footer">
+				<p>© Copyright <a href="https://vegas-dev.com/">vegas-dev.com</a> 2020.</p>
 			</div>
 		</div>
 	</div>
