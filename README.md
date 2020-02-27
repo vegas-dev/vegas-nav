@@ -1,2 +1,2 @@
-# vegasMegaMenu
-Large drop down menu on html and css
+# vegasNavigation
+Awesome drop down menu on htm, js and css
