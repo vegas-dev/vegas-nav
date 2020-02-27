@@ -1,8 +1,18 @@
 {
-  "name": "vgmenu",
+  "name": "vgnav",
   "version": "1.0.0",
-  "author": "vegas",
+  "author": {
+    "name": "Vegas Studio",
+    "url": "https://vegas-dev.com"
+  },
+  "bugs": {
+    "url": "https://github.com/vegas-dev/vegas-nav/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vegas-dev/vegas-nav"
+  },
   "dependencies": {
     "node-sass": "^4.13.1",
     "babel-core": "^6.3.15",
