@@ -70,7 +70,7 @@ $(document).ready(function () {
 
 ## Authors
 
-[VEGAS STUDIO](https://vegas-dev.com) Kaluga, Russia
+[VEGAS STUDIO](https://vegas-dev.com)  Russia
 
 ## License 
 Is published under the [MIT license](http://www.opensource.org/licenses/mit-license)
