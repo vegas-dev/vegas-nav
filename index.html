@@ -1,161 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Large drop down menu by vegas s</title>
-
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-	<link href="./dist/css/jquery.vegasMegaMenu.css" rel="stylesheet">
-	<link href="./css/demo.css" rel="stylesheet">
-	<link href="./css/responsive.css" rel="stylesheet">
+	<title>vegas menu</title>
+	<!-- Main css -->
+	<link href="/dist/css/vgnav.css" rel="stylesheet" type="text/css">
+	<link href="/dist/css/vgnav-theme.css" rel="stylesheet" type="text/css">
+	<!-- tmpl css -->
+	<link href="/demo/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="/demo/css/demo.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<div class="container pt-5 pb-5">
-		<section class="content">
-			<header>
-				<div class="top">
-					<div class="row">
-						<div class="d-none d-md-block col-md-8">
-							<p>Awesome large drop down menu on html and css with JQuery</p>
-						</div>
-						<div class="col-md-4 text-right">
-							<p>Source code on <a href="https://github.com/vegas-dev/vegasMegaMenu" target="_blank">GitHub.com</a></p>
+
+	<div class="wrapper">
+		<div class="container">
+			<div class="header">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="logo">
+							&nbsp;<img src="/demo/image/logo.png" alt="vegas navigation">
 						</div>
 					</div>
-				</div>
-				<div class="navigation">
-					<div class="row">
-						<div class="col-9 col-lg-4">
-							<h2 class="text-center">Drop Down Menu</h2>
-						</div>
-						<div class="col-3 col-lg-8 d-flex align-items-center justify-content-end">
-							<nav class="vg-menu">
-								<div class="vg-menu-hamburger">
-									<input type="checkbox" />
-									<span></span>
-									<span></span>
-									<span></span>
-								</div>
+					<div class="col-md-9 d-flex align-items-center">
+						<div class="navigation">
+							<nav class="vg-nav vg-nav-lg">
 								<ul>
-									<li class="active dropdown">
-										<a href="#">Home page</a>
+									<li class="active">
+										<a href="/">Home page</a>
+									</li>
+									<li class="dropdown">
+										<a href="#">Left dropdown</a>
 										<ul class="left">
+											<li><a href="/">Any page</a></li>
 											<li class="dropdown">
 												<a href="#">Second level</a>
 												<ul class="left">
-													<li><a href="#">Another page</a></li>
-													<li><a href="#">Any page</a></li>
+													<li><a href="/">Another page</a></li>
+													<li><a href="/">Any page</a></li>
 													<li class="dropdown">
 														<a href="#">Third level</a>
 														<ul class="left">
-															<li><a href="#">Any page</a></li>
-															<li><a href="#">Another page</a></li>
+															<li><a href="/">Any page</a></li>
+															<li><a href="/">Another page</a></li>
 														</ul>
 													</li>
 												</ul>
 											</li>
-											<li><a href="#">Any page</a></li>
-											<li><a href="#">Another page</a></li>
+											<li><a href="/">Another page</a></li>
 										</ul>
 									</li>
-									<li><a href="#">About us</a></li>
 									<li class="dropdown-mega">
-										<a href="#">Our services</a>
+										<a href="#">Mega Menu</a>
 										<div class="dropdown-mega-container">
-											<!-- Nav tabs -->
-											<ul class="nav nav-tabs" id="myTab" role="tablist">
-												<li class="nav-item">
-													<a class="nav-link active" id="salads-tab" data-toggle="tab" href="#salads" role="tab" aria-controls="salads" aria-selected="true">Salads</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" id="first-meal-tab" data-toggle="tab" href="#first-meal" role="tab" aria-controls="first-meal" aria-selected="false">First Meal</a>
-												</li>
-												<li class="nav-item">
-													<a class="nav-link" id="hot-dishes-tab" data-toggle="tab" href="#hot-dishes" role="tab" aria-controls="hot-dishes" aria-selected="false">Hot Dishes</a>
-												</li>
-											</ul>
-
-											<!-- Tab panes -->
-											<div class="tab-content">
-												<div class="tab-pane active" id="salads" role="tabpanel" aria-labelledby="salads-tab">
-													<div class="row p-4">
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-													</div>
+											<div class="row">
+												<div class="col-md-4 text-left">
+													Left
 												</div>
-												<div class="tab-pane" id="first-meal" role="tabpanel" aria-labelledby="first-meal-tab">
-													<div class="row p-4">
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-													</div>
+												<div class="col-md-4 text-center">
+													Center
 												</div>
-												<div class="tab-pane" id="hot-dishes" role="tabpanel" aria-labelledby="hot-dishes-tab">
-													<div class="row p-4">
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-														<ul class="col">
-															<li><a href="#">Undergraduate</a></li>
-															<li><a href="#">Masters</a></li>
-															<li><a href="#">International</a></li>
-															<li><a href="#">Online</a></li>
-														</ul>
-													</div>
+												<div class="col-md-4 text-right">
+													Right
 												</div>
 											</div>
 										</div>
 									</li>
-									<li><a href="#">Team</a></li>
+									<li>
+										<a href="/">Any page</a>
+									</li>
 									<li class="dropdown">
-										<a href="#">Contacts us</a>
+										<a href="#">Right dropdown</a>
 										<ul class="right">
-											<li><a href="#">Another page</a></li>
+											<li><a href="/">Any page</a></li>
 											<li class="dropdown">
 												<a href="#">Second level</a>
 												<ul class="right">
-													<li><a href="#">Any page</a></li>
-													<li><a href="#">Another page</a></li>
+													<li><a href="/">Another page</a></li>
+													<li><a href="/">Any page</a></li>
+													<li class="dropdown">
+														<a href="#">Third level</a>
+														<ul class="right">
+															<li><a href="/">Any page</a></li>
+															<li><a href="/">Another page</a></li>
+														</ul>
+													</li>
 												</ul>
 											</li>
+											<li><a href="/">Another page</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -163,17 +96,16 @@
 						</div>
 					</div>
 				</div>
-			</header>
-		</section>
+			</div>
+		</div>
 	</div>
-
-	<script src="./js/jquery-3.3.1.min.js"></script>
-	<script src="./js/bootstrap.min.js"></script>
-	<script src="./dist/js/jquery.vegasMegaMenu.js"></script>
+	
+	<script src="/demo/vendor/jquery/jquery-3.4.1.min.js"></script>
+	<script src="/dist/js/vgnav.min.js"></script>
 	<script>
 		$(document).ready(function () {
-			$('.vg-menu').vegasMegaMenu();
-		});
+			$('.vg-nav').vegasMenu();
+		})
 	</script>
 </body>
 </html>
