@@ -7,7 +7,7 @@ body {
 .wrapper {
 	width: 1400px;
 	margin: 15px auto;
-	background: url("../image/demo.jpg") no-repeat center fixed;
+	background: #ffffff;
 	background-size: cover;
 	padding: 0;
 	position: relative;
@@ -60,10 +60,16 @@ body {
 	font-size: 14px;
 }
 
-@media screen and (max-width: 460px){
+@media screen and (max-width: 1024px){
 	.wrapper {
 		width: 100%;
 		padding: 0 15px;
 		margin: 0;
+	}
+}
+
+@media screen and (max-width: 480px){
+	h1 {
+		font-size: 2rem;
 	}
 }

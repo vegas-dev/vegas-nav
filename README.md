@@ -68,6 +68,19 @@ $(document).ready(function () {
 </nav>
 ```
 
+##### Custom sidebar width
+```javascript
+sidebar: {
+    width: {
+        xl: '100%',
+        lg: '100%',
+        md: '80%',
+        sm: '90%',
+        xs: '75%'
+    }
+}
+```
+
 ## Authors
 
 [VEGAS STUDIO](https://vegas-dev.com)  Russia
