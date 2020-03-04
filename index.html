@@ -10,7 +10,9 @@
 	<link href="dist/css/vgnav.css" rel="stylesheet" type="text/css">
 	<link href="dist/css/vgnav-theme.css" rel="stylesheet" type="text/css">
 	<!-- tmpl css -->
-	<link href="demo/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
+	<link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 	<link href="demo/css/demo.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -22,7 +24,7 @@
 					<div class="col-md-3">
 						<div class="logo">
 							<a href="https://vegas-dev.com/" target="_blank">
-								<img src="demo/image/logo.png" alt="vegas navigation">
+								<img src="https://vegas-dev.com/assets/_frontend/images/logo/vegas-logo.png" alt="vegas navigation">
 							</a>
 						</div>
 					</div>
@@ -125,59 +127,62 @@
 				
 				<h3 class="mt-4">Usage</h3>
 				<h5>HTML markup</h5>
-				<pre style="color:#000000;"><span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">nav</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"vg-nav vg-nav-lg"</span><span style="color:#000080; ">&gt;</span>
-    <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
-        <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"active"</span><span style="color:#000080; ">&gt;</span><span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"/"</span><span style="color:#000080; ">&gt;</span>Home page<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span><span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
-		<span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown"</span><span style="color:#000080; ">&gt;</span>
-            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"#"</span><span style="color:#000080; ">&gt;</span>Left dropdown<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span>
-            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"left"</span><span style="color:#000080; ">&gt;</span>
+				<pre><code class="hljs html dracula">
+&lt;nav class="vg-nav vg-nav-lg"&gt;
+    &lt;ul&gt;
+        &lt;li class="active"&gt;&lt;a href="/"&gt;Home page&lt;/a&gt;&lt;/li&gt;
+		&lt;li class="dropdown"&gt;
+            &lt;a href="#"&gt;Left dropdown&lt;/a&gt;
+            &lt;ul class="left"&gt;
                 ...
-            <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
-        <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
-        <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown-mega"</span><span style="color:#000080; ">&gt;</span>
-            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"#"</span><span style="color:#000080; ">&gt;</span>Mega Menu<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span>
-            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">div</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown-mega-container"</span><span style="color:#000080; ">&gt;</span>
+            &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li class="dropdown-mega"&gt;
+            &lt;a href="#"&gt;Mega Menu&lt;/a&gt;
+            &lt;div class="dropdown-mega-container"&gt;
                 ...
-            <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">div</span><span style="color:#000080; ">&gt;</span>
-        <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
-        <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"dropdown"</span><span style="color:#000080; ">&gt;</span>
-            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">href</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"#"</span><span style="color:#000080; ">&gt;</span>Right dropdown<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">a</span><span style="color:#000080; ">&gt;</span>
-            <span style="color:#000080; ">&lt;</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#074726; "> </span><span style="color:#000000; font-weight:bold; ">class</span><span style="color:#0000ff; ">=</span><span style="color:#000000; ">"right"</span><span style="color:#000080; ">&gt;</span>
+            &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li class="dropdown"&gt;
+            &lt;a href="#"&gt;Right dropdown&lt;/a&gt;
+            &lt;ul class="right"&gt;
 		       ...
-            <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
-        <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">li</span><span style="color:#000080; ">&gt;</span>
-    <span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">ul</span><span style="color:#000080; ">&gt;</span>
-<span style="color:#000080; ">&lt;/</span><span style="color:#0000ff; font-weight:bold; ">nav</span><span style="color:#000080; ">&gt;</span>
-</pre>
+            &lt;/ul&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;
+				</code></pre>
 				
 				<h5 class="mt-3">JQuery init</h5>
-				<pre style="color:#000000">$<span style="color:#0000ff; ">(</span>document<span style="color:#0000ff; ">)</span><span style="color:#0000ff; ">.</span>ready<span style="color:#0000ff; ">(</span><span style="color:#0000ff; font-weight:bold; ">function</span> <span style="color:#0000ff; ">(</span><span style="color:#0000ff; ">)</span> <span style="color:#0000ff; ">{</span>
-    $<span style="color:#0000ff; ">(</span><span style="color:#0000e6; ">'</span><span style="color:#0000e6; ">.vg-nav</span><span style="color:#0000e6; ">'</span><span style="color:#0000ff; ">)</span><span style="color:#0000ff; ">.</span>vegasMenu<span style="color:#0000ff; ">(</span><span style="color:#0000ff; ">)</span><span style="color:#0000ff; ">;</span>
-<span style="color:#0000ff; ">}</span><span style="color:#0000ff; ">)</span>
-</pre>
+				<pre><code class="hljs javascript dracula">
+$(document).ready(function () {
+    $('.vg-nav').vegasMenu();
+})
+				</code></pre>
 				
 				<h5 class="mt-3">Hamburger folding. Use the following classes next to the main:</h5>
-				<code>
-					.vg-nav-xl // Desktop and laptop<br>
-					.vg-nav-lg // Tablets landscape<br>
-					.vg-nav-md // Tablets portrait<br>
-					.vg-nav-sm // Phone landscape<br>
-					.vg-nav-xs // Phone portrait
-				</code>
+				<pre><code class="css">
+.vg-nav-xl // Desktop and laptop
+.vg-nav-lg // Tablets landscape
+.vg-nav-md // Tablets portrait
+.vg-nav-sm // Phone landscape
+.vg-nav-xs // Phone portrait
+				</code></pre>
+				
 				
 				<h5 class="mt-3">Custom sidebar width</h5>
 				
-				<pre style="color:#000000;background:#ffffff;">sidebar<span style="color:#0000ff; ">:</span> <span style="color:#0000ff; ">{</span>
-    width<span style="color:#0000ff; ">:</span> <span style="color:#0000ff; ">{</span>
-        xl<span style="color:#0000ff; ">:</span> <span style="color:#0000e6; ">'</span><span style="color:#0000e6; ">100%</span><span style="color:#0000e6; ">'</span><span style="color:#0000ff; ">,</span>
-        lg<span style="color:#0000ff; ">:</span> <span style="color:#0000e6; ">'</span><span style="color:#0000e6; ">100%</span><span style="color:#0000e6; ">'</span><span style="color:#0000ff; ">,</span>
-        md<span style="color:#0000ff; ">:</span> <span style="color:#0000e6; ">'</span><span style="color:#0000e6; ">80%</span><span style="color:#0000e6; ">'</span><span style="color:#0000ff; ">,</span>
-        sm<span style="color:#0000ff; ">:</span> <span style="color:#0000e6; ">'</span><span style="color:#0000e6; ">90%</span><span style="color:#0000e6; ">'</span><span style="color:#0000ff; ">,</span>
-        xs<span style="color:#0000ff; ">:</span> <span style="color:#0000e6; ">'</span><span style="color:#0000e6; ">75%</span><span style="color:#0000e6; ">'</span>
-    <span style="color:#0000ff; ">}</span>
-<span style="color:#0000ff; ">}</span>
-</pre>
-
+				<pre><code class="hljs javascript dracula">
+sidebar: {
+    width: {
+        xl: '100%',
+        lg: '100%',
+        md: '80%',
+        sm: '90%',
+        xs: '75%'
+    }
+}
+				</code></pre>
 				
 				<h3 class="mt-4">License</h3>
 				<p>Is published under the <a href="http://www.opensource.org/licenses/mit-license" target="_blank">MIT license</a></p>
@@ -189,9 +194,14 @@
 		</div>
 	</div>
 	
-	<script src="demo/vendor/jquery/jquery-3.4.1.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/javascript.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/languages/css.min.js"></script>
 	<script src="dist/js/vgnav.min.js"></script>
 	<script>
+		hljs.initHighlightingOnLoad();
+		
 		$(document).ready(function () {
 			$('.vg-nav').vegasMenu();
 		})
