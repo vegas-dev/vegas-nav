@@ -54,6 +54,26 @@ body {
 	margin-bottom: 0;
 }
 
+.main-links {
+	margin: 20px 0 0 0;
+	padding: 0;
+}
+
+.main-links li {
+	list-style: none;
+	font-size: 14px;
+	display: inline-block;
+}
+
+.main-links li:after {
+	content: '-';
+	margin: 0 0 0 5px;
+}
+
+.main-links li:last-child:after {
+	display: none;
+}
+
 .footer {
 	border-top: 1px solid #dddddd;
 	padding: 20px 0;
