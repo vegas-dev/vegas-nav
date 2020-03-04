@@ -6,6 +6,15 @@
     "url": "https://vegas-dev.com",
     "email": "vegas.dev.studio@gmail.com"
   },
+  "keywords": [
+    "navigation",
+    "menu",
+    "drop-down",
+    "sidebar-menu",
+    "jquery",
+    "css3",
+    "html5"
+  ],
   "bugs": {
     "url": "https://github.com/vegas-dev/vegas-nav/issues"
   },
