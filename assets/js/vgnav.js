@@ -21,12 +21,28 @@
 		var mainClass = 'vg-nav-main-container',
 			show = 'show';
 		
-		var $sidebar = options.sidebar || false,
+		var $sidebar = $body.find('.' + sidebar),
+			opt_sidebar = options.sidebar || false,
+			sidebarOpen = $self.attr('data-sidebar-open') || 'right',
 			winWidth = window.innerWidth;
 
 		$menu.addClass(mainClass);
-
-		markup();
+		
+		if (opt_sidebar) {
+			var $sb_width = opt_sidebar.width || false;
+			sidebarOpen = opt_sidebar.open || sidebarOpen;
+			
+			if ($sb_width) {
+				setWidthToSidebar(winWidth, $sb_width);
+				
+				$(window).on('resize', function(){
+					setWidthToSidebar($(this).width(), $sb_width);
+				});
+			}
+		}
+		
+		markup_toggle();
+		markup_sidebar(sidebarOpen);
 
 		$(document).on('click', 'li.dropdown a', function () {
 			var $_self = $(this),
@@ -83,27 +99,15 @@
 			}
 		});
 		
-		$(document).on('click', '.'+ hamburger +', .'+ overlay +', .' + sidebar + '__close', function () {
+		$(document).on('click', '.'+ hamburger +', .'+ overlay +', [data-sidebar-close]', function () {
 			$body.find('.'+ hamburger).toggleClass(show);
 			$body.find('.'+ sidebar).toggleClass(show);
 			$body.find('.'+ overlay).toggleClass(show);
 			
 			return false;
 		});
-
-		if ($sidebar) {
-			var $sb_width = $sidebar.width || false;
-			
-			if ($sb_width) {
-				setWidthToSidebar(winWidth, $sb_width);
-				
-				$(window).on('resize', function(){
-					setWidthToSidebar($(this).width(), $sb_width);
-				});
-			}
-		}
 		
-		function markup() {
+		function markup_toggle() {
 			var $dropdown_a = $body.find('.dropdown-mega > a, .dropdown > a'),
 				toggle = '<span class="toggle"></span>';
 			
@@ -112,17 +116,27 @@
 				
 				$(this).html(txt_link + toggle);
 			});
-			
+		}
+		
+		function markup_sidebar(sidebarOpen) {
 			$self.prepend('<a href="#" class="' + hamburger + '"><span></span></a>');
+			var $_sidebar;
 			
-			$body.append('<div class="'+ sidebar +'">' +
-				'<div class="'+ sidebar +'__close">&times;</div>' +
-				'<div class="'+ sidebar +'__content"></div>' +
-				'</div>');
-			$body.append('<div class="'+ overlay +'"></div>');
+			if (!$sidebar.length) {
+				$body.append('<div class="'+ sidebar +' ' + sidebarOpen + '">' +
+					'<div class="'+ sidebar +'__close" data-sidebar-close>&times;</div>' +
+					'<div class="'+ sidebar +'__content"></div>' +
+					'</div>');
+				
+				var navigation = $menu.clone().addClass('vg-nav-cloned');
+				$body.find('.'+ sidebar +'__content').append(navigation);
+			} else {
+				$_sidebar = $sidebar.detach();
+				$body.append($_sidebar);
+				$sidebar.addClass(sidebarOpen);
+			}
 			
-			var navigation = $menu.clone().addClass('vg-nav-cloned');
-			$body.find('.'+ sidebar +'__content').append(navigation);
+			$body.append('<div class="'+ overlay +' ' + sidebarOpen + '"></div>');
 		}
 		
 		function setWidthToSidebar(inner_width, width) {

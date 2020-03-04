@@ -68,10 +68,11 @@ $(document).ready(function () {
 </nav>
 ```
 
-##### Custom sidebar width
+##### Sidebar management
 ```javascript
 sidebar: {
-    width: {
+    open: 'left', // default right or add to main class data-sidebar-open="left"
+    width: { // Custom width
         xl: '100%',
         lg: '100%',
         md: '80%',
@@ -79,6 +80,15 @@ sidebar: {
         xs: '75%'
     }
 }
+```
+
+You can also create your own custom sidebar
+
+```html
+<div class="vg-nav-sidebar">
+    <a href="#" data-sidebar-close>Close</a>
+    ...
+</div>
 ```
 
 ## Authors
