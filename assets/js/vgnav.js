@@ -7,26 +7,28 @@
 	
 	$.fn.vegasMenu = function(options) {
 		options = $.extend({
-			expand: options.expand || 'sidebar'
+
 		}, arguments[0] || {});
 
-		var $self = this,
-			$menu = $self.children('ul'),
-			$body = $('body'),
+		var $body = $('body'),
 			winWidth = window.innerWidth;
+		
+		var expand = options.expand || 'sidebar';
 
 		var hamburger = 'vg-nav-hamburger',
 			sidebar = 'vg-nav-sidebar',
 			collapse = 'vg-nav-collapse',
 			overlay = 'vg-nav-overlay';
 
-		var mainClass = 'vg-nav-main-container',
+		var $self = this,
+			$menu = $self.children('ul'),
+			mainClass = 'vg-nav-main-container',
 			show = 'show';
 		
 		$menu.addClass(mainClass);
 		markup_main_elements();
 
-		if (options.expand === 'sidebar') {
+		if (expand === 'sidebar') {
 			var $sidebar = $body.find('.' + sidebar),
 				opt_sidebar = options.sidebar || false,
 				sidebarOpen = $self.attr('data-sidebar-open') || 'right';
@@ -47,8 +49,7 @@
 			}
 
 			markup_sidebar(sidebarOpen);
-		} else {
-			$menu.addClass('collapse vg-nav-cloned');
+		} else if (expand === 'collapse') {
 			markup_collapse();
 		}
 
@@ -109,11 +110,11 @@
 		
 		$(document).on('click', '.'+ hamburger +', .'+ overlay +', [data-sidebar-close]', function () {
 			$body.find('.'+ hamburger).toggleClass(show);
-			if(options.expand === 'sidebar') {
+			if(expand === 'sidebar') {
 				$body.find('.'+ sidebar).toggleClass(show);
 				$body.find('.'+ overlay).toggleClass(show);
-			} else {
-				$body.find('.'+ collapse).find('.collapse').toggleClass(show);
+			} else if(expand === 'collapse') {
+				$body.find('.'+ collapse).toggleClass(show);
 			}
 			
 			return false;
@@ -129,7 +130,7 @@
 				$(this).html(txt_link + toggle);
 			});
 			
-			$self.prepend('<a href="#" class="' + hamburger + '"><span></span></a>');
+			$self.prepend('<a href="#" class="' + hamburger + '"><span></span><span></span><span></span></a>');
 		}
 		
 		function markup_sidebar(sidebarOpen) {
@@ -152,8 +153,7 @@
 		}
 		
 		function markup_collapse() {
-			var $_nav = $menu.detach();
-			$body.find('.vg-nav-collapse').append($_nav);
+			cloneNavigation($body.find('.'+ collapse))
 		}
 		
 		function cloneNavigation($target_clone) {

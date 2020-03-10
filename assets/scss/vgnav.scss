@@ -30,7 +30,6 @@
 	height: 0;
 	margin-left: .255em;
 	vertical-align: .255em;
-	content: "";
 	border-top: .3em solid;
 	border-right: .3em solid transparent;
 	border-bottom: 0;
@@ -143,7 +142,7 @@
 	  
 	  &.show {
 		> ul {
-		  height: auto;
+		  height: initial;
 		}
 	  }
 	}
@@ -166,14 +165,6 @@
 	  }
 	}
   }
-  
-  &.collapse {
-	display: none;
-	
-	&.show {
-	  display: block;
-	}
-  }
 }
 
 .vg-nav-hamburger {
@@ -181,37 +172,65 @@
   width: 35px;
   height: 35px;
   position: relative;
-  visibility: visible;
-  opacity: 1;
-  transition: all .3s ease;
   
-  span, span:after, span:before {
+  span {
 	cursor: pointer;
-	border-radius: 1px;
-	height: 5px;
+	border-radius: 2px;
+	height: 3px;
 	width: 35px;
-	background: rgba(0, 0, 0, .3);
+	background: rgba(0, 0, 0, .7);
 	position: absolute;
 	display: block;
-	content: '';
+	transition: $transition;
+	transform: rotate(0);
+	opacity: 1;
   }
   
   span {
-	top: 15px;
-	left: 0;
-	
-	&:before {
-	  top: -10px;
+	&:first-child {
+	  top: 3px;
 	}
 	
-	&:after {
-	  bottom: -10px;
+	&:nth-child(2) {
+	  top: 13px;
+	}
+	
+	&:last-child {
+	  top: 23px;
 	}
   }
   
   &.show {
-	/*visibility: hidden;
-	opacity: 0;*/
+	span {
+	  &:first-child {
+		top: 13px;
+		opacity: 0;
+	  }
+	
+	  &:nth-child(2) {
+		transform: rotate(45deg);
+	  }
+	
+	  &:last-child {
+		transform: rotate(-45deg);
+		top: 13px;
+	  }
+	}
+  }
+}
+
+.vg-nav-collapse {
+  display: block;
+  position: relative;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: $transition;
+  
+  &.show {
+	height: 100%;
+	opacity: 1;
+	visibility: visible;
   }
 }
 
@@ -230,22 +249,22 @@
 	  left: -#{$sidebar-xl};
 	  width: $sidebar-xl;
 	}
- 
+	
 	@media #{$lg-device} {
 	  left: -#{$sidebar-lg};
 	  width: $sidebar-lg;
 	}
- 
+	
 	@media #{$md-device} {
 	  left: -#{$sidebar-md};
 	  width: $sidebar-md;
 	}
- 
+	
 	@media #{$sm-device} {
 	  left: -#{$sidebar-sm};
 	  width: $sidebar-sm;
 	}
- 
+	
 	@media #{$xs-device} {
 	  left: -#{$sidebar-xs};
 	  width: $sidebar-xs;
@@ -257,28 +276,27 @@
 	  right: -#{$sidebar-xl};
 	  width: $sidebar-xl;
 	}
- 
+	
 	@media #{$lg-device} {
 	  right: -#{$sidebar-lg};
 	  width: $sidebar-lg;
 	}
- 
+	
 	@media #{$md-device} {
 	  right: -#{$sidebar-md};
 	  width: $sidebar-md;
 	}
- 
+	
 	@media #{$sm-device} {
 	  right: -#{$sidebar-sm};
 	  width: $sidebar-sm;
 	}
- 
+	
 	@media #{$xs-device} {
 	  right: -#{$sidebar-xs};
 	  width: $sidebar-xs;
 	}
   }
-  
   
   &.show {
 	&.left {
@@ -323,7 +341,7 @@
   
   &.right {
 	left: -100%;
- 
+	
 	&.show {
 	  left: 0;
 	  opacity: 1;
