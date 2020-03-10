@@ -68,29 +68,6 @@ $(document).ready(function () {
 </nav>
 ```
 
-##### Sidebar management
-```javascript
-sidebar: {
-    open: 'left', // default right or add to main class data-sidebar-open="left"
-    width: { // Custom width
-        xl: '100%',
-        lg: '100%',
-        md: '80%',
-        sm: '90%',
-        xs: '75%'
-    }
-}
-```
-
-You can also create your own custom sidebar
-
-```html
-<div class="vg-nav-sidebar">
-    <a href="#" data-sidebar-close>Close</a>
-    ...
-</div>
-```
-
 ## Authors
 
 [VEGAS STUDIO](https://vegas-dev.com)  Russia

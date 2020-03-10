@@ -7,42 +7,50 @@
 	
 	$.fn.vegasMenu = function(options) {
 		options = $.extend({
-
+			expand: options.expand || 'sidebar'
 		}, arguments[0] || {});
 
 		var $self = this,
 			$menu = $self.children('ul'),
-			$body = $('body');
+			$body = $('body'),
+			winWidth = window.innerWidth;
 
 		var hamburger = 'vg-nav-hamburger',
 			sidebar = 'vg-nav-sidebar',
+			collapse = 'vg-nav-collapse',
 			overlay = 'vg-nav-overlay';
 
 		var mainClass = 'vg-nav-main-container',
 			show = 'show';
 		
-		var $sidebar = $body.find('.' + sidebar),
-			opt_sidebar = options.sidebar || false,
-			sidebarOpen = $self.attr('data-sidebar-open') || 'right',
-			winWidth = window.innerWidth;
-
 		$menu.addClass(mainClass);
-		
-		if (opt_sidebar) {
-			var $sb_width = opt_sidebar.width || false;
-			sidebarOpen = opt_sidebar.open || sidebarOpen;
+		markup_main_elements();
+
+		if (options.expand === 'sidebar') {
+			var $sidebar = $body.find('.' + sidebar),
+				opt_sidebar = options.sidebar || false,
+				sidebarOpen = $self.attr('data-sidebar-open') || 'right';
 			
-			if ($sb_width) {
-				setWidthToSidebar(winWidth, $sb_width);
+			$body.find('.' + collapse).remove();
+			
+			if (opt_sidebar) {
+				var $sb_width = opt_sidebar.width || false;
+				sidebarOpen = opt_sidebar.open || sidebarOpen;
 				
-				$(window).on('resize', function(){
-					setWidthToSidebar($(this).width(), $sb_width);
-				});
+				if ($sb_width) {
+					setWidthToSidebar(winWidth, $sb_width);
+					
+					$(window).on('resize', function(){
+						setWidthToSidebar($(this).width(), $sb_width);
+					});
+				}
 			}
+
+			markup_sidebar(sidebarOpen);
+		} else {
+			$menu.addClass('collapse vg-nav-cloned');
+			markup_collapse();
 		}
-		
-		markup_toggle();
-		markup_sidebar(sidebarOpen);
 
 		$(document).on('click', 'li.dropdown a', function () {
 			var $_self = $(this),
@@ -101,13 +109,17 @@
 		
 		$(document).on('click', '.'+ hamburger +', .'+ overlay +', [data-sidebar-close]', function () {
 			$body.find('.'+ hamburger).toggleClass(show);
-			$body.find('.'+ sidebar).toggleClass(show);
-			$body.find('.'+ overlay).toggleClass(show);
+			if(options.expand === 'sidebar') {
+				$body.find('.'+ sidebar).toggleClass(show);
+				$body.find('.'+ overlay).toggleClass(show);
+			} else {
+				$body.find('.'+ collapse).find('.collapse').toggleClass(show);
+			}
 			
 			return false;
 		});
 		
-		function markup_toggle() {
+		function markup_main_elements() {
 			var $dropdown_a = $body.find('.dropdown-mega > a, .dropdown > a'),
 				toggle = '<span class="toggle"></span>';
 			
@@ -116,10 +128,11 @@
 				
 				$(this).html(txt_link + toggle);
 			});
+			
+			$self.prepend('<a href="#" class="' + hamburger + '"><span></span></a>');
 		}
 		
 		function markup_sidebar(sidebarOpen) {
-			$self.prepend('<a href="#" class="' + hamburger + '"><span></span></a>');
 			var $_sidebar;
 			
 			if (!$sidebar.length) {
@@ -128,8 +141,7 @@
 					'<div class="'+ sidebar +'__content"></div>' +
 					'</div>');
 				
-				var navigation = $menu.clone().addClass('vg-nav-cloned');
-				$body.find('.'+ sidebar +'__content').append(navigation);
+				cloneNavigation($body.find('.'+ sidebar +'__content'));
 			} else {
 				$_sidebar = $sidebar.detach();
 				$body.append($_sidebar);
@@ -137,6 +149,16 @@
 			}
 			
 			$body.append('<div class="'+ overlay +' ' + sidebarOpen + '"></div>');
+		}
+		
+		function markup_collapse() {
+			var $_nav = $menu.detach();
+			$body.find('.vg-nav-collapse').append($_nav);
+		}
+		
+		function cloneNavigation($target_clone) {
+			var navigation = $menu.clone().addClass('vg-nav-cloned');
+			$target_clone.append(navigation);
 		}
 		
 		function setWidthToSidebar(inner_width, width) {

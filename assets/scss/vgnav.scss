@@ -166,6 +166,14 @@
 	  }
 	}
   }
+  
+  &.collapse {
+	display: none;
+	
+	&.show {
+	  display: block;
+	}
+  }
 }
 
 .vg-nav-hamburger {
@@ -202,8 +210,8 @@
   }
   
   &.show {
-	visibility: hidden;
-	opacity: 0;
+	/*visibility: hidden;
+	opacity: 0;*/
   }
 }
 

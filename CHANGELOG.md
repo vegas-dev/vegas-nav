@@ -1,3 +1,6 @@
+# VEGAS-NAV 1.0.7 (MARCH 10, 2020)
+* The choice of expanding the menu in the sidebar or in the collapse
+
 # VEGAS-NAV 1.0.6 (MARCH 04, 2020)
 * Open sidebar left or right
 * Custom sidebar 
