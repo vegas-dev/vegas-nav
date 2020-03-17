@@ -62,6 +62,11 @@ $(document).ready(function () {
 .vg-nav-xs // Phone portrait
 ```
 
+##### Opening the expanded menu on hover:
+```scss
+.vg-nav-hover
+```
+
 ```html
 <nav class="vg-nav vg-nav-md">
     The menu will collapse on the tablet in portrait mode
