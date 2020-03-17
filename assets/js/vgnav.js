@@ -2,32 +2,33 @@
  * Created by Vegas s on 03.12.2018.
  */
 
-(function( $ ) {
+(function ($) {
 	"use strict";
 	
-	$.fn.vegasMenu = function(options) {
-		options = $.extend({
-
-		}, arguments[0] || {});
-
+	$.fn.vegasMenu = function (options) {
+		options = $.extend({}, arguments[0] || {});
+		
 		var $body = $('body'),
-			winWidth = window.innerWidth;
+			winWidth = window.innerWidth,
+			current_responsive_size;
 		
 		var expand = options.expand || 'sidebar';
-
+		
 		var hamburger = 'vg-nav-hamburger',
 			sidebar = 'vg-nav-sidebar',
 			collapse = 'vg-nav-collapse',
-			overlay = 'vg-nav-overlay';
-
+			overlay = 'vg-nav-overlay',
+			hover = 'vg-nav-hover';
+		
 		var $self = this,
+			$_self = $(this),
 			$menu = $self.children('ul'),
 			mainClass = 'vg-nav-main-container',
 			show = 'show';
 		
 		$menu.addClass(mainClass);
 		markup_main_elements();
-
+		
 		if (expand === 'sidebar') {
 			var $sidebar = $body.find('.' + sidebar),
 				opt_sidebar = options.sidebar || false,
@@ -42,35 +43,59 @@
 				if ($sb_width) {
 					setWidthToSidebar(winWidth, $sb_width);
 					
-					$(window).on('resize', function(){
+					$(window).on('resize', function () {
 						setWidthToSidebar($(this).width(), $sb_width);
 					});
 				}
 			}
-
+			
 			markup_sidebar(sidebarOpen);
 		} else if (expand === 'collapse') {
 			markup_collapse();
 		}
+		
+		// min responsive size
+		var xl_min = 1200,
+			lg_min = 992,
+			md_min = 768,
+			sm_min = 480,
+			xs_min = 0;
+		
+		// max responsive size
+		var xl_max = 1921,
+			lg_max = 1200,
+			md_max = 992,
+			sm_max = 768,
+			xs_max = 480;
 
+		var clickable = function () {
+			if ($self.hasClass(hover)) {
+				return checkResponsiveClass();
+			} else {
+				return false;
+			}
+		};
+		
 		$(document).on('click', 'li.dropdown a', function () {
+			
+			if (clickable()) return;
 			var $_self = $(this),
 				$li = $_self.parent('li');
-
+			
 			$('.dropdown-mega').removeClass(show);
-
-			if($li.parent('ul').hasClass(mainClass)) {
-				var $lvl = $menu.find('.'+ show);
-
-				if($lvl.hasClass('current')) $lvl.removeClass(show);
-
-				if(!$li.hasClass('current')) {
+			
+			if ($li.parent('ul').hasClass(mainClass)) {
+				var $lvl = $menu.find('.' + show);
+				
+				if ($lvl.hasClass('current')) $lvl.removeClass(show);
+				
+				if (!$li.hasClass('current')) {
 					$li.addClass(show).addClass('current');
 					$lvl.removeClass('current');
 				} else {
 					$li.removeClass(show).removeClass('current');
 				}
-
+				
 				return false;
 			} else {
 				if ($li.hasClass(show)) {
@@ -79,7 +104,7 @@
 						$menu.find('.' + show).removeClass(show);
 					}
 				} else {
-					if ($_self.parent('li').children('ul').length > 0 ) {
+					if ($_self.parent('li').children('ul').length > 0) {
 						$_self.parent('li').addClass(show);
 						return false;
 					}
@@ -88,13 +113,15 @@
 		});
 		
 		$(document).on('click', 'li.dropdown-mega > a', function () {
+			console.log(clickable())
+			if (clickable()) return;
 			var $_self = $(this);
 			var $li = $_self.parent('li');
 			
 			if ($li.hasClass(show)) {
 				$li.removeClass(show);
 			} else {
-				$menu.find('.'+ show).removeClass(show).removeClass('current');
+				$menu.find('.' + show).removeClass(show).removeClass('current');
 				$li.addClass(show);
 			}
 			
@@ -103,18 +130,18 @@
 		
 		$(document).mouseup(function (e) {
 			var container = $('.' + mainClass);
-			if (container.has(e.target).length === 0){
-				$menu.find('.'+ show).removeClass(show).removeClass('current');
+			if (container.has(e.target).length === 0) {
+				$menu.find('.' + show).removeClass(show).removeClass('current');
 			}
 		});
 		
-		$(document).on('click', '.'+ hamburger +', .'+ overlay +', [data-sidebar-close]', function () {
-			$body.find('.'+ hamburger).toggleClass(show);
-			if(expand === 'sidebar') {
-				$body.find('.'+ sidebar).toggleClass(show);
-				$body.find('.'+ overlay).toggleClass(show);
-			} else if(expand === 'collapse') {
-				$body.find('.'+ collapse).toggleClass(show);
+		$(document).on('click', '.' + hamburger + ', .' + overlay + ', [data-sidebar-close]', function () {
+			$body.find('.' + hamburger).toggleClass(show);
+			if (expand === 'sidebar') {
+				$body.find('.' + sidebar).toggleClass(show);
+				$body.find('.' + overlay).toggleClass(show);
+			} else if (expand === 'collapse') {
+				$body.find('.' + collapse).toggleClass(show);
 			}
 			
 			return false;
@@ -137,23 +164,23 @@
 			var $_sidebar;
 			
 			if (!$sidebar.length) {
-				$body.append('<div class="'+ sidebar +' ' + sidebarOpen + '">' +
-					'<div class="'+ sidebar +'__close" data-sidebar-close>&times;</div>' +
-					'<div class="'+ sidebar +'__content"></div>' +
+				$body.append('<div class="' + sidebar + ' ' + sidebarOpen + '">' +
+					'<div class="' + sidebar + '__close" data-sidebar-close>&times;</div>' +
+					'<div class="' + sidebar + '__content"></div>' +
 					'</div>');
 				
-				cloneNavigation($body.find('.'+ sidebar +'__content'));
+				cloneNavigation($body.find('.' + sidebar + '__content'));
 			} else {
 				$_sidebar = $sidebar.detach();
 				$body.append($_sidebar);
 				$sidebar.addClass(sidebarOpen);
 			}
 			
-			$body.append('<div class="'+ overlay +' ' + sidebarOpen + '"></div>');
+			$body.append('<div class="' + overlay + ' ' + sidebarOpen + '"></div>');
 		}
 		
 		function markup_collapse() {
-			cloneNavigation($body.find('.'+ collapse))
+			cloneNavigation($body.find('.' + collapse))
 		}
 		
 		function cloneNavigation($target_clone) {
@@ -165,31 +192,47 @@
 			var $sb = $('.' + sidebar);
 			
 			// xl
-			if (inner_width >= 1200 && width.xl) {
+			if (inner_width >= xl_min && width.xl) {
 				$sb.css('width', width.xl).css('right', '-' + width.xl);
 			}
 			
 			// lg
-			if (inner_width < 1200 && inner_width >= 992  && width.lg) {
+			if (inner_width < xl_min && inner_width >= lg_min && width.lg) {
 				$sb.css('width', width.lg).css('right', '-' + width.lg);
 			}
 			
 			// md
-			if (inner_width < 992 && inner_width >= 768  && width.md) {
+			if (inner_width < lg_min && inner_width >= md_min && width.md) {
 				$sb.css('width', width.md).css('right', '-' + width.md);
 			}
 			
 			// sm
-			if (inner_width < 768 && inner_width >= 480  && width.sm) {
+			if (inner_width < md_min && inner_width >= sm_min && width.sm) {
 				$sb.css('width', width.sm).css('right', '-' + width.sm);
 			}
 			
 			// xs
-			if (inner_width < 480  && width.xs) {
+			if (inner_width < sm_min && width.xs) {
 				$sb.css('width', width.xs).css('right', '-' + width.xs);
 			}
 		}
-
+		
+		function checkResponsiveClass() {
+			if ($_self.hasClass('vg-nav-xl')) {
+				current_responsive_size = xl_max;
+			} else if ($_self.hasClass('vg-nav-lg')) {
+				current_responsive_size = lg_max;
+			} else if ($_self.hasClass('vg-nav-md')) {
+				current_responsive_size = md_max;
+			} else if ($_self.hasClass('vg-nav-sm')) {
+				current_responsive_size = sm_max;
+			} else if ($_self.hasClass('vg-nav-xs')) {
+				current_responsive_size = xs_max;
+			}
+			
+			return window.innerWidth >= current_responsive_size;
+		}
+		
 		return false;
 	};
 })(jQuery);
