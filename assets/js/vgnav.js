@@ -11,24 +11,45 @@
 		var $body = $('body'),
 			winWidth = window.innerWidth,
 			current_responsive_size;
-		
+
 		var expand = options.expand || 'sidebar';
-		
+
 		var hamburger = 'vg-nav-hamburger',
 			sidebar = 'vg-nav-sidebar',
 			collapse = 'vg-nav-collapse',
 			overlay = 'vg-nav-overlay',
 			hover = 'vg-nav-hover';
-		
+
 		var $self = this,
 			$_self = $(this),
 			$menu = $self.children('ul'),
 			mainClass = 'vg-nav-main-container',
 			show = 'show';
-		
+
+		// responsive classes
+		var class_xl = 'vg-nav-xl',
+			class_lg = 'vg-nav-lg',
+			class_md = 'vg-nav-md',
+			class_sm = 'vg-nav-sm',
+			class_xs = 'vg-nav-xs';
+
+		// min responsive size
+		var xl_min = 1200,
+			lg_min = 992,
+			md_min = 768,
+			sm_min = 480,
+			xs_min = 0;
+
+		// max responsive size
+		var xl_max = 1921,
+			lg_max = 1200,
+			md_max = 992,
+			sm_max = 768,
+			xs_max = 480;
+
 		$menu.addClass(mainClass);
 		markup_main_elements();
-		
+
 		if (expand === 'sidebar') {
 			var $sidebar = $body.find('.' + sidebar),
 				opt_sidebar = options.sidebar || false,
@@ -53,20 +74,6 @@
 		} else if (expand === 'collapse') {
 			markup_collapse();
 		}
-		
-		// min responsive size
-		var xl_min = 1200,
-			lg_min = 992,
-			md_min = 768,
-			sm_min = 480,
-			xs_min = 0;
-		
-		// max responsive size
-		var xl_max = 1921,
-			lg_max = 1200,
-			md_max = 992,
-			sm_max = 768,
-			xs_max = 480;
 
 		var clickable = function () {
 			if ($self.hasClass(hover)) {
@@ -75,9 +82,8 @@
 				return false;
 			}
 		};
-		
+
 		$(document).on('click', 'li.dropdown a', function () {
-			
 			if (clickable()) return;
 			var $_self = $(this),
 				$li = $_self.parent('li');
@@ -111,9 +117,8 @@
 				}
 			}
 		});
-		
+
 		$(document).on('click', 'li.dropdown-mega > a', function () {
-			console.log(clickable())
 			if (clickable()) return;
 			var $_self = $(this);
 			var $li = $_self.parent('li');
@@ -127,14 +132,14 @@
 			
 			return false;
 		});
-		
+
 		$(document).mouseup(function (e) {
 			var container = $('.' + mainClass);
 			if (container.has(e.target).length === 0) {
 				$menu.find('.' + show).removeClass(show).removeClass('current');
 			}
 		});
-		
+
 		$(document).on('click', '.' + hamburger + ', .' + overlay + ', [data-sidebar-close]', function () {
 			$body.find('.' + hamburger).toggleClass(show);
 			if (expand === 'sidebar') {
@@ -146,7 +151,7 @@
 			
 			return false;
 		});
-		
+
 		function markup_main_elements() {
 			var $dropdown_a = $body.find('.dropdown-mega > a, .dropdown > a'),
 				toggle = '<span class="toggle"></span>';
@@ -157,37 +162,41 @@
 				$(this).html(txt_link + toggle);
 			});
 			
-			$self.prepend('<a href="#" class="' + hamburger + '"><span></span><span></span><span></span></a>');
+			if($self.hasClass(class_xl) || $self.hasClass(class_lg) || $self.hasClass(class_md) || $self.hasClass(class_sm) || $self.hasClass(class_xs)) {
+				$self.prepend('<a href="#" class="' + hamburger + '"><span></span><span></span><span></span></a>');
+			}
 		}
-		
+
 		function markup_sidebar(sidebarOpen) {
 			var $_sidebar;
 			
-			if (!$sidebar.length) {
-				$body.append('<div class="' + sidebar + ' ' + sidebarOpen + '">' +
-					'<div class="' + sidebar + '__close" data-sidebar-close>&times;</div>' +
-					'<div class="' + sidebar + '__content"></div>' +
-					'</div>');
+			if($self.hasClass(class_xl) || $self.hasClass(class_lg) || $self.hasClass(class_md) || $self.hasClass(class_sm) || $self.hasClass(class_xs)) {
+				if (!$sidebar.length) {
+					$body.append('<div class="' + sidebar + ' ' + sidebarOpen + '">' +
+						'<div class="' + sidebar + '__close" data-sidebar-close>&times;</div>' +
+						'<div class="' + sidebar + '__content"></div>' +
+						'</div>');
+					
+					cloneNavigation($body.find('.' + sidebar + '__content'));
+				} else {
+					$_sidebar = $sidebar.detach();
+					$body.append($_sidebar);
+					$sidebar.addClass(sidebarOpen);
+				}
 				
-				cloneNavigation($body.find('.' + sidebar + '__content'));
-			} else {
-				$_sidebar = $sidebar.detach();
-				$body.append($_sidebar);
-				$sidebar.addClass(sidebarOpen);
+				$body.append('<div class="' + overlay + ' ' + sidebarOpen + '"></div>');
 			}
-			
-			$body.append('<div class="' + overlay + ' ' + sidebarOpen + '"></div>');
 		}
-		
+
 		function markup_collapse() {
 			cloneNavigation($body.find('.' + collapse))
 		}
-		
+
 		function cloneNavigation($target_clone) {
 			var navigation = $menu.clone().addClass('vg-nav-cloned');
 			$target_clone.append(navigation);
 		}
-		
+
 		function setWidthToSidebar(inner_width, width) {
 			var $sb = $('.' + sidebar);
 			
@@ -216,23 +225,23 @@
 				$sb.css('width', width.xs).css('right', '-' + width.xs);
 			}
 		}
-		
+
 		function checkResponsiveClass() {
-			if ($_self.hasClass('vg-nav-xl')) {
+			if ($_self.hasClass(class_xl)) {
 				current_responsive_size = xl_max;
-			} else if ($_self.hasClass('vg-nav-lg')) {
+			} else if ($_self.hasClass(class_lg)) {
 				current_responsive_size = lg_max;
-			} else if ($_self.hasClass('vg-nav-md')) {
+			} else if ($_self.hasClass(class_md)) {
 				current_responsive_size = md_max;
-			} else if ($_self.hasClass('vg-nav-sm')) {
+			} else if ($_self.hasClass(class_sm)) {
 				current_responsive_size = sm_max;
-			} else if ($_self.hasClass('vg-nav-xs')) {
+			} else if ($_self.hasClass(class_xs)) {
 				current_responsive_size = xs_max;
 			}
 			
 			return window.innerWidth >= current_responsive_size;
 		}
-		
+
 		return false;
 	};
 })(jQuery);
