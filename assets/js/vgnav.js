@@ -25,6 +25,8 @@
 			$menu = $self.children('ul'),
 			mainClass = 'vg-nav-main-container',
 			show = 'show';
+		
+		var toggle_tpl = options.toggle || '<span class="default"></span>';
 
 		// responsive classes
 		var class_xl = 'vg-nav-xl',
@@ -154,7 +156,7 @@
 
 		function markup_main_elements() {
 			var $dropdown_a = $body.find('.dropdown-mega > a, .dropdown > a'),
-				toggle = '<span class="toggle"></span>';
+				toggle = '<span class="toggle">' + toggle_tpl + '</span>';
 			
 			$dropdown_a.each(function () {
 				var txt_link = $(this).text();
