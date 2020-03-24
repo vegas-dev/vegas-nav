@@ -1,3 +1,7 @@
+# VEGAS-NAV 1.1.0 (MARCH 24, 2020)
+* Toggle customization 
+* Minor bugs fixed 
+
 # VEGAS-NAV 1.0.9 (MARCH 17, 2020)
 * Opening the expanded menu on hover 
 
