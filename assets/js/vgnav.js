@@ -239,8 +239,10 @@
 				current_responsive_size = sm_max;
 			} else if ($_self.hasClass(class_xs)) {
 				current_responsive_size = xs_max;
+			} else {
+				current_responsive_size = xs_min;
 			}
-			
+
 			return window.innerWidth >= current_responsive_size;
 		}
 

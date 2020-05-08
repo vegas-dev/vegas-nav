@@ -1,3 +1,6 @@
+# VEGAS-NAV 1.1.1 (MAY 08, 2020)
+* Minor bugs fixed 
+
 # VEGAS-NAV 1.1.0 (MARCH 24, 2020)
 * Toggle customization 
 * Minor bugs fixed 
