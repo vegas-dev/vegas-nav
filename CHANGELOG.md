@@ -1,3 +1,6 @@
+# VEGAS-NAV 1.1.2 (JUNE 02, 2020)
+* Minor bugs fixed 
+
 # VEGAS-NAV 1.1.1 (MAY 08, 2020)
 * Minor bugs fixed 
 

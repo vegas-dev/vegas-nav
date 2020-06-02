@@ -6,7 +6,9 @@
 	"use strict";
 	
 	$.fn.vegasMenu = function (options) {
-		options = $.extend({}, arguments[0] || {});
+		options = $.extend({
+			afterClickLink: function () {},
+		}, arguments[0] || {});
 		
 		var $body = $('body'),
 			winWidth = window.innerWidth,
@@ -87,9 +89,10 @@
 
 		$(document).on('click', 'li.dropdown a', function () {
 			if (clickable()) return;
+
 			var $_self = $(this),
 				$li = $_self.parent('li');
-			
+
 			$('.dropdown-mega').removeClass(show);
 			
 			if ($li.parent('ul').hasClass(mainClass)) {
@@ -122,16 +125,17 @@
 
 		$(document).on('click', 'li.dropdown-mega > a', function () {
 			if (clickable()) return;
+
 			var $_self = $(this);
 			var $li = $_self.parent('li');
-			
+
 			if ($li.hasClass(show)) {
 				$li.removeClass(show);
 			} else {
 				$menu.find('.' + show).removeClass(show).removeClass('current');
 				$li.addClass(show);
 			}
-			
+
 			return false;
 		});
 
@@ -152,6 +156,10 @@
 			}
 			
 			return false;
+		});
+
+		$(document).on('click', 'li a', function () {
+			options.afterClickLink.call(this, $(this));
 		});
 
 		function markup_main_elements() {
