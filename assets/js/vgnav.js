@@ -87,7 +87,7 @@
 			}
 		};
 
-		$(document).on('click', 'li.dropdown a', function () {
+		$(document).on('click', '.' + mainClass + ' li.dropdown a', function () {
 			if (clickable()) return;
 
 			var $_self = $(this),
@@ -123,7 +123,7 @@
 			}
 		});
 
-		$(document).on('click', 'li.dropdown-mega > a', function () {
+		$(document).on('click', '.' + mainClass + ' li.dropdown-mega > a', function () {
 			if (clickable()) return;
 
 			var $_self = $(this);
@@ -158,7 +158,7 @@
 			return false;
 		});
 
-		$(document).on('click', 'li a', function () {
+		$(document).on('click', '.' + mainClass + ' li a', function () {
 			options.afterClickLink.call(this, $(this));
 		});
 
