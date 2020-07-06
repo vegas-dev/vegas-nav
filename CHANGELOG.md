@@ -1,3 +1,6 @@
+# VEGAS-NAV 1.1.4 (JULY 06, 2020)
+* Adapted layout in Firefox 72.x.x fixed
+
 # VEGAS-NAV 1.1.2 (JUNE 02, 2020)
 * Minor bugs fixed 
 

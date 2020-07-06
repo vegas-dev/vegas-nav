@@ -97,7 +97,7 @@
 	  > ul {
 		visibility: visible;
 		opacity: 1;
-		top: 100%;
+		top: 0;
 	  }
 	  
 	  > a span.toggle {
@@ -376,6 +376,15 @@
 	height: calc(100% - 60px);
 	overflow-y: auto;
 	overflow-x: hidden;
+  }
+  
+  .vg-nav-main-container {
+	.dropdown {
+	  > ul {
+		position: relative;
+		top: 0;
+	  }
+	}
   }
 }
 
