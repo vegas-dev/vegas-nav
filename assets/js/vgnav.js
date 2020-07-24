@@ -151,6 +151,13 @@
 			if (expand === 'sidebar') {
 				$body.find('.' + sidebar).toggleClass(show);
 				$body.find('.' + overlay).toggleClass(show);
+				
+				if(!$body.hasClass('vg-sidebar-open')) {
+					var width_scrollbar = window.innerWidth - document.documentElement.clientWidth;
+					$body.addClass('vg-sidebar-open').css('padding-right', width_scrollbar);
+				} else {
+					$body.removeClass('vg-sidebar-open').css('padding-right', 0);
+				}
 			} else if (expand === 'collapse') {
 				$body.find('.' + collapse).toggleClass(show);
 			}
