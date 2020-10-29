@@ -4,16 +4,16 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>vegas menu</title>
+	<title>vegas navigation 2.0</title>
 	<link rel="shortcut icon" href="favicon.ico">
 	<!-- Main css -->
-	<link href="dist/css/vgnav.css" rel="stylesheet" type="text/css">
-	<link href="dist/css/vgnav-theme.css" rel="stylesheet" type="text/css">
+	<link href="/dist/css/vgnav.css" rel="stylesheet" type="text/css">
+	<link href="/dist/css/vgnav-theme.css" rel="stylesheet" type="text/css">
 	<!-- tmpl css -->
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css">
 	<link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-	<link href="demo/css/demo.css" rel="stylesheet" type="text/css">
+	<link href="/demo/css/demo.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-md-9 col-4 d-flex align-items-center">
 						<div class="navigation">
-							<nav class="vg-nav vg-nav-lg">
+							<nav class="vg-nav">
 								<ul>
 									<li class="active">
 										<a href="/">Home page</a>
@@ -200,7 +200,13 @@ $(document).ready(function () {
 		hljs.initHighlightingOnLoad();
 		
 		$(document).ready(function () {
-			$('.vg-nav').vegasMenu();
+			$('.vg-nav').vgnav({
+				jump: 'md',
+				sidebar: {
+					placement: 'left',
+					width: '50%'
+				}
+			});
 		})
 	</script>
 	

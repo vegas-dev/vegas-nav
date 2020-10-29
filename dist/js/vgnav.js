@@ -1,1 +1,173 @@
-(function(s){"use strict";s.fn.vegasMenu=function(a){a=s.extend({afterClickLink:function(){}},arguments[0]||{});var e=s("body"),n=window.innerWidth,i;var l=a.expand||"sidebar";var r="vg-nav-hamburger",t="vg-nav-sidebar",d="vg-nav-collapse",o="vg-nav-overlay",c="vg-nav-hover";var f=this,v=s(this),h=f.children("ul"),u="vg-nav-main-container",g="show";var C=a.toggle||'<span class="default"></span>';var p="vg-nav-xl",m="vg-nav-lg",w="vg-nav-md",b="vg-nav-sm",x="vg-nav-xs";var k=1200,_=992,W=768,y=480,L=0;var j=1921,z=1200,E=992,M=768,Q=480;h.addClass(u);G();if(l==="sidebar"){var q=e.find("."+t),A=a.sidebar||false,B=f.attr("data-sidebar-open")||"right";e.find("."+d).remove();if(A){var D=A.width||false;B=A.open||B;if(D){K(n,D);s(window).on("resize",function(){K(s(this).width(),D)})}}H(B)}else if(l==="collapse"){I()}var F=function(){if(f.hasClass(c)){return N()}else{return false}};s(document).on("click","."+u+" li.dropdown a",function(){if(F())return;var a=s(this),e=a.parent("li");s(".dropdown-mega").removeClass(g);if(e.parent("ul").hasClass(u)){var n=h.find("."+g);if(n.hasClass("current"))n.removeClass(g);if(!e.hasClass("current")){e.addClass(g).addClass("current");n.removeClass("current")}else{e.removeClass(g).removeClass("current")}return false}else{if(e.hasClass(g)){a.parent("li").removeClass(g);if(e.parent("ul").hasClass(u)){h.find("."+g).removeClass(g)}}else{if(a.parent("li").children("ul").length>0){a.parent("li").addClass(g);return false}}}});s(document).on("click","."+u+" li.dropdown-mega > a",function(){if(F())return;var a=s(this);var e=a.parent("li");if(e.hasClass(g)){e.removeClass(g)}else{h.find("."+g).removeClass(g).removeClass("current");e.addClass(g)}return false});s(document).mouseup(function(a){var e=s("."+u);if(e.has(a.target).length===0){h.find("."+g).removeClass(g).removeClass("current")}});s(document).on("click","."+r+", ."+o+", [data-sidebar-close]",function(){e.find("."+r).toggleClass(g);if(l==="sidebar"){e.find("."+t).toggleClass(g);e.find("."+o).toggleClass(g);if(!e.hasClass("vg-sidebar-open")){var s=window.innerWidth-document.documentElement.clientWidth;e.addClass("vg-sidebar-open").css("padding-right",s)}else{e.removeClass("vg-sidebar-open").css("padding-right",0)}}else if(l==="collapse"){e.find("."+d).toggleClass(g)}return false});s(document).on("click","."+u+" li a",function(){a.afterClickLink.call(this,s(this))});function G(){var a=e.find(".dropdown-mega > a, .dropdown > a"),n='<span class="toggle">'+C+"</span>";a.each(function(){var a=s(this).text();s(this).html(a+n)});if(f.hasClass(p)||f.hasClass(m)||f.hasClass(w)||f.hasClass(b)||f.hasClass(x)){f.prepend('<a href="#" class="'+r+'"><span></span><span></span><span></span></a>')}}function H(s){var a;if(f.hasClass(p)||f.hasClass(m)||f.hasClass(w)||f.hasClass(b)||f.hasClass(x)){if(!q.length){e.append('<div class="'+t+" "+s+'">'+'<div class="'+t+'__close" data-sidebar-close>&times;</div>'+'<div class="'+t+'__content"></div>'+"</div>");J(e.find("."+t+"__content"))}else{a=q.detach();e.append(a);q.addClass(s)}e.append('<div class="'+o+" "+s+'"></div>')}}function I(){J(e.find("."+d))}function J(s){var a=h.clone().addClass("vg-nav-cloned");s.append(a)}function K(a,e){var n=s("."+t);if(a>=k&&e.xl){n.css("width",e.xl).css("right","-"+e.xl)}if(a<k&&a>=_&&e.lg){n.css("width",e.lg).css("right","-"+e.lg)}if(a<_&&a>=W&&e.md){n.css("width",e.md).css("right","-"+e.md)}if(a<W&&a>=y&&e.sm){n.css("width",e.sm).css("right","-"+e.sm)}if(a<y&&e.xs){n.css("width",e.xs).css("right","-"+e.xs)}}function N(){if(v.hasClass(p)){i=j}else if(v.hasClass(m)){i=z}else if(v.hasClass(w)){i=E}else if(v.hasClass(b)){i=M}else if(v.hasClass(x)){i=Q}else{i=L}return window.innerWidth>=i}return false}})(jQuery);
+"use strict";
+
+(function ($) {
+  var BODY = 'body';
+  var NAME = 'vgnav';
+  var CLASS_NAME = 'vg-nav';
+  var MAIN_CONTAINER = CLASS_NAME + '-main-container';
+  var SHOW = 'show';
+  var HAMBURGER = CLASS_NAME + '-hamburger';
+  var SIDEBAR = CLASS_NAME + '-sidebar';
+  var COLLAPSE = CLASS_NAME + '-collapse';
+  var OVERLAY = CLASS_NAME + '-overlay';
+  var HOVER = CLASS_NAME + '-hover';
+  var XL = CLASS_NAME + '-xl';
+  var LG = CLASS_NAME + '-lg';
+  var MD = CLASS_NAME + '-md';
+  var SM = CLASS_NAME + '-sm';
+  var XS = CLASS_NAME + '-xs';
+  var $body = $(BODY),
+      winWidth = window.innerWidth,
+      current_responsive_size;
+  var afterClick = $.noop;
+  var breakpoints = {
+    max: {
+      xl: 1921,
+      lg: 1200,
+      md: 992,
+      sm: 768,
+      xs: 480
+    },
+    min: {
+      xl: 1200,
+      lg: 992,
+      md: 768,
+      sm: 480,
+      xs: 0
+    }
+  };
+  var settings = {},
+      methods = {
+    init: function init(options) {
+      settings = $.extend($.fn[NAME].defaults, options);
+      var $self = this,
+          $navigation = $self.children('ul'),
+          data = $self.data(NAME);
+
+      if (!data) {
+        $navigation.addClass(MAIN_CONTAINER);
+        $('.' + CLASS_NAME).addClass(CLASS_NAME + '-' + settings.jump);
+        var $dropdown_a = $body.find('.dropdown-mega > a, .dropdown > a'),
+            toggle = '<span class="toggle">' + settings.toggle + '</span>';
+        $dropdown_a.each(function () {
+          var txt_link = $(this).text();
+          $(this).html(txt_link + toggle);
+        });
+        var responsive_class = $self.hasClass(XL) || $self.hasClass(LG) || $self.hasClass(MD) || $self.hasClass(SM) || $self.hasClass(XS);
+
+        if (responsive_class) {
+          $self.prepend('<a href="#" class="' + HAMBURGER + '"><span></span><span></span><span></span></a>');
+        }
+
+        if (settings.expand === 'sidebar') {
+          var $sidebar = $body.find('.' + SIDEBAR),
+              opt_sidebar = settings.sidebar || false,
+              sidebarOpen = 'right',
+              $_sidebar;
+          $body.find('.' + COLLAPSE).remove();
+
+          if (opt_sidebar) {
+            var $sb_width = opt_sidebar.width || false;
+            sidebarOpen = opt_sidebar.placement || sidebarOpen;
+
+            if ($sb_width) {
+              setWidthToSidebar(winWidth, $sb_width);
+              $(window).on('resize', function () {
+                setWidthToSidebar($(this).width(), $sb_width);
+              });
+            }
+          }
+
+          if (responsive_class) {
+            if (!$sidebar.length) {
+              $body.append('<div class="' + SIDEBAR + ' ' + sidebarOpen + '">' + '<div class="' + SIDEBAR + '__close" data-dismiss="' + SIDEBAR + '">&times;</div>' + '<div class="' + SIDEBAR + '__content"></div>' + '</div>');
+              cloneNavigation($body.find('.' + SIDEBAR + '__content'), $navigation);
+            } else {
+              $_sidebar = $sidebar.detach();
+              $body.append($_sidebar);
+              $sidebar.addClass(sidebarOpen);
+            }
+
+            $body.append('<div class="' + OVERLAY + ' ' + sidebarOpen + '"></div>');
+          }
+        } else if (settings.expand === 'collapse') {
+          cloneNavigation($body.find('.' + COLLAPSE), $navigation);
+        }
+      }
+    },
+    toggle: function toggle(options, callback) {},
+    open: function open() {},
+    close: function close(callback) {}
+  };
+
+  $.fn[NAME] = function (method) {
+    if (methods[method]) {
+      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+    } else if (typeof method === 'object' || !method) {
+      return methods.init.apply(this, arguments);
+    } else {
+      $.error('Method "' + method + '" not found');
+    }
+  };
+
+  $.fn[NAME].defaults = {
+    jump: 'lg',
+    expand: 'sidebar',
+    toggle: '<span class="default"></span>',
+    sidebar: {
+      placement: 'right',
+      width: 250
+    }
+  };
+
+  function setWidthToSidebar(inner_width, width) {
+    var $sb = $('.' + SIDEBAR); // xl
+
+    if (inner_width >= breakpoints.min.xl && width.xl) {
+      $sb.css('width', width.xl).css('right', '-' + width.xl);
+    } // lg
+
+
+    if (inner_width < breakpoints.min.xl && inner_width >= breakpoints.min.lg && width.lg) {
+      $sb.css('width', width.lg).css('right', '-' + width.lg);
+    } // md
+
+
+    if (inner_width < breakpoints.min.lg && inner_width >= breakpoints.min.md && width.md) {
+      $sb.css('width', width.md).css('right', '-' + width.md);
+    } // sm
+
+
+    if (inner_width < breakpoints.min.md && inner_width >= breakpoints.min.sm && width.sm) {
+      $sb.css('width', width.sm).css('right', '-' + width.sm);
+    } // xs
+
+
+    if (inner_width < breakpoints.min.sm && width.xs) {
+      $sb.css('width', width.xs).css('right', '-' + width.xs);
+    }
+  }
+
+  function checkResponsiveClass() {
+    if ($_self.hasClass(XL)) {
+      current_responsive_size = breakpoints.max.xl;
+    } else if ($_self.hasClass(LG)) {
+      current_responsive_size = breakpoints.max.lg;
+    } else if ($_self.hasClass(MD)) {
+      current_responsive_size = breakpoints.max.md;
+    } else if ($_self.hasClass(SM)) {
+      current_responsive_size = breakpoints.max.sm;
+    } else if ($_self.hasClass(XS)) {
+      current_responsive_size = breakpoints.max.xs;
+    } else {
+      current_responsive_size = breakpoints.max.xs;
+    }
+
+    return window.innerWidth >= current_responsive_size;
+  }
+
+  function cloneNavigation($target_clone, $navigation) {
+    var navigation = $navigation.clone().addClass('vg-nav-cloned');
+    $target_clone.append(navigation);
+  }
+})(jQuery);
