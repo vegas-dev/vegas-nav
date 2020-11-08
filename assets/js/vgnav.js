@@ -1,194 +1,316 @@
-(function($){
-	const BODY = 'body';
-	const NAME = 'vgnav';
-	const CLASS_NAME = 'vg-nav';
-	const MAIN_CONTAINER = CLASS_NAME + '-main-container';
-	const SHOW = 'show';
+class VGNav {
+	constructor (container, arg) {
+		this.settings = $.extend({
+			expand: 'lg',
+			layout: 'sidebar',
+			hover: false,
+			toggle: '<span class="default"></span>',
+			sidebar: {
+				placement: 'right',
+				width: 250
+			}
+		}, arg);
+		this.breakpoints = {
+			max: {
+				xl: 1921,
+				lg: 1200,
+				md: 992,
+				sm: 768,
+				xs: 480
+			},
+			min: {
+				xl: 1200,
+				lg: 992,
+				md: 768,
+				sm: 480,
+				xs: 0
+			}
+		};
+		this.container = container;
+		this.classes = {
+			container: 'vg-nav-main-container',
+			hamburger: 'vg-nav-hamburger',
+			sidebar: 'vg-nav-sidebar',
+			collapse: 'vg-nav-collapse',
+			overlay: 'vg-nav-overlay',
+			cloned: 'vg-nav-cloned',
+			hover: 'vg-nav-hover',
+			XL: 'vg-nav-xl',
+			LG: 'vg-nav-lg',
+			MD: 'vg-nav-md',
+			SM: 'vg-nav-sm',
+			XS: 'vg-nav-xs'
+		}
+		this.current_responsive_size = '';
+		this.init();
+	}
 
-	const HAMBURGER = CLASS_NAME + '-hamburger';
-	const SIDEBAR = CLASS_NAME + '-sidebar';
-	const COLLAPSE = CLASS_NAME + '-collapse';
-	const OVERLAY = CLASS_NAME + '-overlay';
-	const HOVER = CLASS_NAME + '-hover';
+	init() {
+		let _this = this,
+			$body = $('body'),
+			$window = $(window),
+			window_width = window.innerWidth,
+			$container = $(_this.container);
 
-	const XL = CLASS_NAME + '-xl';
-	const LG = CLASS_NAME + '-lg';
-	const MD = CLASS_NAME + '-md';
-	const SM = CLASS_NAME + '-sm';
-	const XS = CLASS_NAME + '-xs';
+		// Определим основной контайнер
+		$container.addClass('vg-nav-' + _this.settings.expand).children('ul').addClass(_this.classes.container);
 
-	let $body = $(BODY),
-		winWidth = window.innerWidth,
-		current_responsive_size;
+		// Метод открытия меню при клике или наведении
+		if(_this.settings.hover) {
+			$container.addClass(_this.classes.hover);
+		}
 
-	let afterClick = $.noop;
+		// Устанавливаем указатель переключателя
+		let $dropdown_a = $container.find('.dropdown-mega > a, .dropdown > a'),
+			toggle = '<span class="toggle">' + _this.settings.toggle + '</span>';
 
-	let breakpoints = {
-		max: {
-			xl: 1921,
-			lg: 1200,
-			md: 992,
-			sm: 768,
-			xs: 480
-		},
-		min: {
-			xl: 1200,
-			lg: 992,
-			md: 768,
-			sm: 480,
-			xs: 0
+		$dropdown_a.each(function () {
+			let txt_link = $(this).text();
+
+			$(this).html(txt_link + toggle);
+		});
+
+		// Устанавливаем гамбургер
+		let responsive_class = $container.hasClass(_this.classes.XL) || $container.hasClass(_this.classes.LG) || $container.hasClass(_this.classes.MD) || $container.hasClass(_this.classes.SM) || $container.hasClass(_this.classes.XS)
+
+		if(responsive_class) {
+			$container.prepend('<a href="#" class="' + _this.classes.hamburger + '"><span></span><span></span><span></span></a>');
+		}
+
+		// Установим основной контайнер для мобильного меню
+		let $navigation = $container.children('ul');
+
+		if (this.settings.layout === 'sidebar') {
+			let $sidebar = $body.find('.' + _this.classes.sidebar),
+				opt_sidebar = _this.settings.sidebar || false,
+				sidebarOpen = 'right', $_sidebar;
+
+			$body.find('.' + _this.classes.collapse).remove();
+
+			if (opt_sidebar) {
+				let $sb_width = opt_sidebar.width || false;
+				sidebarOpen = opt_sidebar.placement || sidebarOpen;
+
+				if ($sb_width) {
+					_this.setWidthToSidebar(window_width, $sb_width);
+
+					$window.on('resize', function () {
+						_this.setWidthToSidebar($(this).width(), $sb_width);
+					});
+				}
+			}
+
+			if (responsive_class) {
+				if (!$sidebar.length) {
+					$body.append('<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '">' +
+						'<div class="' + _this.classes.sidebar + '__close" data-dismiss="' + _this.classes.sidebar +'">&times;</div>' +
+						'<div class="' + _this.classes.sidebar + '__content"></div>' +
+						'</div>');
+
+					_this.cloneNavigation($body.find('.' + _this.classes.sidebar + '__content'), $navigation);
+				} else {
+					$_sidebar = $sidebar.detach();
+					$body.append($_sidebar);
+					$sidebar.addClass(sidebarOpen);
+				}
+
+				$body.append('<div class="' + _this.classes.overlay + ' ' + sidebarOpen + '"></div>');
+			}
+		} else if (_this.settings.layout === 'collapse')  {
+			_this.cloneNavigation($body.find('.' + _this.classes.collapse), $navigation)
 		}
 	}
 
-	let settings = {},
-		methods = {
-			init: function (options) {
-				settings = $.extend($.fn[NAME].defaults, options);
+	toggle (callback) {
+		let _this = this,
+			$body = $('body'),
+			$toggle = $(_this.container).find('li.dropdown a'),
+			$toggle_mega = $(_this.container).find('li.dropdown-mega a'),
+			$toggle_a = $(_this.container).find('li a'),
+			$toggle_hamburger = $(_this.container).find('.' + _this.classes.hamburger),
+			$navigation = $(_this.container).children('ul');
 
-				let $self = this,
-					$navigation = $self.children('ul'),
-					data = $self.data(NAME);
+		if (callback && 'beforeClick' in callback) {
+			if (typeof callback.beforeClick === 'function') callback.beforeClick(_this)
+		}
 
-				if (!data) {
-					$navigation.addClass(MAIN_CONTAINER);
-					$('.' + CLASS_NAME).addClass(CLASS_NAME + '-' + settings.jump);
+		$toggle.on('click', function () {
+			if (_this.clickable()) return;
 
-					let $dropdown_a = $body.find('.dropdown-mega > a, .dropdown > a'),
-						toggle = '<span class="toggle">' + settings.toggle + '</span>';
+			let $_self = $(this),
+				$li = $_self.parent('li');
 
-					$dropdown_a.each(function () {
-						let txt_link = $(this).text();
+			$('.dropdown-mega').removeClass('show');
 
-						$(this).html(txt_link + toggle);
-					});
+			if ($li.parent('ul').hasClass(_this.classes.container)) {
+				let $lvl = $navigation.find('.show');
 
-					let responsive_class = $self.hasClass(XL) || $self.hasClass(LG) || $self.hasClass(MD) || $self.hasClass(SM) || $self.hasClass(XS)
+				if ($lvl.hasClass('current')) $lvl.removeClass('show');
 
-					if(responsive_class) {
-						$self.prepend('<a href="#" class="' + HAMBURGER + '"><span></span><span></span><span></span></a>');
+				if (!$li.hasClass('current')) {
+					$li.addClass('show').addClass('current');
+					$lvl.removeClass('current');
+				} else {
+					$li.removeClass('show').removeClass('current');
+				}
+
+				return false;
+			} else {
+				if ($li.hasClass('show')) {
+					$_self.parent('li').removeClass('show');
+					if ($li.parent('ul').hasClass(_this.classes.container)) {
+						$navigation.find('.show').removeClass('show');
 					}
-
-					if (settings.expand === 'sidebar') {
-						let $sidebar = $body.find('.' + SIDEBAR),
-							opt_sidebar = settings.sidebar || false,
-							sidebarOpen = 'right', $_sidebar;
-
-						$body.find('.' + COLLAPSE).remove();
-
-						if (opt_sidebar) {
-							let $sb_width = opt_sidebar.width || false;
-							sidebarOpen = opt_sidebar.placement || sidebarOpen;
-
-							if ($sb_width) {
-								setWidthToSidebar(winWidth, $sb_width);
-
-								$(window).on('resize', function () {
-									setWidthToSidebar($(this).width(), $sb_width);
-								});
-							}
-						}
-
-						if (responsive_class) {
-							if (!$sidebar.length) {
-								$body.append('<div class="' + SIDEBAR + ' ' + sidebarOpen + '">' +
-									'<div class="' + SIDEBAR + '__close" data-dismiss="' + SIDEBAR +'">&times;</div>' +
-									'<div class="' + SIDEBAR + '__content"></div>' +
-									'</div>');
-
-								cloneNavigation($body.find('.' + SIDEBAR + '__content'), $navigation);
-							} else {
-								$_sidebar = $sidebar.detach();
-								$body.append($_sidebar);
-								$sidebar.addClass(sidebarOpen);
-							}
-
-							$body.append('<div class="' + OVERLAY + ' ' + sidebarOpen + '"></div>');
-						}
-					} else if (settings.expand === 'collapse')  {
-						cloneNavigation($body.find('.' + COLLAPSE), $navigation)
+				} else {
+					if ($_self.parent('li').children('ul').length > 0) {
+						$_self.parent('li').addClass('show');
+						return false;
 					}
 				}
-			},
-			toggle : function (options, callback) {
-
-			},
-			open: function () {
-
-			},
-			close : function (callback) {
-
 			}
-		};
+		});
 
-	$.fn[NAME] = function (method) {
-		if (methods[method]) {
-			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-		} else if (typeof method === 'object' || !method) {
-			return methods.init.apply(this, arguments);
-		} else {
-			$.error('Method "' + method + '" not found');
+		$toggle_mega.on('click', function () {
+			if (_this.clickable()) return;
+
+			let $_self = $(this),
+				$li = $_self.parent('li');
+
+			if ($li.hasClass('show')) {
+				$li.removeClass('show');
+			} else {
+				$navigation.find('.show').removeClass('show').removeClass('current');
+				$li.addClass('show');
+			}
+
+			return false;
+		});
+
+		$toggle_a.on('click', function () {
+			if (callback && 'afterClick' in callback) {
+				if (typeof callback.afterClick === 'function') callback.afterClick(_this, this)
+			}
+		});
+
+		$toggle_hamburger.on('click', function () {
+			$(_this.container).find('.' + _this.classes.hamburger).toggleClass('show');
+
+			if (_this.settings.layout === 'sidebar') {
+				$body.find('.' + _this.classes.sidebar).toggleClass('show');
+				$body.find('.' + _this.classes.overlay).toggleClass('show');
+
+				if(!$body.hasClass('vg-sidebar-open')) {
+					let width_scrollbar = window.innerWidth - document.documentElement.clientWidth;
+					$body.addClass('vg-sidebar-open').css('padding-right', width_scrollbar);
+				} else {
+					$body.removeClass('vg-sidebar-open').css('padding-right', 0);
+				}
+			} else if (_this.settings.layout === 'collapse') {
+				$body.find('.' +  _this.classes.collapse).toggleClass('show');
+			}
+
+			return false;
+		});
+
+		if (_this.settings.hover) {
+			$toggle_a.hover(function () {
+				if (callback && 'afterHover' in callback) {
+					if (typeof callback.afterHover === 'function') callback.afterHover(_this, this)
+				}
+			});
 		}
-	};
 
-	$.fn[NAME].defaults = {
-		jump: 'lg',
-		expand: 'sidebar',
-		toggle: '<span class="default"></span>',
-		sidebar: {
-			placement: 'right',
-			width: 250
-		}
-	};
+		_this.dispose();
+	}
 
-	function setWidthToSidebar(inner_width, width) {
-		let $sb = $('.' + SIDEBAR);
+	dispose () {
+		let _this = this,
+			$body = $('body'),
+			$document = $(document),
+			$navigation = $(_this.container).children('ul');
+
+		$document.on('click', '.' + _this.classes.overlay + ', [data-dismiss=vg-nav-sidebar]', function () {
+			$body.find('.' + _this.classes.hamburger).removeClass('show');
+
+			if (_this.settings.layout === 'sidebar') {
+				$body.find('.' + _this.classes.sidebar).removeClass('show');
+				$body.find('.' + _this.classes.overlay).removeClass('show');
+
+				if($body.hasClass('vg-sidebar-open')) {
+					$body.removeClass('vg-sidebar-open').css('padding-right', 0);
+				}
+			} else if (_this.settings.layout === 'collapse') {
+				$body.find('.' + _this.classes.collapse).removeClass('show');
+			}
+
+			return false;
+		});
+
+		$document.mouseup(function (e) {
+			let container = $('.' + _this.classes.container);
+			if (container.has(e.target).length === 0) {
+				$navigation.find('.show').removeClass('show').removeClass('current');
+			}
+		});
+	}
+
+	cloneNavigation ($target_clone, $navigation) {
+		let navigation = $navigation.clone().addClass(this.classes.cloned);
+		$target_clone.append(navigation);
+	}
+
+	setWidthToSidebar (inner_width, width) {
+		let $sb = $('.' + this.classes.sidebar);
 
 		// xl
-		if (inner_width >= breakpoints.min.xl && width.xl) {
+		if (inner_width >= this.breakpoints.min.xl && width.xl) {
 			$sb.css('width', width.xl).css('right', '-' + width.xl);
 		}
 
 		// lg
-		if (inner_width < breakpoints.min.xl && inner_width >= breakpoints.min.lg && width.lg) {
+		if (inner_width < this.breakpoints.min.xl && inner_width >= this.breakpoints.min.lg && width.lg) {
 			$sb.css('width', width.lg).css('right', '-' + width.lg);
 		}
 
 		// md
-		if (inner_width < breakpoints.min.lg && inner_width >= breakpoints.min.md && width.md) {
+		if (inner_width < this.breakpoints.min.lg && inner_width >= this.breakpoints.min.md && width.md) {
 			$sb.css('width', width.md).css('right', '-' + width.md);
 		}
 
 		// sm
-		if (inner_width < breakpoints.min.md && inner_width >= breakpoints.min.sm && width.sm) {
+		if (inner_width < this.breakpoints.min.md && inner_width >= this.breakpoints.min.sm && width.sm) {
 			$sb.css('width', width.sm).css('right', '-' + width.sm);
 		}
 
 		// xs
-		if (inner_width < breakpoints.min.sm && width.xs) {
+		if (inner_width < this.breakpoints.min.sm && width.xs) {
 			$sb.css('width', width.xs).css('right', '-' + width.xs);
 		}
 	}
 
-	function checkResponsiveClass() {
-		if ($_self.hasClass(XL)) {
-			current_responsive_size = breakpoints.max.xl;
-		} else if ($_self.hasClass(LG)) {
-			current_responsive_size = breakpoints.max.lg;
-		} else if ($_self.hasClass(MD)) {
-			current_responsive_size = breakpoints.max.md;
-		} else if ($_self.hasClass(SM)) {
-			current_responsive_size = breakpoints.max.sm;
-		} else if ($_self.hasClass(XS)) {
-			current_responsive_size = breakpoints.max.xs;
+	clickable () {
+		if ($(this.container).hasClass(this.classes.hover)) {
+			return this.checkResponsiveClass();
 		} else {
-			current_responsive_size = breakpoints.max.xs;
+			return false;
+		}
+	};
+
+	checkResponsiveClass() {
+		if ($(this.container).hasClass(this.classes.XL)) {
+			this.current_responsive_size = this.breakpoints.max.xl;
+		} else if ($(this.container).hasClass(this.classes.LG)) {
+			this.current_responsive_size = this.breakpoints.max.lg;
+		} else if ($(this.container).hasClass(this.classes.MD)) {
+			this.current_responsive_size = this.breakpoints.max.md;
+		} else if ($(this.container).hasClass(this.classes.SM)) {
+			this.current_responsive_size = this.breakpoints.max.sm;
+		} else if ($(this.container).hasClass(this.classes.XS)) {
+			this.current_responsive_size = this.breakpoints.max.xs;
+		} else {
+			this.current_responsive_size = this.breakpoints.max.xs;
 		}
 
-		return window.innerWidth >= current_responsive_size;
+		return window.innerWidth >= this.current_responsive_size;
 	}
-
-	function cloneNavigation($target_clone, $navigation) {
-		let navigation = $navigation.clone().addClass('vg-nav-cloned');
-		$target_clone.append(navigation);
-	}
-})(jQuery);
+}

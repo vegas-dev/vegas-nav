@@ -1,173 +1,305 @@
 "use strict";
 
-(function ($) {
-  var BODY = 'body';
-  var NAME = 'vgnav';
-  var CLASS_NAME = 'vg-nav';
-  var MAIN_CONTAINER = CLASS_NAME + '-main-container';
-  var SHOW = 'show';
-  var HAMBURGER = CLASS_NAME + '-hamburger';
-  var SIDEBAR = CLASS_NAME + '-sidebar';
-  var COLLAPSE = CLASS_NAME + '-collapse';
-  var OVERLAY = CLASS_NAME + '-overlay';
-  var HOVER = CLASS_NAME + '-hover';
-  var XL = CLASS_NAME + '-xl';
-  var LG = CLASS_NAME + '-lg';
-  var MD = CLASS_NAME + '-md';
-  var SM = CLASS_NAME + '-sm';
-  var XS = CLASS_NAME + '-xs';
-  var $body = $(BODY),
-      winWidth = window.innerWidth,
-      current_responsive_size;
-  var afterClick = $.noop;
-  var breakpoints = {
-    max: {
-      xl: 1921,
-      lg: 1200,
-      md: 992,
-      sm: 768,
-      xs: 480
-    },
-    min: {
-      xl: 1200,
-      lg: 992,
-      md: 768,
-      sm: 480,
-      xs: 0
-    }
-  };
-  var settings = {},
-      methods = {
-    init: function init(options) {
-      settings = $.extend($.fn[NAME].defaults, options);
-      var $self = this,
-          $navigation = $self.children('ul'),
-          data = $self.data(NAME);
+class VGNav {
+  constructor(container, arg) {
+    this.settings = $.extend({
+      expand: 'lg',
+      layout: 'sidebar',
+      hover: false,
+      toggle: '<span class="default"></span>',
+      sidebar: {
+        placement: 'right',
+        width: 250
+      }
+    }, arg);
+    this.breakpoints = {
+      max: {
+        xl: 1921,
+        lg: 1200,
+        md: 992,
+        sm: 768,
+        xs: 480
+      },
+      min: {
+        xl: 1200,
+        lg: 992,
+        md: 768,
+        sm: 480,
+        xs: 0
+      }
+    };
+    this.container = container;
+    this.classes = {
+      container: 'vg-nav-main-container',
+      hamburger: 'vg-nav-hamburger',
+      sidebar: 'vg-nav-sidebar',
+      collapse: 'vg-nav-collapse',
+      overlay: 'vg-nav-overlay',
+      cloned: 'vg-nav-cloned',
+      hover: 'vg-nav-hover',
+      XL: 'vg-nav-xl',
+      LG: 'vg-nav-lg',
+      MD: 'vg-nav-md',
+      SM: 'vg-nav-sm',
+      XS: 'vg-nav-xs'
+    };
+    this.current_responsive_size = '';
+    this.init();
+  }
 
-      if (!data) {
-        $navigation.addClass(MAIN_CONTAINER);
-        $('.' + CLASS_NAME).addClass(CLASS_NAME + '-' + settings.jump);
-        var $dropdown_a = $body.find('.dropdown-mega > a, .dropdown > a'),
-            toggle = '<span class="toggle">' + settings.toggle + '</span>';
-        $dropdown_a.each(function () {
-          var txt_link = $(this).text();
-          $(this).html(txt_link + toggle);
-        });
-        var responsive_class = $self.hasClass(XL) || $self.hasClass(LG) || $self.hasClass(MD) || $self.hasClass(SM) || $self.hasClass(XS);
+  init() {
+    var _this = this,
+        $body = $('body'),
+        $window = $(window),
+        window_width = window.innerWidth,
+        $container = $(_this.container); // Определим основной контайнер
 
-        if (responsive_class) {
-          $self.prepend('<a href="#" class="' + HAMBURGER + '"><span></span><span></span><span></span></a>');
-        }
 
-        if (settings.expand === 'sidebar') {
-          var $sidebar = $body.find('.' + SIDEBAR),
-              opt_sidebar = settings.sidebar || false,
-              sidebarOpen = 'right',
-              $_sidebar;
-          $body.find('.' + COLLAPSE).remove();
+    $container.addClass('vg-nav-' + _this.settings.expand).children('ul').addClass(_this.classes.container); // Метод открытия меню при клике или наведении
 
-          if (opt_sidebar) {
-            var $sb_width = opt_sidebar.width || false;
-            sidebarOpen = opt_sidebar.placement || sidebarOpen;
+    if (_this.settings.hover) {
+      $container.addClass(_this.classes.hover);
+    } // Устанавливаем указатель переключателя
 
-            if ($sb_width) {
-              setWidthToSidebar(winWidth, $sb_width);
-              $(window).on('resize', function () {
-                setWidthToSidebar($(this).width(), $sb_width);
-              });
-            }
-          }
 
-          if (responsive_class) {
-            if (!$sidebar.length) {
-              $body.append('<div class="' + SIDEBAR + ' ' + sidebarOpen + '">' + '<div class="' + SIDEBAR + '__close" data-dismiss="' + SIDEBAR + '">&times;</div>' + '<div class="' + SIDEBAR + '__content"></div>' + '</div>');
-              cloneNavigation($body.find('.' + SIDEBAR + '__content'), $navigation);
-            } else {
-              $_sidebar = $sidebar.detach();
-              $body.append($_sidebar);
-              $sidebar.addClass(sidebarOpen);
-            }
+    var $dropdown_a = $container.find('.dropdown-mega > a, .dropdown > a'),
+        toggle = '<span class="toggle">' + _this.settings.toggle + '</span>';
+    $dropdown_a.each(function () {
+      var txt_link = $(this).text();
+      $(this).html(txt_link + toggle);
+    }); // Устанавливаем гамбургер
 
-            $body.append('<div class="' + OVERLAY + ' ' + sidebarOpen + '"></div>');
-          }
-        } else if (settings.expand === 'collapse') {
-          cloneNavigation($body.find('.' + COLLAPSE), $navigation);
+    var responsive_class = $container.hasClass(_this.classes.XL) || $container.hasClass(_this.classes.LG) || $container.hasClass(_this.classes.MD) || $container.hasClass(_this.classes.SM) || $container.hasClass(_this.classes.XS);
+
+    if (responsive_class) {
+      $container.prepend('<a href="#" class="' + _this.classes.hamburger + '"><span></span><span></span><span></span></a>');
+    } // Установим основной контайнер для мобильного меню
+
+
+    var $navigation = $container.children('ul');
+
+    if (this.settings.layout === 'sidebar') {
+      var $sidebar = $body.find('.' + _this.classes.sidebar),
+          opt_sidebar = _this.settings.sidebar || false,
+          sidebarOpen = 'right',
+          $_sidebar;
+      $body.find('.' + _this.classes.collapse).remove();
+
+      if (opt_sidebar) {
+        var $sb_width = opt_sidebar.width || false;
+        sidebarOpen = opt_sidebar.placement || sidebarOpen;
+
+        if ($sb_width) {
+          _this.setWidthToSidebar(window_width, $sb_width);
+
+          $window.on('resize', function () {
+            _this.setWidthToSidebar($(this).width(), $sb_width);
+          });
         }
       }
-    },
-    toggle: function toggle(options, callback) {},
-    open: function open() {},
-    close: function close(callback) {}
-  };
 
-  $.fn[NAME] = function (method) {
-    if (methods[method]) {
-      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-    } else if (typeof method === 'object' || !method) {
-      return methods.init.apply(this, arguments);
-    } else {
-      $.error('Method "' + method + '" not found');
+      if (responsive_class) {
+        if (!$sidebar.length) {
+          $body.append('<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '">' + '<div class="' + _this.classes.sidebar + '__close" data-dismiss="' + _this.classes.sidebar + '">&times;</div>' + '<div class="' + _this.classes.sidebar + '__content"></div>' + '</div>');
+
+          _this.cloneNavigation($body.find('.' + _this.classes.sidebar + '__content'), $navigation);
+        } else {
+          $_sidebar = $sidebar.detach();
+          $body.append($_sidebar);
+          $sidebar.addClass(sidebarOpen);
+        }
+
+        $body.append('<div class="' + _this.classes.overlay + ' ' + sidebarOpen + '"></div>');
+      }
+    } else if (_this.settings.layout === 'collapse') {
+      _this.cloneNavigation($body.find('.' + _this.classes.collapse), $navigation);
     }
-  };
+  }
 
-  $.fn[NAME].defaults = {
-    jump: 'lg',
-    expand: 'sidebar',
-    toggle: '<span class="default"></span>',
-    sidebar: {
-      placement: 'right',
-      width: 250
+  toggle(callback) {
+    var _this = this,
+        $body = $('body'),
+        $toggle = $(_this.container).find('li.dropdown a'),
+        $toggle_mega = $(_this.container).find('li.dropdown-mega a'),
+        $toggle_a = $(_this.container).find('li a'),
+        $toggle_hamburger = $(_this.container).find('.' + _this.classes.hamburger),
+        $navigation = $(_this.container).children('ul');
+
+    if (callback && 'beforeClick' in callback) {
+      if (typeof callback.beforeClick === 'function') callback.beforeClick(_this);
     }
-  };
 
-  function setWidthToSidebar(inner_width, width) {
-    var $sb = $('.' + SIDEBAR); // xl
+    $toggle.on('click', function () {
+      if (_this.clickable()) return;
+      var $_self = $(this),
+          $li = $_self.parent('li');
+      $('.dropdown-mega').removeClass('show');
 
-    if (inner_width >= breakpoints.min.xl && width.xl) {
+      if ($li.parent('ul').hasClass(_this.classes.container)) {
+        var $lvl = $navigation.find('.show');
+        if ($lvl.hasClass('current')) $lvl.removeClass('show');
+
+        if (!$li.hasClass('current')) {
+          $li.addClass('show').addClass('current');
+          $lvl.removeClass('current');
+        } else {
+          $li.removeClass('show').removeClass('current');
+        }
+
+        return false;
+      } else {
+        if ($li.hasClass('show')) {
+          $_self.parent('li').removeClass('show');
+
+          if ($li.parent('ul').hasClass(_this.classes.container)) {
+            $navigation.find('.show').removeClass('show');
+          }
+        } else {
+          if ($_self.parent('li').children('ul').length > 0) {
+            $_self.parent('li').addClass('show');
+            return false;
+          }
+        }
+      }
+    });
+    $toggle_mega.on('click', function () {
+      if (_this.clickable()) return;
+      var $_self = $(this),
+          $li = $_self.parent('li');
+
+      if ($li.hasClass('show')) {
+        $li.removeClass('show');
+      } else {
+        $navigation.find('.show').removeClass('show').removeClass('current');
+        $li.addClass('show');
+      }
+
+      return false;
+    });
+    $toggle_a.on('click', function () {
+      if (callback && 'afterClick' in callback) {
+        if (typeof callback.afterClick === 'function') callback.afterClick(_this, this);
+      }
+    });
+    $toggle_hamburger.on('click', function () {
+      $(_this.container).find('.' + _this.classes.hamburger).toggleClass('show');
+
+      if (_this.settings.layout === 'sidebar') {
+        $body.find('.' + _this.classes.sidebar).toggleClass('show');
+        $body.find('.' + _this.classes.overlay).toggleClass('show');
+
+        if (!$body.hasClass('vg-sidebar-open')) {
+          var width_scrollbar = window.innerWidth - document.documentElement.clientWidth;
+          $body.addClass('vg-sidebar-open').css('padding-right', width_scrollbar);
+        } else {
+          $body.removeClass('vg-sidebar-open').css('padding-right', 0);
+        }
+      } else if (_this.settings.layout === 'collapse') {
+        $body.find('.' + _this.classes.collapse).toggleClass('show');
+      }
+
+      return false;
+    });
+
+    if (_this.settings.hover) {
+      $toggle_a.hover(function () {
+        if (callback && 'afterHover' in callback) {
+          if (typeof callback.afterHover === 'function') callback.afterHover(_this, this);
+        }
+      });
+    }
+
+    _this.dispose();
+  }
+
+  dispose() {
+    var _this = this,
+        $body = $('body'),
+        $document = $(document),
+        $navigation = $(_this.container).children('ul');
+
+    $document.on('click', '.' + _this.classes.overlay + ', [data-dismiss=vg-nav-sidebar]', function () {
+      $body.find('.' + _this.classes.hamburger).removeClass('show');
+
+      if (_this.settings.layout === 'sidebar') {
+        $body.find('.' + _this.classes.sidebar).removeClass('show');
+        $body.find('.' + _this.classes.overlay).removeClass('show');
+
+        if ($body.hasClass('vg-sidebar-open')) {
+          $body.removeClass('vg-sidebar-open').css('padding-right', 0);
+        }
+      } else if (_this.settings.layout === 'collapse') {
+        $body.find('.' + _this.classes.collapse).removeClass('show');
+      }
+
+      return false;
+    });
+    $document.mouseup(function (e) {
+      var container = $('.' + _this.classes.container);
+
+      if (container.has(e.target).length === 0) {
+        $navigation.find('.show').removeClass('show').removeClass('current');
+      }
+    });
+  }
+
+  cloneNavigation($target_clone, $navigation) {
+    var navigation = $navigation.clone().addClass(this.classes.cloned);
+    $target_clone.append(navigation);
+  }
+
+  setWidthToSidebar(inner_width, width) {
+    var $sb = $('.' + this.classes.sidebar); // xl
+
+    if (inner_width >= this.breakpoints.min.xl && width.xl) {
       $sb.css('width', width.xl).css('right', '-' + width.xl);
     } // lg
 
 
-    if (inner_width < breakpoints.min.xl && inner_width >= breakpoints.min.lg && width.lg) {
+    if (inner_width < this.breakpoints.min.xl && inner_width >= this.breakpoints.min.lg && width.lg) {
       $sb.css('width', width.lg).css('right', '-' + width.lg);
     } // md
 
 
-    if (inner_width < breakpoints.min.lg && inner_width >= breakpoints.min.md && width.md) {
+    if (inner_width < this.breakpoints.min.lg && inner_width >= this.breakpoints.min.md && width.md) {
       $sb.css('width', width.md).css('right', '-' + width.md);
     } // sm
 
 
-    if (inner_width < breakpoints.min.md && inner_width >= breakpoints.min.sm && width.sm) {
+    if (inner_width < this.breakpoints.min.md && inner_width >= this.breakpoints.min.sm && width.sm) {
       $sb.css('width', width.sm).css('right', '-' + width.sm);
     } // xs
 
 
-    if (inner_width < breakpoints.min.sm && width.xs) {
+    if (inner_width < this.breakpoints.min.sm && width.xs) {
       $sb.css('width', width.xs).css('right', '-' + width.xs);
     }
   }
 
-  function checkResponsiveClass() {
-    if ($_self.hasClass(XL)) {
-      current_responsive_size = breakpoints.max.xl;
-    } else if ($_self.hasClass(LG)) {
-      current_responsive_size = breakpoints.max.lg;
-    } else if ($_self.hasClass(MD)) {
-      current_responsive_size = breakpoints.max.md;
-    } else if ($_self.hasClass(SM)) {
-      current_responsive_size = breakpoints.max.sm;
-    } else if ($_self.hasClass(XS)) {
-      current_responsive_size = breakpoints.max.xs;
+  clickable() {
+    if ($(this.container).hasClass(this.classes.hover)) {
+      return this.checkResponsiveClass();
     } else {
-      current_responsive_size = breakpoints.max.xs;
+      return false;
+    }
+  }
+
+  checkResponsiveClass() {
+    if ($(this.container).hasClass(this.classes.XL)) {
+      this.current_responsive_size = this.breakpoints.max.xl;
+    } else if ($(this.container).hasClass(this.classes.LG)) {
+      this.current_responsive_size = this.breakpoints.max.lg;
+    } else if ($(this.container).hasClass(this.classes.MD)) {
+      this.current_responsive_size = this.breakpoints.max.md;
+    } else if ($(this.container).hasClass(this.classes.SM)) {
+      this.current_responsive_size = this.breakpoints.max.sm;
+    } else if ($(this.container).hasClass(this.classes.XS)) {
+      this.current_responsive_size = this.breakpoints.max.xs;
+    } else {
+      this.current_responsive_size = this.breakpoints.max.xs;
     }
 
-    return window.innerWidth >= current_responsive_size;
+    return window.innerWidth >= this.current_responsive_size;
   }
 
-  function cloneNavigation($target_clone, $navigation) {
-    var navigation = $navigation.clone().addClass('vg-nav-cloned');
-    $target_clone.append(navigation);
-  }
-})(jQuery);
+}

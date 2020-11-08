@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-md-9 col-4 d-flex align-items-center">
 						<div class="navigation">
-							<nav class="vg-nav">
+							<nav id="vgMenu" class="vg-nav">
 								<ul>
 									<li class="active">
 										<a href="/">Home page</a>
@@ -200,13 +200,12 @@ $(document).ready(function () {
 		hljs.initHighlightingOnLoad();
 		
 		$(document).ready(function () {
-			$('.vg-nav').vgnav({
-				jump: 'md',
-				sidebar: {
-					placement: 'left',
-					width: '50%'
-				}
-			});
+			let navSetting = {
+				expand: 'md'
+			}
+
+			let vg_nav = new VGNav('#vgMenu', navSetting);
+			vg_nav.toggle()
 		})
 	</script>
 	
