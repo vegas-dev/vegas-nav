@@ -1,3 +1,8 @@
+# VEGAS-NAV 2.0.0 (NOVEMBER 09, 2020)
+* Changed plugin markup, see documentation
+* Added callbacks
+* Fixed bugs 
+
 # VEGAS-NAV 1.1.5 (JULY 24, 2020)
 * Minor bugs fixed
 

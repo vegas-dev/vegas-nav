@@ -49,28 +49,20 @@ or download [here](https://github.com/vegas-dev/vegas-nav/archive/master.zip)
 ##### JQuery init
 ```javascript
 $(document).ready(function () {
-    $('.vg-nav').vegasMenu();
-})
-```
+	let navSetting = {
+		expand: 'md', // or xl, lg, sm, xs
+		layout: 'sidebar', // or collapse
+		hover: false, // now use click
+		toggle: '<span class="default"></span>', //pointer arrow customization, example: <i class="fa fa-chevron-down"></i>
+		sidebar: {
+			placement: 'right',
+			width: 250
+		}
+	}
 
-##### Hamburger folding. Use the following classes next to the main:
-```scss
-.vg-nav-xl // Desktop and laptop
-.vg-nav-lg // Tablets landscape
-.vg-nav-md // Tablets portrait
-.vg-nav-sm // Phone landscape
-.vg-nav-xs // Phone portrait
-```
-
-##### Opening the expanded menu on hover:
-```scss
-.vg-nav-hover
-```
-
-```html
-<nav class="vg-nav vg-nav-md">
-    The menu will collapse on the tablet in portrait mode
-</nav>
+	let vg_nav = new VGNav('#myNav', navSetting);
+	vg_nav.toggle()
+});
 ```
 
 ## Authors
