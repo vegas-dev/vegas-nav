@@ -21,7 +21,7 @@ or download [here](https://github.com/vegas-dev/vegas-nav/archive/master.zip)
 ## Usage
 ##### HTML markup
 ```html
-<nav class="vg-nav vg-nav-lg">
+<nav id="myNav" class="vg-nav">
     <ul>
         <li class="active"><a href="/">Home page</a></li>
 		<li class="dropdown">
