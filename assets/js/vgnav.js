@@ -124,17 +124,16 @@ class VGNav {
 	toggle (callback) {
 		let _this = this,
 			$body = $('body'),
-			$toggle = $(_this.container).find('li.dropdown a'),
-			$toggle_mega = $(_this.container).find('li.dropdown-mega a'),
-			$toggle_a = $(_this.container).find('li a'),
+			$document = $(document),
+			$toggle_a = $(_this.classes.container).find('li a'),
 			$toggle_hamburger = $(_this.container).find('.' + _this.classes.hamburger),
-			$navigation = $(_this.container).children('ul');
+			$navigation = $(_this.classes.container);
 
-		if (callback && 'beforeClick' in callback) {
-			if (typeof callback.beforeClick === 'function') callback.beforeClick(_this)
+		if (callback && 'afterInit' in callback) {
+			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
 		}
 
-		$toggle.on('click', function () {
+		$document.on('click', '.' + _this.classes.container + ' li.dropdown a', function () {
 			if (_this.clickable()) return;
 
 			let $_self = $(this),
@@ -170,7 +169,7 @@ class VGNav {
 			}
 		});
 
-		$toggle_mega.on('click', function () {
+		$document.on('click', '.' + _this.classes.container + ' li.dropdown-mega a', function () {
 			if (_this.clickable()) return;
 
 			let $_self = $(this),
@@ -186,7 +185,7 @@ class VGNav {
 			return false;
 		});
 
-		$toggle_a.on('click', function () {
+		$document.on('click', '.' + _this.classes.container + ' li.dropdown a', function () {
 			if (callback && 'afterClick' in callback) {
 				if (typeof callback.afterClick === 'function') callback.afterClick(_this, this)
 			}
