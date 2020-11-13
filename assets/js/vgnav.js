@@ -3,10 +3,11 @@ class VGNav {
 		this.settings = Object.assign({
 			expand: 'lg',
 			layout: 'sidebar',
-			hover: false,
+			isHover: false,
 			toggle: '<span class="default"></span>',
 			sidebar: {
-				placement: 'right'
+				placement: 'right',
+				clone: null
 			}
 		}, arg);
 		this.breakpoints = {
@@ -61,7 +62,7 @@ class VGNav {
 		$container.classList.add('vg-nav-' + _this.settings.expand);
 
 		// Метод открытия меню при клике или наведении
-		if(_this.settings.hover) {
+		if(_this.settings.isHover) {
 			$container.classList.add(_this.classes.hover);
 		}
 
@@ -88,7 +89,7 @@ class VGNav {
 				$_sidebar;
 
 			let $collapse = document.getElementsByClassName(_this.classes.collapse);
-			if ($collapse) {
+			if ($collapse.length) {
 				$collapse[0].remove();
 			}
 
@@ -102,10 +103,20 @@ class VGNav {
 					let $clone_target = document.getElementsByClassName(_this.classes.sidebar + '__content');
 					_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
 				} else {
-					$_sidebar = $sidebar[0].cloneNode();
+					$_sidebar = $sidebar[0].cloneNode(true);
 					document.body.appendChild($_sidebar);
 					$sidebar[1].classList.add(sidebarOpen);
 					$sidebar[0].remove();
+
+					if ('clone' in opt_sidebar) {
+						if(opt_sidebar.clone) {
+							let $clone_target = document.querySelector('.' + _this.classes.sidebar).querySelectorAll(opt_sidebar.clone);
+
+							if ($clone_target) {
+								_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
+							}
+						}
+					}
 				}
 
 				document.body.insertAdjacentHTML('beforeend','<div class="' + _this.classes.overlay + ' ' + sidebarOpen + '"></div>');
@@ -242,8 +253,8 @@ class VGNav {
 		}
 
 		// Альтернативы закрытию боковой папнели
-		$click_overlay.onclick = () => { closeSidebar() };
-		$click_dismiss.onclick = () => { closeSidebar() };
+		if ($click_overlay) $click_overlay.onclick = () => { closeSidebar(); return false; };
+		if ($click_dismiss) $click_dismiss.onclick = () => { closeSidebar(); return false; };
 
 		function clickBefore(callback, $this, event) {
 			// Функция обратного вызова клика по ссылке до начала анимации
