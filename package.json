@@ -1,6 +1,6 @@
 {
 	"name": "vgnav",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"author": {
 		"name": "Vegas Studio",
 		"url": "https://vegas-dev.com",
@@ -11,7 +11,7 @@
 		"menu",
 		"drop-down",
 		"sidebar-menu",
-		"jquery",
+		"javascript",
 		"css3",
 		"html5"
 	],
