@@ -1,13 +1,12 @@
 class VGNav {
-	constructor (container, arg) {
-		this.settings = $.extend({
+	constructor (arg) {
+		this.settings = Object.assign({
 			expand: 'lg',
 			layout: 'sidebar',
 			hover: false,
 			toggle: '<span class="default"></span>',
 			sidebar: {
-				placement: 'right',
-				width: 250
+				placement: 'right'
 			}
 		}, arg);
 		this.breakpoints = {
@@ -26,7 +25,7 @@ class VGNav {
 				xs: 0
 			}
 		};
-		this.container = container;
+		this.container = '.vg-nav';
 		this.classes = {
 			container: 'vg-nav-main-container',
 			hamburger: 'vg-nav-hamburger',
@@ -42,253 +41,284 @@ class VGNav {
 			XS: 'vg-nav-xs'
 		}
 		this.current_responsive_size = '';
-		this.init();
+		this.isInit = false;
+
+		if (!this.isInit) {
+			this.init();
+		}
 	}
 
 	init() {
 		let _this = this,
-			$body = $('body'),
-			$window = $(window),
-			window_width = window.innerWidth,
-			$container = $(_this.container);
+			$container = document.querySelector(_this.container),
+			$navigation = document.querySelector('.' + _this.classes.container);
 
-		// Определим основной контайнер
-		$container.addClass('vg-nav-' + _this.settings.expand).children('ul').addClass(_this.classes.container);
+		if (!$container || !$navigation) {
+			return false;
+		}
+
+		// Определим в основной контайнер конфигурационные классы
+		$container.classList.add('vg-nav-' + _this.settings.expand);
 
 		// Метод открытия меню при клике или наведении
 		if(_this.settings.hover) {
-			$container.addClass(_this.classes.hover);
+			$container.classList.add(_this.classes.hover);
 		}
 
 		// Устанавливаем указатель переключателя
-		let $dropdown_a = $container.find('.dropdown-mega > a, .dropdown > a'),
+		let $dropdown_a = $container.querySelectorAll('.dropdown-mega > a, .dropdown > a'),
 			toggle = '<span class="toggle">' + _this.settings.toggle + '</span>';
 
-		$dropdown_a.each(function () {
-			let txt_link = $(this).text();
-
-			$(this).html(txt_link + toggle);
+		$dropdown_a.forEach(function (elem) {
+			elem.insertAdjacentHTML('beforeend', toggle)
 		});
 
 		// Устанавливаем гамбургер
-		let responsive_class = $container.hasClass(_this.classes.XL) || $container.hasClass(_this.classes.LG) || $container.hasClass(_this.classes.MD) || $container.hasClass(_this.classes.SM) || $container.hasClass(_this.classes.XS)
+		let responsive_class = $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS)
 
 		if(responsive_class) {
-			$container.prepend('<a href="#" class="' + _this.classes.hamburger + '"><span></span><span></span><span></span></a>');
+			$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '"><span></span><span></span><span></span></a>');
 		}
 
-		// Установим основной контайнер для мобильного меню
-		let $navigation = $container.children('ul');
-
+		// Слои мобильной навигации
 		if (this.settings.layout === 'sidebar') {
-			let $sidebar = $body.find('.' + _this.classes.sidebar),
+			let $sidebar = document.getElementsByClassName(_this.classes.sidebar),
 				opt_sidebar = _this.settings.sidebar || false,
-				sidebarOpen = 'right', $_sidebar;
+				sidebarOpen = opt_sidebar.placement || 'right',
+				$_sidebar;
 
-			$body.find('.' + _this.classes.collapse).remove();
-
-			if (opt_sidebar) {
-				let $sb_width = opt_sidebar.width || false;
-				sidebarOpen = opt_sidebar.placement || sidebarOpen;
-
-				if ($sb_width) {
-					_this.setWidthToSidebar(window_width, $sb_width);
-
-					$window.on('resize', function () {
-						_this.setWidthToSidebar($(this).width(), $sb_width);
-					});
-				}
+			let $collapse = document.getElementsByClassName(_this.classes.collapse);
+			if ($collapse) {
+				$collapse[0].remove();
 			}
 
 			if (responsive_class) {
 				if (!$sidebar.length) {
-					$body.append('<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '">' +
+					document.body.insertAdjacentHTML('beforeend','<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '">' +
 						'<div class="' + _this.classes.sidebar + '__close" data-dismiss="' + _this.classes.sidebar +'">&times;</div>' +
 						'<div class="' + _this.classes.sidebar + '__content"></div>' +
 						'</div>');
 
-					_this.cloneNavigation($body.find('.' + _this.classes.sidebar + '__content'), $navigation);
+					let $clone_target = document.getElementsByClassName(_this.classes.sidebar + '__content');
+					_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
 				} else {
-					$_sidebar = $sidebar.detach();
-					$body.append($_sidebar);
-					$sidebar.addClass(sidebarOpen);
+					$_sidebar = $sidebar[0].cloneNode();
+					document.body.appendChild($_sidebar);
+					$sidebar[1].classList.add(sidebarOpen);
+					$sidebar[0].remove();
 				}
 
-				$body.append('<div class="' + _this.classes.overlay + ' ' + sidebarOpen + '"></div>');
+				document.body.insertAdjacentHTML('beforeend','<div class="' + _this.classes.overlay + ' ' + sidebarOpen + '"></div>');
 			}
 		} else if (_this.settings.layout === 'collapse')  {
-			_this.cloneNavigation($body.find('.' + _this.classes.collapse), $navigation)
+			let $collapse = document.getElementsByClassName(_this.classes.collapse);
+			_this.cloneNavigation($collapse, $container.querySelector('.' + _this.classes.container))
 		}
+
+		this.isInit = true;
 	}
 
 	toggle (callback) {
-		let _this = this,
-			$body = $('body'),
-			$document = $(document),
-			$toggle_a = $(_this.classes.container).find('li a'),
-			$toggle_hamburger = $(_this.container).find('.' + _this.classes.hamburger),
-			$navigation = $(_this.classes.container);
+		if (!this.isInit) return false;
 
+		let _this = this,
+			$container = document.querySelector(_this.container),
+			$navigation = document.querySelectorAll('.' + _this.classes.container),
+			$click_a = document.querySelectorAll('.' + _this.classes.container + ' li > a'),
+			$click_hamburger = $container.querySelector('.' + _this.classes.hamburger),
+			$click_overlay = document.querySelector('.' + _this.classes.overlay),
+			$click_dismiss = document.querySelector('[data-dismiss=vg-nav-sidebar]');
+
+		// Функция обратного вызова после инициализации скрипта
 		if (callback && 'afterInit' in callback) {
 			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
 		}
 
-		$document.on('click', '.' + _this.classes.container + ' li.dropdown a', function () {
-			if (_this.clickable()) return;
+		$click_a.forEach(function (elem) {
+			elem.onclick = function (event) {
+				if (_this.clickable()) return;
 
-			let $_self = $(this),
-				$li = $_self.parent('li');
+				let $_self = this,
+					$li = $_self.closest('li');
 
-			$('.dropdown-mega').removeClass('show');
+				clickBefore(callback, _this, event)
 
-			if ($li.parent('ul').hasClass(_this.classes.container)) {
-				let $lvl = $navigation.find('.show');
+				// Открываем обычное меню
+				if ($li.classList.contains('dropdown')) {
+					_this.dispose($navigation, 'dropdown-mega');
 
-				if ($lvl.hasClass('current')) $lvl.removeClass('show');
+					if ($li.closest('ul').classList.contains(_this.classes.container)) {
+						if (!$li.classList.contains('show')) {
+							_this.dispose($navigation);
+							$li.classList.add('show');
+						} else {
+							$li.classList.remove('show');
+						}
 
-				if (!$li.hasClass('current')) {
-					$li.addClass('show').addClass('current');
-					$lvl.removeClass('current');
-				} else {
-					$li.removeClass('show').removeClass('current');
-				}
+						clickAfter(callback, _this, event)
 
-				return false;
-			} else {
-				if ($li.hasClass('show')) {
-					$_self.parent('li').removeClass('show');
-					if ($li.parent('ul').hasClass(_this.classes.container)) {
-						$navigation.find('.show').removeClass('show');
-					}
-				} else {
-					if ($_self.parent('li').children('ul').length > 0) {
-						$_self.parent('li').addClass('show');
 						return false;
+
+					} else  {
+						if ($li.classList.contains('show')) {
+							$_self.closest('li').classList.remove('show');
+							_this.dispose($li);
+
+							clickAfter(callback, _this, event)
+
+							return false;
+						} else {
+							let $ul, $children = $li.children;
+
+							for (let i = 1; i <= $children.length; i++) {
+								if ($children[i - 1].tagName === 'UL') {
+									$ul = $children[i - 1];
+								}
+							}
+
+							if ($children.length > 0) {
+								$_self.closest('li').classList.add('show');
+
+								// Функция обратного вызова после клика по ссылке
+								clickAfter(callback, _this, event)
+
+								return false;
+							}
+						}
 					}
 				}
+
+				// Открываем мега меню
+				if ($li.classList.contains('dropdown-mega')) {
+					if ($li.classList.contains('show')) {
+						$li.classList.remove('show');
+					} else {
+						_this.dispose($navigation);
+
+						$li.classList.add('show');
+					}
+
+					clickAfter(callback, _this, event)
+
+					return false;
+				}
+
+				clickAfter(callback, _this, event);
 			}
 		});
 
-		$document.on('click', '.' + _this.classes.container + ' li.dropdown-mega a', function () {
-			if (_this.clickable()) return;
-
-			let $_self = $(this),
-				$li = $_self.parent('li');
-
-			if ($li.hasClass('show')) {
-				$li.removeClass('show');
-			} else {
-				$navigation.find('.show').removeClass('show').removeClass('current');
-				$li.addClass('show');
-			}
-
-			return false;
-		});
-
-		$document.on('click', '.' + _this.classes.container + ' li.dropdown a', function () {
-			if (callback && 'afterClick' in callback) {
-				if (typeof callback.afterClick === 'function') callback.afterClick(_this, this)
+		// Закрываем меню, если кликнули по экрану
+		window.addEventListener('mouseup', e => {
+			if (!e.target.closest('.' + _this.classes.container)) {
+				_this.dispose($navigation);
+				_this.dispose($navigation, 'dropdown-mega');
 			}
 		});
 
-		$toggle_hamburger.on('click', function () {
-			$(_this.container).find('.' + _this.classes.hamburger).toggleClass('show');
+		// Открываем, закрываем боковую панель или выпадающий список
+		$click_hamburger.onclick = function () {
+			let $_self = this;
+
+			$_self.classList.toggle('show');
 
 			if (_this.settings.layout === 'sidebar') {
-				$body.find('.' + _this.classes.sidebar).toggleClass('show');
-				$body.find('.' + _this.classes.overlay).toggleClass('show');
+				document.getElementsByClassName(_this.classes.sidebar)[0].classList.toggle('show');
+				document.getElementsByClassName(_this.classes.overlay)[0].classList.toggle('show');
 
-				if(!$body.hasClass('vg-sidebar-open')) {
+				if (!document.body.classList.contains('vg-nav-sidebar-open')) {
 					let width_scrollbar = window.innerWidth - document.documentElement.clientWidth;
-					$body.addClass('vg-sidebar-open').css('padding-right', width_scrollbar);
+
+					document.body.classList.add('vg-nav-sidebar-open');
+					document.body.style.paddingRight = width_scrollbar + 'px';
 				} else {
-					$body.removeClass('vg-sidebar-open').css('padding-right', 0);
+					document.body.classList.remove('vg-nav-sidebar-open');
+					document.body.style.paddingRight = 0;
 				}
 			} else if (_this.settings.layout === 'collapse') {
-				$body.find('.' +  _this.classes.collapse).toggleClass('show');
+				document.getElementsByClassName(_this.classes.collapse)[0].classList.toggle('show');
 			}
 
 			return false;
-		});
-
-		if (_this.settings.hover) {
-			$toggle_a.hover(function () {
-				if (callback && 'afterHover' in callback) {
-					if (typeof callback.afterHover === 'function') callback.afterHover(_this, this)
-				}
-			});
 		}
 
-		_this.dispose();
-	}
+		// Альтернативы закрытию боковой папнели
+		$click_overlay.onclick = () => { closeSidebar() };
+		$click_dismiss.onclick = () => { closeSidebar() };
 
-	dispose () {
-		let _this = this,
-			$body = $('body'),
-			$document = $(document),
-			$navigation = $(_this.container).children('ul');
+		function clickBefore(callback, $this, event) {
+			// Функция обратного вызова клика по ссылке до начала анимации
+			if (callback && 'beforeClick' in callback) {
+				if (typeof callback.beforeClick === 'function') callback.beforeClick($this, event)
+			}
+		}
 
-		$document.on('click', '.' + _this.classes.overlay + ', [data-dismiss=vg-nav-sidebar]', function () {
-			$body.find('.' + _this.classes.hamburger).removeClass('show');
+		function clickAfter(callback, $this, event) {
+			// Функция обратного вызова клика по ссылке после показа анимации
+			if (callback && 'afterClick' in callback) {
+				if (typeof callback.afterClick === 'function') callback.afterClick($this, event)
+			}
+		}
+
+		function closeSidebar () {
+			let hamburger = document.getElementsByClassName(_this.classes.hamburger);
+			if (hamburger.length) {
+				hamburger[0].classList.remove('show');
+			}
 
 			if (_this.settings.layout === 'sidebar') {
-				$body.find('.' + _this.classes.sidebar).removeClass('show');
-				$body.find('.' + _this.classes.overlay).removeClass('show');
+				let sidebar = document.getElementsByClassName(_this.classes.sidebar),
+					overlay = document.getElementsByClassName(_this.classes.overlay);
 
-				if($body.hasClass('vg-sidebar-open')) {
-					$body.removeClass('vg-sidebar-open').css('padding-right', 0);
+				if (sidebar && overlay) {
+					sidebar[0].classList.remove('show');
+					overlay[0].classList.remove('show');
 				}
+
+				if(document.body.classList.contains('vg-nav-sidebar-open')) {
+					document.body.classList.remove('vg-nav-sidebar-open');
+					document.body.style.paddingRight = 0;
+				}
+
+				_this.dispose($navigation);
+				_this.dispose($navigation, 'dropdown-mega');
 			} else if (_this.settings.layout === 'collapse') {
-				$body.find('.' + _this.classes.collapse).removeClass('show');
+				document.getElementsByClassName(_this.classes.collapse)[0].classList.remove('show');
 			}
 
 			return false;
-		});
+		}
+	}
 
-		$document.mouseup(function (e) {
-			let container = $('.' + _this.classes.container);
-			if (container.has(e.target).length === 0) {
-				$navigation.find('.show').removeClass('show').removeClass('current');
+	dispose ($container, className = 'dropdown') {
+		let elements;
+
+		for (let i = 1; i <= $container.length; i++) {
+			elements = $container[i - 1].getElementsByClassName(className);
+
+			hideElements(elements);
+		}
+
+		function hideElements (el) {
+			if (el) {
+				for (let i = 1; i <= el.length; i++) {
+					if (el[i - 1].classList.contains('show')) {
+						el[i - 1].classList.remove('show');
+					}
+				}
 			}
-		});
+		}
 	}
 
 	cloneNavigation ($target_clone, $navigation) {
-		let navigation = $navigation.clone().addClass(this.classes.cloned);
-		$target_clone.append(navigation);
-	}
-
-	setWidthToSidebar (inner_width, width) {
-		let $sb = $('.' + this.classes.sidebar);
-
-		// xl
-		if (inner_width >= this.breakpoints.min.xl && width.xl) {
-			$sb.css('width', width.xl).css('right', '-' + width.xl);
-		}
-
-		// lg
-		if (inner_width < this.breakpoints.min.xl && inner_width >= this.breakpoints.min.lg && width.lg) {
-			$sb.css('width', width.lg).css('right', '-' + width.lg);
-		}
-
-		// md
-		if (inner_width < this.breakpoints.min.lg && inner_width >= this.breakpoints.min.md && width.md) {
-			$sb.css('width', width.md).css('right', '-' + width.md);
-		}
-
-		// sm
-		if (inner_width < this.breakpoints.min.md && inner_width >= this.breakpoints.min.sm && width.sm) {
-			$sb.css('width', width.sm).css('right', '-' + width.sm);
-		}
-
-		// xs
-		if (inner_width < this.breakpoints.min.sm && width.xs) {
-			$sb.css('width', width.xs).css('right', '-' + width.xs);
-		}
+		let clone_navigation = $navigation.cloneNode(true);
+		clone_navigation.classList.add(this.classes.cloned);
+		$target_clone[0].appendChild(clone_navigation);
 	}
 
 	clickable () {
-		if ($(this.container).hasClass(this.classes.hover)) {
+		let $container = document.querySelector(this.container);
+
+		if ($container.classList.contains(this.classes.hover)) {
 			return this.checkResponsiveClass();
 		} else {
 			return false;
@@ -296,15 +326,17 @@ class VGNav {
 	};
 
 	checkResponsiveClass() {
-		if ($(this.container).hasClass(this.classes.XL)) {
+		let $container = document.querySelector(this.container);
+
+		if ($container.classList.contains(this.classes.XL)) {
 			this.current_responsive_size = this.breakpoints.max.xl;
-		} else if ($(this.container).hasClass(this.classes.LG)) {
+		} else if ($container.classList.contains(this.classes.LG)) {
 			this.current_responsive_size = this.breakpoints.max.lg;
-		} else if ($(this.container).hasClass(this.classes.MD)) {
+		} else if ($container.classList.contains(this.classes.MD)) {
 			this.current_responsive_size = this.breakpoints.max.md;
-		} else if ($(this.container).hasClass(this.classes.SM)) {
+		} else if ($container.classList.contains(this.classes.SM)) {
 			this.current_responsive_size = this.breakpoints.max.sm;
-		} else if ($(this.container).hasClass(this.classes.XS)) {
+		} else if ($container.classList.contains(this.classes.XS)) {
 			this.current_responsive_size = this.breakpoints.max.xs;
 		} else {
 			this.current_responsive_size = this.breakpoints.max.xs;

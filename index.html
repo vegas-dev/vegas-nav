@@ -30,8 +30,8 @@
 					</div>
 					<div class="col-md-9 col-4 d-flex align-items-center">
 						<div class="navigation">
-							<nav id="vgMenu" class="vg-nav">
-								<ul>
+							<nav class="vg-nav">
+								<ul class="vg-nav-main-container">
 									<li class="active">
 										<a href="/">Home page</a>
 									</li>
@@ -129,14 +129,32 @@
 				</code>
 				<p class="mt-3">or download <a href="https://github.com/vegas-dev/vegas-nav/archive/master.zip">here</a></p>
 				
-				<h3 class="mt-4">Dependencies</h3>
-				<p class="mt-3">jQuery >= 3</p>
+				<h3 class="mt-4">Attention</h3>
+				<p class="mt-3">The script is initialized once</p>
 				
 				<h3 class="mt-4">Usage</h3>
 				<h5>HTML markup</h5>
-				<pre><code class="hljs html">
-&lt;nav id="myNav" class="vg-nav"&gt;
-    &lt;ul&gt;
+				<p class="mt-3">Обязательные классы:</p>
+				<ul>
+					<li>
+						<code>.vg-nav</code> - Основной класс скрипта
+					</li>
+					<li>
+						<code>.vg-nav-main-container</code> - Корневой уровень навигации
+					</li>
+				</ul>
+				<p class="mt-3">Вспомогательные классы:</p>
+				<ul>
+					<li>
+						<code>.dropdown</code> - Выпадающий список меню
+					</li>
+					<li>
+						<code>.dropdown-mega</code> - Выпадающее большое меню
+					</li>
+				</ul>
+				<p class="mt-3">Разметка:</p>
+				<pre><code class="hljs html">&lt;nav class="vg-nav"&gt;
+    &lt;ul class="vg-nav-main-container"&gt;
         &lt;li class="active"&gt;&lt;a href="/"&gt;Home page&lt;/a&gt;&lt;/li&gt;
 		&lt;li class="dropdown"&gt;
             &lt;a href="#"&gt;Left dropdown&lt;/a&gt;
@@ -157,27 +175,22 @@
             &lt;/ul&gt;
         &lt;/li&gt;
     &lt;/ul&gt;
-&lt;/nav&gt;
-				</code></pre>
+&lt;/nav&gt;</code></pre>
 				
-				<h5 class="mt-3">JQuery init</h5>
-				<pre><code class="hljs javascript">
-$(document).ready(function () {
+				<h5 class="mt-3">Init</h5>
+				<pre><code class="hljs javascript">$(document).ready(function () {
 	let navSetting = {
 		expand: 'md', // or xl, lg, sm, xs
 		layout: 'sidebar', // or collapse
 		hover: false, // now use click
 		toggle: '&lt;span class="default"&gt;&lt;/span&gt;', //pointer arrow customization, example: &lt;i class="fa fa-chevron-down"&gt;&lt;/i&gt;
 		sidebar: {
-			placement: 'right',
-			width: 250
+			placement: 'right'
 		}
 	}
 
-	let vg_nav = new VGNav('#myNav', navSetting);
-	vg_nav.toggle()
-});
-				</code></pre>
+	new VGNav(navSetting).toggle()
+});</code></pre>
 
 				<h3 class="mt-4">License</h3>
 				<p>Is published under the <a href="http://www.opensource.org/licenses/mit-license" target="_blank">MIT license</a></p>
@@ -196,18 +209,17 @@ $(document).ready(function () {
 	<script src="https://vegas-dev.github.io/vegas-nav/dist/js/vgnav.min.js"></script>
 	<script>
 		hljs.initHighlightingOnLoad();
-		
-		$(document).ready(function () {
-			let navSetting = {
-				expand: 'md'
-			}
 
-			let vg_nav = new VGNav('#vgMenu', navSetting);
-			vg_nav.toggle()
-		});
+		let navSetting = {
+			expand: 'lg',
+			layout: 'sidebar'
+		}
+
+		let vg_nav = new VGNav(navSetting);
+		vg_nav.toggle();
 	</script>
 	
-	<!-- Yandex.Metrika counter -->
+	<!-- Yandex.Metrika counter
 	<script type="text/javascript" >
 		(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
 			m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
@@ -220,7 +232,7 @@ $(document).ready(function () {
 			webvisor:true
 		});
 	</script>
-	<noscript><div><img src="https://mc.yandex.ru/watch/60710371" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+	<noscript><div><img src="https://mc.yandex.ru/watch/60710371" style="position:absolute; left:-9999px;" alt="" /></div></noscript> -->
 	<!-- /Yandex.Metrika counter -->
 </body>
 </html>

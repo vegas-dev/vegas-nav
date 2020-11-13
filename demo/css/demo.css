@@ -4,6 +4,10 @@ body {
 	font-family: Roboto, sans-serif;
 }
 
+ul, ol {
+	list-style: none;
+}
+
 .wrapper {
 	width: 1400px;
 	margin: 15px auto;
