@@ -1,7 +1,7 @@
 "use strict";
 
-class VGNav {
-  constructor(arg) {
+module.exports = class VGNav {
+  constructor(arg, callback) {
     this.settings = Object.assign({
       expand: 'lg',
       layout: 'sidebar',
@@ -12,6 +12,7 @@ class VGNav {
         clone: null
       }
     }, arg);
+    this.callback = callback;
     this.breakpoints = {
       max: {
         xl: 1921,
@@ -124,6 +125,7 @@ class VGNav {
     }
 
     this.isInit = true;
+    this.toggle(this.callback);
   }
 
   toggle(callback) {
@@ -352,4 +354,4 @@ class VGNav {
     return window.innerWidth >= this.current_responsive_size;
   }
 
-}
+};
