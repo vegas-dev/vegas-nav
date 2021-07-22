@@ -1,12 +1,13 @@
 "use strict";
 
-module.exports = class VGNav {
+class VGNav {
   constructor(arg, callback) {
     this.settings = Object.assign({
       expand: 'lg',
       layout: 'sidebar',
       isHover: false,
       toggle: '<span class="default"></span>',
+      mobileTitle: '',
       sidebar: {
         placement: 'right',
         clone: null
@@ -78,7 +79,13 @@ module.exports = class VGNav {
     var responsive_class = $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS);
 
     if (responsive_class) {
-      $container.insertAdjacentHTML('afterbegin', '<a href="#" class="' + _this.classes.hamburger + '"><span></span><span></span><span></span></a>');
+      var mTitle = '';
+
+      if (_this.settings.mobileTitle) {
+        mTitle = '<span class="' + _this.classes.hamburger + '--title">' + _this.settings.mobileTitle + '</span>';
+      }
+
+      $container.insertAdjacentHTML('afterbegin', '<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span></a>');
     } // Слои мобильной навигации
 
 
@@ -354,4 +361,4 @@ module.exports = class VGNav {
     return window.innerWidth >= this.current_responsive_size;
   }
 
-};
+}

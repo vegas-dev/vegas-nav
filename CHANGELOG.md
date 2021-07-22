@@ -1,3 +1,6 @@
+# VEGAS-NAV 2.0.3 (JULY 22, 2021)
+* Added heading for mobile navigation. Specify in the settings {mobileTitle: 'Navigation'}
+
 # VEGAS-NAV 2.0.0 (NOVEMBER 09, 2020)
 * Changed plugin markup, see documentation
 * Added callbacks
