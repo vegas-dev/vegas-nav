@@ -396,35 +396,43 @@ body {
 
 .vg-nav-hamburger {
 	display: none;
+	height: $hamburger-lines-height;
+	width: $hamburger-lines-width;
 
 	&--lines {
-		width: 35px;
-		height: 35px;
-		position: relative;
-		display: inline-block;
+		--line-width: #{$hamburger-lines-width};
+		--line-height: #{$hamburger-line-height};
+		--line-indent-top: #{$hamburger-line-top};
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--line-width);
+		height: $hamburger-lines-height;
+		position: absolute;
+		top: calc(50% - (#{$hamburger-lines-height} / 2));
+		left: 0;
 
 		span {
+			background-color: $hamburger-line-color;
+			height: var(--line-height);
+			width: var(--line-width);
+			right: 0;
 			cursor: pointer;
 			border-radius: 2px;
-			height: 3px;
-			width: 35px;
-			background: rgba(0, 0, 0, .7);
 			position: absolute;
 			display: block;
-			transition: $transition;
+			transition: all 0.4s ease;
 			transform: rotate(0);
 			opacity: 1;
 
 			&:first-child {
-				top: 3px;
+				top: 0;
 			}
-
 			&:nth-child(2) {
-				top: 13px;
+				top: calc(var(--line-height) + var(--line-indent-top));
 			}
-
-			&:last-child {
-				top: 23px;
+			&:nth-child(3) {
+				top: calc((var(--line-height) + var(--line-indent-top)) * 2)
 			}
 		}
 	}
@@ -438,7 +446,6 @@ body {
 		.vg-nav-hamburger--lines {
 			span {
 				&:first-child {
-					top: 13px;
 					opacity: 0;
 				}
 
@@ -448,7 +455,7 @@ body {
 
 				&:last-child {
 					transform: rotate(-45deg);
-					top: 13px;
+					top: 10px;
 				}
 			}
 		}

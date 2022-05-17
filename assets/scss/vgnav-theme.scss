@@ -57,16 +57,20 @@ a {
 /* hamburger*/
 .vg-nav-hamburger {
 	margin: 0;
+	text-align: center;
+	position: relative;
 
-	span {
-		&:first-child {
+	&--lines {
+		span {
+			&:first-child {
 
-		}
-		&:nth-child(2) {
+			}
+			&:nth-child(2) {
 
-		}
-		&:last-child {
+			}
+			&:last-child {
 
+			}
 		}
 	}
 }

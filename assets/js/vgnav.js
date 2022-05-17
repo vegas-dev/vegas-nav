@@ -367,3 +367,5 @@ class VGNav {
 		return window.innerWidth >= this.current_responsive_size;
 	}
 }
+
+export default VGNav;
