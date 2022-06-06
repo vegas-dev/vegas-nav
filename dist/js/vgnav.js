@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 class VGNav {
   constructor(arg, callback) {
     this.settings = Object.assign({
@@ -362,3 +367,6 @@ class VGNav {
   }
 
 }
+
+var _default = VGNav;
+exports.default = _default;

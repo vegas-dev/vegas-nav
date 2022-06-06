@@ -1,3 +1,6 @@
+# VEGAS-NAV 2.0.5 (MAY 18, 2022)
+* Export Public Api
+
 # VEGAS-NAV 2.0.3 (JULY 22, 2021)
 * Added heading for mobile navigation. Specify in the settings {mobileTitle: 'Navigation'}
 
