@@ -1,0 +1,194 @@
+@import "./option/variables";
+@import "./option/breakpoints";
+
+/**
+*--------------------------------------------------------------------------
+* Модуль: VGNav
+* Автор: Vegas DEV
+* Лицензия: смотри LICENSE.md
+*--------------------------------------------------------------------------
+**/
+
+.vg-nav {
+	--vg-nav-dropdown-width: #{$dropdown-width};
+	position: relative;
+	z-index: 100;
+	width: 100%;
+
+	> ul:not(.vg-nav-wrapper) {
+		display: none;
+	}
+
+
+	&-wrapper {
+		padding: 0;
+		margin: 0;
+		display: block;
+
+		li {
+			list-style: none;
+		}
+
+		> li {
+			display: inline-block;
+		}
+
+		span.toggle {
+			transition: $transition;
+			transform: rotate(0);
+
+			span {
+				&.default {
+					border-top: .3em solid;
+					border-right: .3em solid transparent;
+					border-bottom: 0;
+					border-left: .3em solid transparent;
+					width: 0;
+					height: 0;
+					transition: $transition;
+					transform: rotate(0);
+					display: inline-block;
+					margin-left: .355em;
+					vertical-align: .255em;
+				}
+			}
+		}
+
+		.dropdown {
+			position: relative;
+
+			ul {
+				padding: 0;
+			}
+
+			> ul {
+				transition: $transition;
+				position: absolute;
+				top: 120%;
+				opacity: 0;
+				visibility: hidden;
+				width: var(--vg-nav-dropdown-width);
+
+				.left {
+					left: 0;
+				}
+
+				.right {
+					right: 0;
+				}
+
+				ul {
+					transition: $transition;
+					position: absolute;
+					top: 20%;
+					opacity: 0;
+					visibility: hidden;
+					width: var(--vg-nav-dropdown-width);
+				}
+
+				.dropdown {
+					ul.left {
+						left: 100%;
+					}
+
+					ul.right {
+						right: 100%;
+					}
+
+					&.show > ul {
+						visibility: visible;
+						opacity: 1;
+						top: 0;
+					}
+				}
+			}
+
+			&.show {
+				> ul {
+					visibility: visible;
+					opacity: 1;
+					top: 100%;
+				}
+
+				> a span.toggle {
+					.default {
+						transform: rotate(-180deg);
+					}
+				}
+			}
+		}
+
+		.dropdown-mega {
+			.dropdown-mega-container {
+				transition: all 0.4s ease;
+				position: absolute;
+				top: 120%;
+				opacity: 0;
+				visibility: hidden;
+				left: 0;
+				width: 100%;
+				min-height: 300px;
+			}
+
+			&.show {
+				> a span.toggle {
+					transform: rotate(-180deg);
+				}
+
+				> .dropdown-mega-container {
+					visibility: visible;
+					opacity: 1;
+					top: 100%;
+				}
+			}
+		}
+
+		&.vg-nav-cloned {
+			@import "cloned";
+		}
+	}
+
+	&-hover {
+		@import "./hover";
+	}
+
+	&-hamburger {
+		--vg-hamburger-line-width:      #{$hamburger-line-width};
+		--vg-hamburger-line-height:     #{$hamburger-line-height};
+		--vg-hamburger-line-indent-top: #{$hamburger-line-indent-top};
+		--vg-hamburger-line-color:      #{$hamburger-line-color};
+		display: none;
+		align-items: flex-start;
+
+		@import "hamburger";
+	}
+}
+
+@each $breakpoint in map-keys($nav-breakpoints) {
+	@include media-breakpoint-down($breakpoint, $nav-breakpoints) {
+		.vg-nav-#{$breakpoint} {
+			.vg-nav-hamburger {
+				display: flex;
+			}
+
+			> ul {
+				display: none;
+			}
+		}
+	}
+}
+
+.vg-nav-xxl {
+	.vg-nav-hamburger {
+		display: flex;
+	}
+
+	> ul {
+		display: none;
+	}
+}
+
+/**
+* Sidebar нам пригодится
+**/
+@import '../../VGSidebar/scss/VGSidebar.scss';

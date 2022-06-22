@@ -1,5 +1,5 @@
 /**
-* VG NAV THEME
+* VGNav THEME
 * only css
 **/
 
@@ -17,6 +17,7 @@ a {
 	display: block;
 	color: #232323;
 	text-decoration: none;
+	background-color: white;
 }
 
 .vg-nav > ul > li.active a, .vg-nav > ul > li a:hover {
@@ -52,27 +53,6 @@ a {
 	border: 1px solid rgba(0, 0, 0, .1);
 	box-shadow: 0 4px 7px rgba(0, 0, 0, .15);
 	padding: 15px;
-}
-
-/* hamburger*/
-.vg-nav-hamburger {
-	margin: 0;
-	text-align: center;
-	position: relative;
-
-	&--lines {
-		span {
-			&:first-child {
-
-			}
-			&:nth-child(2) {
-
-			}
-			&:last-child {
-
-			}
-		}
-	}
 }
 
 /* sidebar, collapse */

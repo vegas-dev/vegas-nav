@@ -1,0 +1,34 @@
+.vg-sidebar {
+	&-content {
+		background: white;
+	}
+
+	&-header {
+		width: 100%;
+		padding: 15px;
+		border-bottom: 1px solid #cccccc;
+
+		.vg-sidebar-title {
+			position: relative;
+			font-weight: 600;
+			font-size: 18px;
+			margin: 0;
+		}
+	}
+
+	&-body {
+		width: 100%;
+		height: calc(100% - 52px);
+		overflow-y: auto;
+		padding: 15px;
+		font-size: 14px;
+	}
+
+	&-close {
+		position: absolute;
+		right: 0;
+		top: 0;
+		text-decoration: none !important;
+		font-weight: 300;
+	}
+}

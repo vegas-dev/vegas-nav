@@ -1,0 +1,18 @@
+$dropdown-width: 200px;
+
+$hamburger-height: 27px;
+$hamburger-line-width: 35px;
+$hamburger-line-color: #333333;
+$hamburger-line-height: 3px;
+$hamburger-line-indent-top: 7px;
+
+$transition: all 0.4s ease;
+
+// xxl от 0 до бесконечности
+$nav-breakpoints: (
+		xs: 576px,
+		sm: 768px,
+		md: 992px,
+		lg: 1200px,
+		xl: 1400px,
+) !default;
