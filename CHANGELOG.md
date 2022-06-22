@@ -1,6 +1,9 @@
-# VEGAS-NAV 3.0.0 (JUNE 22, 2022)
+# VEGAS-NAV 3.0.5 (JUNE 22, 2022)
+* bugs fixed
+
+* # VEGAS-NAV 3.0.0 (JUNE 22, 2022)
 * Completely rewritten, bugs fixed.
-  Added VGSidebar and VGSpy plugin
+* Added VGSidebar and VGSpy plugin
 
 # VEGAS-NAV 2.0.5 (MAY 18, 2022)
 * Export Public Api

@@ -1,6 +1,6 @@
 {
 	"name": "vgnav",
-	"version": "3.0.0",
+	"version": "3.0.5",
 	"description": "Just easy site navigation",
 	"author": {
 		"name": "Vegas Studio",
@@ -16,14 +16,14 @@
 		"css3",
 		"html5"
 	],
-	"license": "SEE LICENSE IN LICENSE.md",
+	"license": "SEE LICENSE.md",
 	"homepage": "https://vegas-dev.com/",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/vegas-dev/ui.git"
+		"url": "git+https://github.com/vegas-dev/vegas-nav.git"
 	},
 	"bugs": {
-		"url": "https://github.com/vegas-dev/vegas-sidebar/issues"
+		"url": "https://github.com/vegas-dev/vegas-nav/issues"
 	},
 	"main": "dist/js/vgapp.js",
 	"module": "dist/js/vgapp.esm.js",
@@ -66,16 +66,12 @@
 	"hugo-bin": {
 		"buildTags": "extended"
 	},
-	"files": [
-		"dist/{css,js}/*.{css,js,map}",
-		"sources/js/**/*.{js,map}",
-		"sources/scss/**/*.scss"
-	],
 	"browserslist": [
 		">0.2%",
 		"not dead",
 		"not op_mini all"
 	],
+
 	"watch": {
 		"build:css": {
 			"patterns": [
