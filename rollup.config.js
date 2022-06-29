@@ -11,7 +11,7 @@ import filesize from "rollup-plugin-filesize";
 import pkg from "./package.json";
 
 const config = [];
-const files = ["VGNav", "VGSidebar", "VGSpy"];
+const files = ["VGNav", "VGSidebar"];
 
 for (const file_name of files) {
 	let input_file;
@@ -40,7 +40,7 @@ for (const file_name of files) {
 			eslint(),
 			replace({ __VERSION__: pkg.version, preventAssignment: true }),
 			terser(),
-			banner(`@vegas-dev/apps/${file_name} v${pkg.version}`),
+			banner(`@vegas-${file_name} v${pkg.version}`),
 			filesize({ showMinifiedSize: false }),
 		],
 	});
@@ -67,7 +67,7 @@ for (const file_name of files) {
 			eslint(),
 			replace({ __VERSION__: pkg.version, preventAssignment: true }),
 			terser(),
-			banner(`@vegas-dev/apps/${file_name} v${pkg.version}`),
+			banner(`@vegas-${file_name} v${pkg.version}`),
 			filesize({ showMinifiedSize: false }),
 		],
 	});

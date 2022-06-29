@@ -1,3 +1,6 @@
+# VEGAS-NAV 3.0.6 (JUNE 29, 2022)
+* VGSpy removed from this project
+
 # VEGAS-NAV 3.0.5 (JUNE 22, 2022)
 * bugs fixed
 
