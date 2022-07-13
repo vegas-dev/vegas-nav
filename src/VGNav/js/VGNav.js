@@ -164,78 +164,80 @@ class VGNav {
 			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
 		}
 
-		$click_a.forEach(function (elem) {
-			elem.onclick = function (event) {
-				if (_this.clickable()) return false;
+		if (!_this.settings.isHover) {
+			$click_a.forEach(function (elem) {
+				elem.onclick = function (event) {
+					if (_this.clickable()) return false;
 
-				let $_self = this,
-					$li = $_self.closest('li');
+					let $_self = this,
+						$li = $_self.closest('li');
 
-				clickBefore(callback, _this, event);
+					clickBefore(callback, _this, event);
 
-				// Открываем обычное меню
-				if ($li.classList.contains('dropdown')) {
-					_this.dispose($navigation, 'dropdown-mega');
+					// Открываем обычное меню
+					if ($li.classList.contains('dropdown')) {
+						_this.dispose($navigation, 'dropdown-mega');
 
-					if ($li.closest('ul').classList.contains(_this.classes.container)) {
-						if (!$li.classList.contains('show')) {
-							_this.dispose($navigation);
-							$li.classList.add('show');
-						} else {
+						if ($li.closest('ul').classList.contains(_this.classes.container)) {
+							if (!$li.classList.contains('show')) {
+								_this.dispose($navigation);
+								$li.classList.add('show');
+							} else {
+								$li.classList.remove('show');
+							}
+
+							clickAfter(callback, _this, event)
+
+							return false;
+
+						} else  {
+							if ($li.classList.contains('show')) {
+								$_self.closest('li').classList.remove('show');
+								_this.dispose($li);
+
+								clickAfter(callback, _this, event)
+
+								return false;
+							} else {
+								let $ul, $children = $li.children;
+
+								for (let i = 1; i <= $children.length; i++) {
+									if ($children[i - 1].tagName === 'UL') {
+										$ul = $children[i - 1];
+									}
+								}
+
+								if ($children.length > 0) {
+									$_self.closest('li').classList.add('show');
+
+									// Функция обратного вызова после клика по ссылке
+									clickAfter(callback, _this, event)
+
+									return false;
+								}
+							}
+						}
+					}
+
+					// Открываем мега меню
+					if ($li.classList.contains('dropdown-mega')) {
+						if ($li.classList.contains('show')) {
 							$li.classList.remove('show');
+						} else {
+							_this.dispose($navigation);
+
+							$li.classList.add('show');
 						}
 
 						clickAfter(callback, _this, event)
 
 						return false;
-
-					} else  {
-						if ($li.classList.contains('show')) {
-							$_self.closest('li').classList.remove('show');
-							_this.dispose($li);
-
-							clickAfter(callback, _this, event)
-
-							return false;
-						} else {
-							let $ul, $children = $li.children;
-
-							for (let i = 1; i <= $children.length; i++) {
-								if ($children[i - 1].tagName === 'UL') {
-									$ul = $children[i - 1];
-								}
-							}
-
-							if ($children.length > 0) {
-								$_self.closest('li').classList.add('show');
-
-								// Функция обратного вызова после клика по ссылке
-								clickAfter(callback, _this, event)
-
-								return false;
-							}
-						}
-					}
-				}
-
-				// Открываем мега меню
-				if ($li.classList.contains('dropdown-mega')) {
-					if ($li.classList.contains('show')) {
-						$li.classList.remove('show');
-					} else {
-						_this.dispose($navigation);
-
-						$li.classList.add('show');
 					}
 
-					clickAfter(callback, _this, event)
-
-					return false;
+					clickAfter(callback, _this, event);
 				}
-
-				clickAfter(callback, _this, event);
-			}
-		});
+			});
+		}
 
 		// Закрываем меню, если кликнули по экрану
 		window.addEventListener('mouseup', e => {
