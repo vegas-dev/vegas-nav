@@ -12,97 +12,156 @@
 	<!-- VGNav -->
 	<link href="/dist/vgnav.css" rel="stylesheet">
 	<link href="/demo/css/vgnav-theme.css" rel="stylesheet">
+	<link href="demo/css/style.css" rel="stylesheet">
 </head>
 <body>
-<main class="main">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-4">
-				<div class="logo mb-4">VEGAS DEV</div>
-			</div>
-			<div class="col-lg-8">
-				<header class="header">
-					<nav class="vg-nav">
-						<ul class="vg-nav-wrapper">
-							<li class="active">
-								<a href="/">Home page</a>
-							</li>
-							<li class="dropdown">
-								<a href="#">Left dropdown</a>
-								<ul class="left">
-									<li><a href="/">Any page</a></li>
-									<li class="dropdown">
-										<a href="#">Second level</a>
-										<ul class="left">
-											<li><a href="/">Another page</a></li>
-											<li><a href="/">Any page</a></li>
-											<li class="dropdown">
-												<a href="#">Third level</a>
-												<ul class="left">
-													<li><a href="/">Any page</a></li>
-													<li><a href="/">Another page</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-									<li><a href="/">Another page</a></li>
-								</ul>
-							</li>
-							<li class="dropdown-mega">
-								<a href="/">Mega Menu</a>
-								<div class="dropdown-mega-container">
-									<div class="row">
-										<div class="col-md-4 text-left">
-											Left
-										</div>
-										<div class="col-md-4 text-center">
-											Center
-										</div>
-										<div class="col-md-4 text-right">
-											Right
+<div class="wrapper">
+	<header class="header">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-4">
+					<div class="logo">
+						<a href="https://vegas-dev.com/" target="_blank">
+							<img src="https://vegas-dev.com/assets/_frontend/images/logo/logo.svg" alt="vegas dev">
+						</a>
+					</div>
+				</div>
+				<div class="col-lg-8">
+					<header class="header">
+						<nav class="vg-nav">
+							<ul class="vg-nav-wrapper">
+								<li class="active">
+									<a href="/">Home page</a>
+								</li>
+								<li class="dropdown">
+									<a href="#">Left dropdown</a>
+									<ul class="left">
+										<li><a href="/">Any page</a></li>
+										<li class="dropdown">
+											<a href="#">Second level</a>
+											<ul class="left">
+												<li><a href="/">Another page</a></li>
+												<li><a href="/">Any page</a></li>
+												<li class="dropdown">
+													<a href="#">Third level</a>
+													<ul class="left">
+														<li><a href="/">Any page</a></li>
+														<li><a href="/">Another page</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li><a href="/">Another page</a></li>
+									</ul>
+								</li>
+								<li class="dropdown-mega">
+									<a href="/">Mega Menu</a>
+									<div class="dropdown-mega-container">
+										<div class="row">
+											<div class="col-md-4 text-start">
+												Left
+											</div>
+											<div class="col-md-4 text-center">
+												Center
+											</div>
+											<div class="col-md-4 text-end">
+												Right
+											</div>
 										</div>
 									</div>
-								</div>
-							</li>
-							<li class="dropdown">
-								<a href="#">Right dropdown</a>
-								<ul class="right">
-									<li><a href="/">Any page</a></li>
-									<li class="dropdown">
-										<a href="#">Second level</a>
-										<ul class="right">
-											<li><a href="/">Another page</a></li>
-											<li><a href="/">Any page</a></li>
-											<li class="dropdown">
-												<a href="#">Third level</a>
-												<ul class="right">
-													<li><a href="/">Any page</a></li>
-													<li><a href="/">Another page</a></li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-									<li><a href="/">Another page</a></li>
-								</ul>
-							</li>
-						</ul>
-					</nav>
-				</header>
+								</li>
+								<li class="dropdown">
+									<a href="#">Right dropdown</a>
+									<ul class="right">
+										<li><a href="/">Any page</a></li>
+										<li class="dropdown">
+											<a href="#">Second level</a>
+											<ul class="right">
+												<li><a href="/">Another page</a></li>
+												<li><a href="/">Any page</a></li>
+												<li class="dropdown">
+													<a href="#">Third level</a>
+													<ul class="right">
+														<li><a href="/">Any page</a></li>
+														<li><a href="/">Another page</a></li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+										<li><a href="/">Another page</a></li>
+									</ul>
+								</li>
+							</ul>
+						</nav>
+					</header>
+				</div>
 			</div>
 		</div>
+	</header>
 
-	</div>
-</main>
+	<main class="main">
+		<div class="container">
+
+		</div>
+	</main>
+</div>
 
 <script src="/dist/vgnav.umd.js"></script>
 <script>
 	new VGNav({
 		expand: 'lg',
 		mobileTitle: 'Навигация',
+		hamburger: '<svg id="ham-menue" viewBox="0 0 100 100"><path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"></path><path class="line line2" d="M 20,50 H 80"></path><path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"></path></svg>'
 	});
-
-	let $sidebar = document.getElementById('vg-nav-sidebar').vgsidebar;
-	console.log($sidebar)
 </script>
+<style>
+	svg#ham-menue {
+		fill: white;
+		width: 50px;
+		height: 50px;
+		margin-left: 10px;
+		margin-right: 30px;
+	}
+
+	.line {
+		fill: none;
+		stroke: #333333;
+		stroke-width: 3;
+		transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1), stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.line1 {
+		stroke-dasharray: 60 207;
+		stroke-width: 3;
+	}
+
+	.line2 {
+		stroke-dasharray: 60 60;
+		stroke-width: 3;
+	}
+
+	.line3 {
+		stroke-dasharray: 60 207;
+		stroke-width: 3;
+	}
+
+	.vg-nav-hamburger.show .line1 {
+		stroke-dasharray: 90 207;
+		stroke-dashoffset: -134;
+		stroke-width: 3;
+	}
+
+	.vg-nav-hamburger.show .line2 {
+		stroke-dasharray: 1 60;
+		stroke-dashoffset: -30;
+		stroke-width: 3;
+	}
+
+	.vg-nav-hamburger.show .line3 {
+		stroke-dasharray: 90 207;
+		stroke-dashoffset: -134;
+		stroke-width: 3;
+	}
+</style>
 </body>
 </html>

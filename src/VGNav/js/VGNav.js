@@ -18,6 +18,7 @@ class VGNav {
 			placement: 'horizontal', // Расположение основной навигации. Либо она горизонтальная (horizontal), либо вертикальная (vertical)
 			isHover: false, // Выпадающее меню будет открываться при наведении если определено как true, или при клике если false
 			toggle: '<span class="default"></span>', // Кастомный переключатель для выпадающего списка
+			hamburger: null, // Кастомный мобильный гамбургер
 			mobileTitle: '', // Помимо иконки (с полосками), можно добавить заголовок, например: "Меню" или "Навигация"
 			sidebar: {
 				placement: 'right',
@@ -97,12 +98,18 @@ class VGNav {
 		let responsive_class = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS)
 
 		if (responsive_class) {
-			let mTitle = '';
+			let mTitle = '',
+				hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
+
 			if (_this.settings.mobileTitle) {
 				mTitle = '<span class="' + _this.classes.hamburger + '--title">'+ _this.settings.mobileTitle +'</span>';
 			}
 
-			$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span></a>');
+			if (_this.settings.hamburger !== null) {
+				hamburger = _this.settings.hamburger;
+			}
+
+			$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
 		}
 
 		// инит сайдбара

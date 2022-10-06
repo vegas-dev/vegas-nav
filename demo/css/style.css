@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+
+:root {
+	--vg-body-color: #111111;
+	--vg-body-bg: #ffffff;
+	--vg-body-fz: 1rem;
+	--vg-body-fw: 400;
+	--vg-body-lh: 1.5;
+	--vg-font-famaly: Nunito, sans-serif;
+	--vg-transition: all .5 ease;
+	--vg-link-color: #024465;
+	--vg-link-color-hover: #0284c5;
+	--vg-link-decoration: none;
+	--vg-link-decoration-hover: underline;
+}
+
+/**  **/
+body {
+	background-color: var(--vg-body-bg);
+	color: var(--vg-body-color);
+	font-family: var(--vg-font-famaly);
+	font-size: var(--vg-body-fz);
+	font-weight: var(--vg-body-fw);
+	line-height: var(--vg-body-lh);
+}
+
+a {
+	color: var(--vg-link-color);
+	text-decoration: var(--vg-link-color-hover);
+	transition: var(--vg-transition);
+}
+
+a:hover {
+	color: var(--vg-link-color-hover);
+	text-decoration: var(--vg-link-decoration-hover);
+}
+
+/** **/
+.header {
+	position: relative;
+}
