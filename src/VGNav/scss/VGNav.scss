@@ -69,11 +69,11 @@
 				visibility: hidden;
 				width: var(--vg-nav-dropdown-width);
 
-				.left {
+				&.left, .left {
 					left: 0;
 				}
 
-				.right {
+				&.right, .right {
 					right: 0;
 				}
 
