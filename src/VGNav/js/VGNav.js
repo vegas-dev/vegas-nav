@@ -20,6 +20,7 @@ class VGNav {
 			toggle: '<span class="default"></span>', // Кастомный переключатель для выпадающего списка
 			hamburger: null, // Кастомный мобильный гамбургер
 			mobileTitle: '', // Помимо иконки (с полосками), можно добавить заголовок, например: "Меню" или "Навигация"
+			move: false,
 			sidebar: {
 				placement: 'right',
 				clone: null,
@@ -144,6 +145,13 @@ class VGNav {
 					}
 				}
 			}
+		}
+
+		// Если меню слишком длинное переносим всё в дроп даун
+		if (_this.settings.move && responsive_class) {
+			let width_nav = $container.clientWidth;
+
+			console.log(width_nav);
 		}
 
 		this.isInit = true;
