@@ -168,11 +168,11 @@ class VGNav {
 					}
 				}
 
-				let remaining_links = $container.querySelectorAll('.vg-nav-wrapper > li');
-				movedLinks.unshift(remaining_links[remaining_links.length - 1]);
-				remaining_links[remaining_links.length - 1].remove();
-
 				if (width_all_links >= width_nav) {
+					let remaining_links = $container.querySelectorAll('.vg-nav-wrapper > li');
+					movedLinks.unshift(remaining_links[remaining_links.length - 1]);
+					remaining_links[remaining_links.length - 1].remove();
+
 					let $wrapper = $container.querySelector('.vg-nav-wrapper');
 
 					if ($wrapper) {
