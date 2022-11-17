@@ -315,14 +315,20 @@ class VGNav {
 				};
 
 			let $sidebar = new VGSidebar(target, options);
-			$sidebar.open({
-				beforeOpen: function () {
-					$_self.classList.add('show');
-				},
-				afterClose: function () {
-					$_self.classList.remove('show');
-				}
-			})
+
+			if ($_self.classList.contains('show')) {
+				$sidebar.close({
+					afterClose: function () {
+						$_self.classList.remove('show');
+					}
+				});
+			} else {
+				$sidebar.open({
+					beforeOpen: function () {
+						$_self.classList.add('show');
+					}
+				});
+			}
 
 			return false;
 		}
