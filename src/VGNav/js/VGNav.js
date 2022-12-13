@@ -47,6 +47,9 @@ class VGNav {
 		this.classes = {
 			container: 'vg-nav-wrapper',
 			sidebar: 'vg-sidebar',
+			sidebarContent: 'vg-sidebar-content',
+			sidebarHeader: 'vg-sidebar-header',
+			sidebarBody: 'vg-sidebar-body',
 			hamburger: 'vg-nav-hamburger',
 			cloned: 'vg-nav-cloned',
 			hover: 'vg-nav-hover',
@@ -217,6 +220,13 @@ class VGNav {
 			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
 		}
 
+		// Инициализируем сайдбар
+		let sidebarTarget = _this.sidebar,
+			sidebarOption = {
+				hash: _this.settings.sidebar.hash
+			},
+			$sidebar = new VGSidebar(sidebarTarget, sidebarOption);
+
 		if (_this.clickable()) {
 			$click_a.forEach(function (elem) {
 				elem.onclick = function (event) {
@@ -296,6 +306,14 @@ class VGNav {
 				_this.dispose($navigation);
 				_this.dispose($navigation, 'dropdown-mega');
 			}
+
+			if (e.target.classList.contains(_this.classes.sidebar)) {
+				$sidebar.close({
+					beforeClose: function () {
+						$click_hamburger.classList.remove('show');
+					}
+				});
+			}
 		});
 
 		if ($click_dismiss) {
@@ -308,27 +326,13 @@ class VGNav {
 
 		// если меню свернулось вызываем боковую панель
 		$click_hamburger.onclick = function () {
-			let $_self = this,
-				target = _this.sidebar,
-				options = {
-					hash: _this.settings.sidebar.hash
-				};
+			let $_self = this;
 
-			let $sidebar = new VGSidebar(target, options);
-
-			if ($_self.classList.contains('show')) {
-				$sidebar.close({
-					afterClose: function () {
-						$_self.classList.remove('show');
-					}
-				});
-			} else {
-				$sidebar.open({
-					beforeOpen: function () {
-						$_self.classList.add('show');
-					}
-				});
-			}
+			$sidebar.open({
+				beforeOpen: function () {
+					$_self.classList.add('show');
+				}
+			});
 
 			return false;
 		}

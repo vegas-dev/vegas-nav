@@ -1,3 +1,6 @@
+# VEGAS-NAV 3.1.5 (DECEMBER 13, 2022)
+* bugs fixed
+
 # VEGAS-NAV 3.1.1 (NOVEMBER 10, 2022)
 * automatic transfer of links to the drop-down menu if the total width of all links is greater than the main container. The "move" parameter has been introduced
 
