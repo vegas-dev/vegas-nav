@@ -131,7 +131,7 @@ class VGNav {
 
 				document.body.insertAdjacentHTML('beforeend','<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '" id="'+ _this.sidebar +'" '+ historyState +'>' +
 					'<div class="vg-sidebar-content">' +
-					'<div class="vg-sidebar-header">'+ mTitle +'<div class="' + _this.classes.sidebar + '-close" data-dismiss="' + _this.classes.sidebar +'">&times;</div></div>' +
+					'<div class="vg-sidebar-header">'+ mTitle +'<div class="' + _this.classes.sidebar + '-close" data-dismiss="' + _this.sidebar +'">&times;</div></div>' +
 					'<div class="vg-sidebar-body"></div>' +
 					'</div></div>');
 
@@ -213,7 +213,7 @@ class VGNav {
 			$navigation = document.querySelectorAll('.' + _this.classes.container),
 			$click_a = document.querySelectorAll('.' + _this.classes.container + ' li > a'),
 			$click_hamburger = $container.querySelector('.' + _this.classes.hamburger),
-			$click_dismiss = document.querySelector('[data-dismiss="vg-nav"]');
+			$click_dismiss = document.querySelector('[data-dismiss="' + _this.sidebar +'"]');
 
 		// Функция обратного вызова после инициализации скрипта
 		if (callback && 'afterInit' in callback) {
@@ -320,6 +320,13 @@ class VGNav {
 			$click_dismiss.onclick = () => {
 				_this.dispose($navigation);
 				_this.dispose($navigation, 'dropdown-mega');
+
+				$sidebar.close({
+					beforeClose: function () {
+						$click_hamburger.classList.remove('show');
+					}
+				});
+
 				return false;
 			}
 		}
