@@ -61,6 +61,7 @@ class VGNav {
 			XS: 'vg-nav-xs'
 		}
 		this.current_responsive_size = '';
+		this.isResponsiveSize = false;
 		this.isInit = false;
 
 		if (!this.isInit) {
@@ -99,9 +100,8 @@ class VGNav {
 		});
 
 		// Устанавливаем гамбургер
-		let responsive_class = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS)
-
-		if (responsive_class) {
+		_this.isResponsiveSize = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS)
+		if (_this.isResponsiveSize) {
 			let mTitle = '',
 				hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
 
@@ -116,42 +116,8 @@ class VGNav {
 			$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
 		}
 
-		// инит сайдбара
-		let $sidebar = document.getElementById(_this.sidebar),
-			opt_sidebar = _this.settings.sidebar || false,
-			sidebarOpen = opt_sidebar.placement || 'right',
-			historyState = opt_sidebar.hash ? 'data-hash="true"' : '';
-
-		if (responsive_class) {
-			if (!$sidebar) {
-				let mTitle = '';
-				if (_this.settings.mobileTitle) {
-					mTitle = '<span class="' + _this.classes.sidebar + '-title">'+ _this.settings.mobileTitle +'</span>';
-				}
-
-				document.body.insertAdjacentHTML('beforeend','<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '" id="'+ _this.sidebar +'" '+ historyState +'>' +
-					'<div class="vg-sidebar-content">' +
-					'<div class="vg-sidebar-header">'+ mTitle +'<div class="' + _this.classes.sidebar + '-close" data-dismiss="' + _this.sidebar +'">&times;</div></div>' +
-					'<div class="vg-sidebar-body"></div>' +
-					'</div></div>');
-
-				let $clone_target = document.getElementsByClassName(_this.classes.sidebar + '-body');
-				_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
-			} else {
-				if ('clone' in opt_sidebar) {
-					if (opt_sidebar.clone) {
-						let $clone_target = document.querySelector('.' + _this.classes.sidebar).querySelectorAll(opt_sidebar.clone);
-
-						if ($clone_target) {
-							_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
-						}
-					}
-				}
-			}
-		}
-
 		// Если меню слишком длинное переносим всё в дроп даун
-		if (_this.settings.move && responsive_class) {
+		if (_this.settings.move && _this.isResponsiveSize) {
 			let width_nav = $container.clientWidth,
 				$links = $container.querySelectorAll('.vg-nav-wrapper > li'),
 				dots = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
@@ -195,9 +161,107 @@ class VGNav {
 			}
 		}
 
-		this.isInit = true;
+		_this.isInit = true;
 
-		this.toggle(this.callback);
+		_this.initSidebar();
+		_this.toggle(_this.callback);
+	}
+
+	/**
+	 * Init & toggle sidebar
+	 * @returns {boolean}
+	 */
+	initSidebar() {
+		if (!this.isInit) return false;
+
+		let _this = this,
+			$container = document.querySelector(_this.container);
+
+		// Разметка боковой панели
+		let $elmSidebar = document.getElementById(_this.sidebar),
+			opt_sidebar = _this.settings.sidebar || false,
+			sidebarOpen = opt_sidebar.placement || 'right',
+			historyState = opt_sidebar.hash ? 'data-hash="true"' : '';
+
+		if (_this.isResponsiveSize) {
+			if (!$elmSidebar) {
+				let mTitle = '';
+				if (_this.settings.mobileTitle) {
+					mTitle = '<span class="' + _this.classes.sidebar + '-title">'+ _this.settings.mobileTitle +'</span>';
+				}
+
+				document.body.insertAdjacentHTML('beforeend','<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '" id="'+ _this.sidebar +'" '+ historyState +'>' +
+					'<div class="vg-sidebar-content">' +
+					'<div class="vg-sidebar-header">'+ mTitle +'<div class="' + _this.classes.sidebar + '-close" data-dismiss="' + _this.sidebar +'">&times;</div></div>' +
+					'<div class="vg-sidebar-body"></div>' +
+					'</div></div>');
+
+				let $clone_target = document.getElementsByClassName(_this.classes.sidebar + '-body');
+				_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
+			} else {
+				if ('clone' in opt_sidebar) {
+					if (opt_sidebar.clone) {
+						let $clone_target = document.querySelector('.' + _this.classes.sidebar).querySelectorAll(opt_sidebar.clone);
+
+						if ($clone_target) {
+							_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
+						}
+					}
+				}
+			}
+		}
+
+		// События боковой панели
+		let $click_hamburger = $container.querySelector('.' + this.classes.hamburger),
+			$click_dismiss = document.querySelector('[data-dismiss="' + this.sidebar +'"]'),
+			sidebarOption = {
+				hash: this.settings.sidebar.hash
+			};
+
+		const $sidebar = new VGSidebar(_this.sidebar, sidebarOption);
+
+		$click_hamburger.onclick = function (e) {
+			let $_self = this;
+
+			if ($_self.classList.contains('show')) {
+				$sidebar.close({
+					beforeClose: function () {
+						$_self.classList.remove('show');
+					}
+				});
+			} else {
+				$sidebar.open({
+					beforeOpen: function () {
+						$_self.classList.add('show');
+					}
+				});
+			}
+
+			return false;
+		}
+
+		if ($click_dismiss) {
+			$click_dismiss.onclick = () => {
+				$sidebar.close({
+					beforeClose: function () {
+						$click_hamburger.classList.remove('show');
+					}
+				});
+
+				return false;
+			}
+		}
+
+		// Скрываем sidebar, если кликнули по экрану
+		window.addEventListener('mouseup', e => {
+			if (e.target.classList.contains(_this.classes.sidebar)) {
+				$sidebar.close({
+					beforeClose: function () {
+						$click_hamburger.classList.remove('show');
+					}
+				});
+			}
+		});
 	}
 
 	/**
@@ -209,23 +273,13 @@ class VGNav {
 		if (!this.isInit) return false;
 
 		let _this = this,
-			$container = document.querySelector(_this.container),
 			$navigation = document.querySelectorAll('.' + _this.classes.container),
-			$click_a = document.querySelectorAll('.' + _this.classes.container + ' li > a'),
-			$click_hamburger = $container.querySelector('.' + _this.classes.hamburger),
-			$click_dismiss = document.querySelector('[data-dismiss="' + _this.sidebar +'"]');
+			$click_a = document.querySelectorAll('.' + _this.classes.container + ' li > a');
 
 		// Функция обратного вызова после инициализации скрипта
 		if (callback && 'afterInit' in callback) {
 			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
 		}
-
-		// Инициализируем сайдбар
-		let sidebarTarget = _this.sidebar,
-			sidebarOption = {
-				hash: _this.settings.sidebar.hash
-			},
-			$sidebar = new VGSidebar(sidebarTarget, sidebarOption);
 
 		if (_this.clickable()) {
 			$click_a.forEach(function (elem) {
@@ -300,49 +354,13 @@ class VGNav {
 			});
 		}
 
-		// Закрываем меню, если кликнули по экрану
+		// Скрываем дроп, если кликнули по экрану
 		window.addEventListener('mouseup', e => {
 			if (!e.target.closest('.' + _this.classes.container)) {
 				_this.dispose($navigation);
 				_this.dispose($navigation, 'dropdown-mega');
 			}
-
-			if (e.target.classList.contains(_this.classes.sidebar)) {
-				$sidebar.close({
-					beforeClose: function () {
-						$click_hamburger.classList.remove('show');
-					}
-				});
-			}
 		});
-
-		if ($click_dismiss) {
-			$click_dismiss.onclick = () => {
-				_this.dispose($navigation);
-				_this.dispose($navigation, 'dropdown-mega');
-
-				$sidebar.close({
-					beforeClose: function () {
-						$click_hamburger.classList.remove('show');
-					}
-				});
-
-				return false;
-			}
-		}
-
-		// если меню свернулось вызываем боковую панель
-		$click_hamburger.onclick = function () {
-			let $_self = this;
-
-			$sidebar.open({
-				beforeOpen: function () {
-					$_self.classList.add('show');
-				}
-			});
-
-			return false;
-		}
 
 		function clickBefore(callback, $this, event) {
 			// Функция обратного вызова клика по ссылке до начала анимации
