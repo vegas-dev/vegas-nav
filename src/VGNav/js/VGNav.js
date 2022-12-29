@@ -252,9 +252,8 @@ class VGNav {
 			}
 		}
 
-		// Скрываем sidebar, если кликнули по экрану
 		window.addEventListener('mouseup', e => {
-			if (e.target.classList.contains(_this.classes.sidebar)) {
+			if (e.target.classList.contains(_this.classes.sidebar) || (e.target !== $click_dismiss)) {
 				$sidebar.close({
 					beforeClose: function () {
 						$click_hamburger.classList.remove('show');
