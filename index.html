@@ -19,14 +19,14 @@
 	<header class="header">
 		<div class="container">
 			<div class="row align-items-center">
-				<div class="col-lg-4">
+				<div class="col-lg-4 col-xl-3">
 					<div class="logo">
 						<a href="https://vegas-dev.com/" target="_blank">
-							<img src="https://vegas-dev.com/assets/_frontend/images/logo/logo.svg" alt="vegas dev">
+							<img src="https://vegas-dev.com/assets/_frontend/images/logo/logo.svg" class="img-fluid" alt="vegas dev">
 						</a>
 					</div>
 				</div>
-				<div class="col-lg-8">
+				<div class="col-lg-8 col-xl-9">
 					<header class="header">
 						<nav class="vg-nav">
 							<ul class="vg-nav-wrapper">
@@ -107,7 +107,7 @@
 	</main>
 </div>
 
-<script src="https://vegas-dev.github.io/vegas-nav/dist/vgnav.umd.js"></script>
+<script src="/dist/vgnav.umd.js"></script>
 <script>
 	new VGNav({
 		expand: 'xxl',
@@ -146,19 +146,19 @@
 		stroke-width: 3;
 	}
 
-	.vg-nav-hamburger.show .line1 {
+	.vg-nav-hamburger.vg-sidebar-active .line1 {
 		stroke-dasharray: 90 207;
 		stroke-dashoffset: -134;
 		stroke-width: 3;
 	}
 
-	.vg-nav-hamburger.show .line2 {
+	.vg-nav-hamburger.vg-sidebar-active .line2 {
 		stroke-dasharray: 1 60;
 		stroke-dashoffset: -30;
 		stroke-width: 3;
 	}
 
-	.vg-nav-hamburger.show .line3 {
+	.vg-nav-hamburger.vg-sidebar-active .line3 {
 		stroke-dasharray: 90 207;
 		stroke-dashoffset: -134;
 		stroke-width: 3;

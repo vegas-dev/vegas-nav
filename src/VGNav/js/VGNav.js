@@ -192,7 +192,7 @@ class VGNav {
 
 				document.body.insertAdjacentHTML('beforeend','<div class="' + _this.classes.sidebar + ' ' + sidebarOpen + '" id="'+ _this.sidebar +'" '+ historyState +'>' +
 					'<div class="vg-sidebar-content">' +
-					'<div class="vg-sidebar-header">'+ mTitle +'<div class="' + _this.classes.sidebar + '-close" data-dismiss="' + _this.sidebar +'">&times;</div></div>' +
+					'<div class="vg-sidebar-header">'+ mTitle +'<div class="' + _this.classes.sidebar + '-close" data-dismiss="' + _this.classes.sidebar +'">&times;</div></div>' +
 					'<div class="vg-sidebar-body"></div>' +
 					'</div></div>');
 
@@ -213,8 +213,8 @@ class VGNav {
 
 		// События боковой панели
 		let $click_hamburger = $container.querySelector('.' + this.classes.hamburger),
-			$click_dismiss = document.querySelector('[data-dismiss="' + this.sidebar +'"]'),
 			sidebarOption = {
+				button: $click_hamburger,
 				hash: this.settings.sidebar.hash
 			};
 
@@ -223,44 +223,16 @@ class VGNav {
 		$click_hamburger.onclick = function (e) {
 			let $_self = this;
 
-			if ($_self.classList.contains('show')) {
-				$sidebar.close({
-					beforeClose: function () {
-						$_self.classList.remove('show');
-					}
-				});
+			if ($_self.classList.contains('vg-sidebar-active')) {
+				$sidebar.close();
 			} else {
-				$sidebar.open({
-					beforeOpen: function () {
-						$_self.classList.add('show');
-					}
-				});
+				$sidebar.open();
 			}
 
 			return false;
 		}
 
-		if ($click_dismiss) {
-			$click_dismiss.onclick = () => {
-				$sidebar.close({
-					beforeClose: function () {
-						$click_hamburger.classList.remove('show');
-					}
-				});
 
-				return false;
-			}
-		}
-
-		window.addEventListener('mouseup', e => {
-			if (e.target.classList.contains(_this.classes.sidebar) || (e.target !== $click_dismiss)) {
-				$sidebar.close({
-					beforeClose: function () {
-						$click_hamburger.classList.remove('show');
-					}
-				});
-			}
-		});
 	}
 
 	/**

@@ -7,11 +7,12 @@
  */
 
 class VGSidebar {
-	constructor($btn, arg = {}) {
+	constructor($btn, arg = {}, callback) {
 		this.sidebar = null;
 		this.button = null;
 		this.target = null;
 		this.settings = {
+			button: null,
 			content_over: true,
 			hash: false,
 			ajax: {
@@ -19,31 +20,37 @@ class VGSidebar {
 				route: ''
 			}
 		};
+
 		this.classes = {
 			body: 'vg-sidebar-open',
 			open: 'open',
 			btn: 'vg-sidebar-active'
 		}
 
-		this.init($btn, arg);
+		this.init($btn, arg, callback);
 	}
 
 	init($btn, arg, callback) {
+		let _this = this;
+
 		if (typeof $btn === 'string') {
-			this.target = $btn;
+			_this.target = $btn;
 		} else {
-			this.target = $btn.dataset.target || $btn.href;
+			_this.target = $btn.dataset.target || $btn.href;
+			_this.button = $btn;
 		}
 
-		if (this.target.indexOf('#') !== -1) {
-			this.target = this.target.split('#')[1];
+		if (_this.target.indexOf('#') !== -1) {
+			_this.target = _this.target.split('#')[1];
 		}
 
 		if (this.target) {
-			let _this = this;
-			this.sidebar = document.getElementById(_this.target);
-			this.button = $btn;
-			this.settings = Object.assign(_this.settings, arg);
+			_this.sidebar = document.getElementById(_this.target);
+			_this.settings = Object.assign(_this.settings, arg);
+
+			if (!_this.button && _this.settings.button) {
+				_this.button = _this.settings.button;
+			}
 
 			if (document.body.classList.contains(_this.classes.body) && !_this.sidebar.classList.contains('open')) {
 				this.close(callback, true);
