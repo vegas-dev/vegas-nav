@@ -1,3 +1,7 @@
+# VEGAS-NAV 3.2.0 (JANUARY 31, 2023)
+* restructuring & add webpack & bugs fixed
+
+
 # VEGAS-NAV 3.1.5 (DECEMBER 13, 2022)
 * bugs fixed
 

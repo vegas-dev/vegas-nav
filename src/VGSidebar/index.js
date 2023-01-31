@@ -8,6 +8,4 @@
 
 import VGSidebar from "./js/VGSidebar";
 
-export {
-	VGSidebar
-};
+export default VGSidebar;

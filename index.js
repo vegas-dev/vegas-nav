@@ -1,5 +1,7 @@
-import {VGNav} from "./src/VGNav";
+import VGNav from "./src/VGNav";
+import VGSidebar from "./src/VGSidebar";
 
 export {
-	VGNav
-}
+  VGNav,
+  VGSidebar
+};
