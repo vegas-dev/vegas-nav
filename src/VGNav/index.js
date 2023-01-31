@@ -8,4 +8,6 @@
 
 import VGNav from "./js/VGNav";
 
-export default VGNav;
+export {
+	VGNav
+};
