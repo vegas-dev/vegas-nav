@@ -176,11 +176,11 @@ class VGSidebar {
 				history.pushState("", document.title, window.location.pathname
 					+ window.location.search);
 			}
+		}
 
-			if (_this.settings.content_over) {
-				document.body.style.paddingRight = '';
-				document.body.style.overflow = '';
-			}
+		if (_this.settings.content_over) {
+			document.body.style.paddingRight = '';
+			document.body.style.overflow = '';
 		}
 
 		if (callback && 'afterClose' in callback) {
