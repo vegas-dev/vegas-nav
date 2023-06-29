@@ -98,7 +98,7 @@ class VGSidebar {
 				let request = new XMLHttpRequest();
 				request.open('get', _this.settings.ajax.route, true);
 				request.onload = function () {
-					let data = JSON.parse(request.responseText);
+					let data = request.responseText;
 
 					setData(data);
 				};
