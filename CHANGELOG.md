@@ -1,3 +1,6 @@
+# VEGAS-NAV 3.2.5 (JUNE 29, 2023)
+* bugs fixed
+
 # VEGAS-NAV 3.1.5 (DECEMBER 13, 2022)
 * bugs fixed
 

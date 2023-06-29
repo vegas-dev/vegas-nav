@@ -196,12 +196,12 @@ class VGNav {
 					'<div class="vg-sidebar-body"></div>' +
 					'</div></div>');
 
-				let $clone_target = document.getElementsByClassName(_this.classes.sidebar + '-body');
+				let $clone_target = document.getElementById(_this.sidebar).getElementsByClassName(_this.classes.sidebar + '-body');
 				_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));
 			} else {
 				if ('clone' in opt_sidebar) {
 					if (opt_sidebar.clone) {
-						let $clone_target = document.querySelector('.' + _this.classes.sidebar).querySelectorAll(opt_sidebar.clone);
+						let $clone_target = document.querySelector('#' + _this.sidebar).querySelectorAll(opt_sidebar.clone);
 
 						if ($clone_target) {
 							_this.cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.container));

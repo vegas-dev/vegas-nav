@@ -133,28 +133,6 @@ class VGSidebar {
 		if (callback && "afterOpen" in callback) {
 			if (typeof callback.afterOpen === "function") callback.afterOpen(_this);
 		}
-
-		function listener(event, el, callback) {
-			document.addEventListener(event, function(e) {
-				let selectors = document.body.querySelectorAll(el),
-					element = e.target,
-					index = -1;
-
-				while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
-					element = element.parentElement;
-				}
-
-				if (index > -1) {
-					(function() {
-						if (typeof callback === "function") {
-							callback(element);
-						}
-
-						e.preventDefault();
-					}).call(element, e);
-				}
-			});
-		}
 	}
 
 	close(callback, closeAll = false) {
@@ -216,30 +194,47 @@ if (window.location.hash) {
 	}
 }
 
-let $vg_sidebar_toggle = document.querySelectorAll("[data-toggle=\"vg-sidebar\"]");
-for (let $btn of $vg_sidebar_toggle) {
-	$btn.onclick = function(e) {
-		let button = this;
+listener('click', '[data-toggle="vg-sidebar"]', function (element) {
+	let button = element;
 
-		let params = {
-			content_over: button.dataset.over || true,
-			hash: button.dataset.hash || false,
-			ajax: {
-				target: button.dataset.ajaxTarget || "",
-				route: button.dataset.ajaxRoute || ""
-			}
-		};
+	let params = {
+		content_over: button.dataset.over || true,
+		hash: button.dataset.hash || false,
+		ajax: {
+			target: button.dataset.ajaxTarget || "",
+			route: button.dataset.ajaxRoute || ""
+		}
+	};
 
-		let sidebar = new VGSidebar(button, params);
+	let sidebar = new VGSidebar(button, params);
 
-		if (document.body.classList.contains("vg-sidebar-open")) {
-			sidebar.close();
-		} else {
-			sidebar.open();
+	if (document.body.classList.contains("vg-sidebar-open")) {
+		sidebar.close();
+	} else {
+		sidebar.open();
+	}
+});
+
+function listener(event, el, callback) {
+	document.addEventListener(event, function(e) {
+		let selectors = document.body.querySelectorAll(el),
+			element = e.target,
+			index = -1;
+
+		while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
+			element = element.parentElement;
 		}
 
-		return false;
-	};
+		if (index > -1) {
+			(function() {
+				if (typeof callback === "function") {
+					callback(element);
+				}
+
+				e.preventDefault();
+			}).call(element, e);
+		}
+	});
 }
 
 export default VGSidebar;
