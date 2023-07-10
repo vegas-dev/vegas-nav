@@ -62,7 +62,7 @@ class VGSidebar {
 		}
 	}
 
-	open(callback) {
+	open(callback = null) {
 		if (!this.sidebar) return false;
 		let _this = this;
 
@@ -135,7 +135,7 @@ class VGSidebar {
 		}
 	}
 
-	close(callback, closeAll = false) {
+	close(callback = null, closeAll = false) {
 		if (!this.sidebar) return false;
 		let _this = this;
 

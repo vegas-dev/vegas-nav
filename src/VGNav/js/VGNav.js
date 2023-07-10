@@ -21,6 +21,7 @@ class VGNav {
 			hamburger: null, // Кастомный мобильный гамбургер
 			mobileTitle: '', // Помимо иконки (с полосками), можно добавить заголовок, например: "Меню" или "Навигация"
 			move: false,
+			flip: false, // перелистывание выпадающего списка навигации
 			sidebar: {
 				placement: 'right',
 				clone: null,
@@ -209,6 +210,9 @@ class VGNav {
 					}
 				}
 			}
+
+			// если надо перелистывать навигацию в сайдбаре
+			_this.flip();
 		}
 
 		// События боковой панели
@@ -231,8 +235,6 @@ class VGNav {
 
 			return false;
 		}
-
-
 	}
 
 	/**
@@ -368,6 +370,24 @@ class VGNav {
 					if (el[i - 1].classList.contains('show')) {
 						el[i - 1].classList.remove('show');
 					}
+				}
+			}
+		}
+	}
+
+	/**
+	 *
+	 */
+	flip () {
+		const _this = this;
+
+		if (_this.settings.flip) {
+			// по новой ищем сайдбар навигации и вешаем классы для перелистывания
+			let $sidebar = document.getElementById(_this.sidebar);
+			if ($sidebar) {
+				let $_navigation = $sidebar.querySelector('.vg-nav-wrapper');
+				if ($_navigation) {
+					$_navigation.classList.add('vg-nav-flip');
 				}
 			}
 		}
