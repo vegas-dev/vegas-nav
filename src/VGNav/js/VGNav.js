@@ -11,12 +11,17 @@
  */
 import VGSidebar from "../../VGSidebar/js/VGSidebar";
 
+/**
+ * Перелистывание списка меню тоже пригодится
+ */
+import VGFlipList from "../../VGFlipList/js/VGFlipList";
+
 class VGNav {
 	constructor (arg, callback) {
 		this.settings = Object.assign({
 			expand: 'lg', // Медиа точка, принцип позаимствован у https://getbootstrap.com/
 			placement: 'horizontal', // Расположение основной навигации. Либо она горизонтальная (horizontal), либо вертикальная (vertical)
-			isHover: false, // Выпадающее меню будет открываться при наведении если определено как true, или при клике если false
+			hover: false, // Выпадающее меню будет открываться при наведении если определено как true, или при клике если false
 			toggle: '<span class="default"></span>', // Кастомный переключатель для выпадающего списка
 			hamburger: null, // Кастомный мобильный гамбургер
 			mobileTitle: '', // Помимо иконки (с полосками), можно добавить заголовок, например: "Меню" или "Навигация"
@@ -54,6 +59,7 @@ class VGNav {
 			hamburger: 'vg-nav-hamburger',
 			cloned: 'vg-nav-cloned',
 			hover: 'vg-nav-hover',
+			flip: 'vg-nav-flip',
 			XXL: 'vg-nav-xxl',
 			XL: 'vg-nav-xl',
 			LG: 'vg-nav-lg',
@@ -72,10 +78,9 @@ class VGNav {
 
 	/**
 	 * Вот, вот начнем
-	 * @param callback
 	 * @returns {boolean}
 	 */
-	init(callback) {
+	init() {
 		let _this = this,
 			$container = document.querySelector(_this.container),
 			$navigation = document.querySelector('.' + _this.classes.container);
@@ -88,7 +93,7 @@ class VGNav {
 		$container.classList.add('vg-nav-' + _this.settings.expand);
 
 		// Метод открытия меню при клике или наведении
-		if (_this.settings.isHover) {
+		if (_this.settings.hover) {
 			$container.classList.add(_this.classes.hover);
 		}
 
@@ -210,9 +215,6 @@ class VGNav {
 					}
 				}
 			}
-
-			// если надо перелистывать навигацию в сайдбаре
-			_this.flip();
 		}
 
 		// События боковой панели
@@ -234,6 +236,36 @@ class VGNav {
 			}
 
 			return false;
+		}
+
+		// После того как разобрались с боковой панелью, сделаем внутри нее перелистывание меню
+		if (_this.settings.flip) {
+			_this.initFlipList();
+		}
+	}
+
+	initFlipList() {
+		if (!this.isInit) return false;
+
+		let _this = this;
+
+		// Мы уже знаем, что у нас есть сайдбар и там есть навигация, которую нам нужно перелистывать
+		let $sidebar = document.getElementById(_this.sidebar);
+		if ($sidebar) {
+			let $_navigation = $sidebar.querySelector('.' + _this.classes.container);
+			if ($_navigation) {
+				let targetSimple = $_navigation.querySelectorAll('.dropdown > a'),
+					targetMega = $_navigation.querySelectorAll('.dropdown-mega > a');
+
+				let arrSimple = makeArray(targetSimple),
+					arrMega = makeArray(targetMega);
+
+				function makeArray(list){
+					return Array.prototype.slice.call(list);
+				}
+
+				new VGFlipList($_navigation, {target: arrSimple.concat(arrMega)});
+			}
 		}
 	}
 
@@ -370,24 +402,6 @@ class VGNav {
 					if (el[i - 1].classList.contains('show')) {
 						el[i - 1].classList.remove('show');
 					}
-				}
-			}
-		}
-	}
-
-	/**
-	 *
-	 */
-	flip () {
-		const _this = this;
-
-		if (_this.settings.flip) {
-			// по новой ищем сайдбар навигации и вешаем классы для перелистывания
-			let $sidebar = document.getElementById(_this.sidebar);
-			if ($sidebar) {
-				let $_navigation = $sidebar.querySelector('.vg-nav-wrapper');
-				if ($_navigation) {
-					$_navigation.classList.add('vg-nav-flip');
 				}
 			}
 		}

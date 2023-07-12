@@ -54,6 +54,16 @@
 			}
 		}
 
+		&.vg-flip-list {
+			span.toggle {
+				span {
+					&.default {
+						transform: rotate(-90deg);
+					}
+				}
+			}
+		}
+
 		.dropdown {
 			position: relative;
 
@@ -192,3 +202,8 @@
 * Sidebar нам пригодится
 **/
 @import '../../VGSidebar/scss/VGSidebar.scss';
+
+/**
+* Flip List тоже подключим
+**/
+@import '../../VGFlipList/scss/VGFlipList';

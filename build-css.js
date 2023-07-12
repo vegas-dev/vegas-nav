@@ -1,7 +1,7 @@
 const fs = require("fs");
 const sass = require("sass");
 
-const files = ["VGNav", "VGSidebar"];
+const files = ["VGNav", "VGSidebar", "VGFlipList"];
 
 for (const file_name of files) {
 	let input_file;

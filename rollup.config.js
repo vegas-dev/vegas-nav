@@ -11,7 +11,7 @@ import filesize from "rollup-plugin-filesize";
 import pkg from "./package.json";
 
 const config = [];
-const files = ["VGNav", "VGSidebar"];
+const files = ["VGNav", "VGSidebar", "VGFlipList"];
 
 for (const file_name of files) {
 	let input_file;

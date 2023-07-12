@@ -1,0 +1,36 @@
+/**
+*--------------------------------------------------------------------------
+* Модуль: VGNav
+* Автор: Vegas DEV
+* Лицензия: смотри LICENSE.md
+*--------------------------------------------------------------------------
+**/
+
+.vg-flip-list {
+	&--parent {
+		position: relative;
+
+		> *:not(.vg-flip-list--toggle) {
+			transition: all .4s ease-in-out;
+			opacity: 0;
+			visibility: hidden;
+			padding: 0;
+			position: absolute;
+		}
+	}
+
+	&.closed {
+		> *:not(.open) {
+			display: none;
+		}
+
+		.vg-flip-list--parent.open {
+			> * {
+				opacity: 1;
+				visibility: visible;
+				position: relative;
+				display: block;
+			}
+		}
+	}
+}
