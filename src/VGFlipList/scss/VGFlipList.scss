@@ -7,30 +7,56 @@
 **/
 
 .vg-flip-list {
-	&--parent {
-		position: relative;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: relative;
+	overflow: hidden;
 
-		> *:not(.vg-flip-list--toggle) {
-			transition: all .4s ease-in-out;
-			opacity: 0;
-			visibility: hidden;
+	a {
+		transition: all .4s ease-in-out;
+	}
+
+	.dropdown, .dropdown-mega {
+		position: static;
+
+		> ul, > div {
+			list-style: none;
 			padding: 0;
-			position: absolute;
+			margin: 0;
+			width: 100%;
+		}
+
+		> ul {
+			> li {
+				> a {
+					display: none;
+				}
+			}
+		}
+
+		> .dropdown-mega-container {
+			display: none;
+		}
+
+		&.open {
+			> ul {
+				> li {
+					> a {
+						display: block;
+					}
+				}
+			}
+
+			> .dropdown-mega-container {
+				display: block;
+			}
 		}
 	}
 
 	&.closed {
-		> *:not(.open) {
+		> li > a {
 			display: none;
-		}
-
-		.vg-flip-list--parent.open {
-			> * {
-				opacity: 1;
-				visibility: visible;
-				position: relative;
-				display: block;
-			}
 		}
 	}
 }

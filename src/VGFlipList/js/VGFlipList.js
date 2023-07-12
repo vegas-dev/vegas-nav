@@ -37,7 +37,8 @@ class VGFlipList {
 			closed: 'closed',
 			back: 'vg-flip-list--back',
 			toggle: 'vg-flip-list--toggle',
-			parent: 'vg-flip-list--parent'
+			parent: 'vg-flip-list--parent',
+			dropdown: 'vg-flip-list--dropdown'
 		}
 
 		this.isInit = false;
@@ -95,14 +96,28 @@ class VGFlipList {
 		elementsClickTarget.forEach(function (el) {
 			el.classList.add(_this.classes.toggle);
 
-			let parent = el.parentElement,
-				parentClasses = parent.classList;
+			let neighbour = el.nextElementSibling;
+			if (neighbour.tagName === 'UL') {
+				let li = document.createElement('li');
+				let a = document.createElement('a');
 
-			if (parentClasses.length) {
-				parentClasses.forEach(cl => parent.classList.remove(cl));
+				a.setAttribute('href', '#');
+				a.classList.add(_this.classes.back);
+				a.innerText = 'Back';
+
+				li.prepend(a);
+				neighbour.prepend(li)
+			} else if (neighbour.classList.contains('dropdown-mega-container')) {
+				let div = document.createElement('div');
+				let a = document.createElement('a');
+
+				a.setAttribute('href', '#');
+				a.classList.add(_this.classes.back);
+				a.innerText = 'Назад';
+
+				div.prepend(a);
+				neighbour.prepend(div)
 			}
-
-			parent.classList.add(_this.classes.parent)
 		});
 
 		_this.isInit = true;
@@ -121,13 +136,28 @@ class VGFlipList {
 
 			let elemOpened = _this.settings.container.querySelectorAll('.' + _this.classes.open);
 			if (elemOpened.length) {
-				elemOpened.forEach(el => el.classList.remove(_this.classes.open))
+				elemOpened.forEach(el => el.classList.remove(_this.classes.open));
 			}
 
 			parent.classList.add(_this.classes.open);
 
 			return false;
-		})
+		});
+
+		_this.listener('click', '.' + _this.classes.back, function (el) {
+			let elOpen = el.closest('.' + _this.classes.open),
+				elCosed = el.closest('.' + _this.classes.closed);
+
+			elOpen.classList.remove(_this.classes.open);
+			elCosed.classList.remove(_this.classes.closed);
+
+			let drop = elCosed.closest('.dropdown');
+			if (drop) {
+				drop.classList.add(_this.classes.open);
+			}
+
+			return false;
+		});
 
 		return false;
 	}

@@ -224,7 +224,6 @@ function listener(event, el, callback) {
 		while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
 			element = element.parentElement;
 		}
-
 		if (index > -1) {
 			(function() {
 				if (typeof callback === "function") {

@@ -260,6 +260,8 @@ class VGNav {
 				let arrSimple = makeArray(targetSimple),
 					arrMega = makeArray(targetMega);
 
+				$_navigation.classList.remove(_this.classes.container);
+
 				function makeArray(list){
 					return Array.prototype.slice.call(list);
 				}
