@@ -18,7 +18,7 @@ import VGFlipList from "../../VGFlipList/js/VGFlipList";
 
 class VGNav {
 	constructor (arg, callback) {
-		this.settings = Object.assign({
+		this.settings = mergeDeepObject({
 			expand: 'lg', // Медиа точка, принцип позаимствован у https://getbootstrap.com/
 			placement: 'horizontal', // Расположение основной навигации. Либо она горизонтальная (horizontal), либо вертикальная (vertical)
 			hover: false, // Выпадающее меню будет открываться при наведении если определено как true, или при клике если false
@@ -480,6 +480,34 @@ class VGNav {
 
 		return check;
 	}
+}
+
+/**
+ * Глубокое объединение объектов
+ * @param objects
+ * @returns {*}
+ */
+function mergeDeepObject(...objects) {
+	const isObject = obj => obj && typeof obj === 'object';
+
+	return objects.reduce((prev, obj) => {
+		Object.keys(obj).forEach(key => {
+			const pVal = prev[key];
+			const oVal = obj[key];
+
+			if (Array.isArray(pVal) && Array.isArray(oVal)) {
+				prev[key] = pVal.concat(...oVal);
+			}
+			else if (isObject(pVal) && isObject(oVal)) {
+				prev[key] = mergeDeepObject(pVal, oVal);
+			}
+			else {
+				prev[key] = oVal;
+			}
+		});
+
+		return prev;
+	}, {});
 }
 
 export default VGNav;

@@ -46,7 +46,7 @@ class VGSidebar {
 
 		if (this.target) {
 			_this.sidebar = document.getElementById(_this.target);
-			_this.settings = Object.assign(_this.settings, arg);
+			_this.settings = mergeDeepObject(_this.settings, arg);
 
 			if (!_this.button && _this.settings.button) {
 				_this.button = _this.settings.button;
@@ -215,6 +215,12 @@ listener('click', '[data-toggle="vg-sidebar"]', function (element) {
 	}
 });
 
+/**
+ *
+ * @param event
+ * @param el
+ * @param callback
+ */
 function listener(event, el, callback) {
 	document.addEventListener(event, function(e) {
 		let selectors = document.body.querySelectorAll(el),
@@ -234,6 +240,34 @@ function listener(event, el, callback) {
 			}).call(element, e);
 		}
 	});
+}
+
+/**
+ * Глубокое объединение объектов
+ * @param objects
+ * @returns {*}
+ */
+function mergeDeepObject(...objects) {
+	const isObject = obj => obj && typeof obj === 'object';
+
+	return objects.reduce((prev, obj) => {
+		Object.keys(obj).forEach(key => {
+			const pVal = prev[key];
+			const oVal = obj[key];
+
+			if (Array.isArray(pVal) && Array.isArray(oVal)) {
+				prev[key] = pVal.concat(...oVal);
+			}
+			else if (isObject(pVal) && isObject(oVal)) {
+				prev[key] = mergeDeepObject(pVal, oVal);
+			}
+			else {
+				prev[key] = oVal;
+			}
+		});
+
+		return prev;
+	}, {});
 }
 
 export default VGSidebar;

@@ -27,9 +27,7 @@ class VGFlipList {
 			return false;
 		}
 
-		this.settings = Object.assign({
-
-		}, dataParams, params, arg);
+		this.settings = mergeDeepObject(dataParams, params, arg);
 
 		this.classes = {
 			container: 'vg-flip-list',
@@ -183,6 +181,34 @@ class VGFlipList {
 			}
 		});
 	}
+}
+
+/**
+ * Глубокое объединение объектов
+ * @param objects
+ * @returns {*}
+ */
+function mergeDeepObject(...objects) {
+	const isObject = obj => obj && typeof obj === 'object';
+
+	return objects.reduce((prev, obj) => {
+		Object.keys(obj).forEach(key => {
+			const pVal = prev[key];
+			const oVal = obj[key];
+
+			if (Array.isArray(pVal) && Array.isArray(oVal)) {
+				prev[key] = pVal.concat(...oVal);
+			}
+			else if (isObject(pVal) && isObject(oVal)) {
+				prev[key] = mergeDeepObject(pVal, oVal);
+			}
+			else {
+				prev[key] = oVal;
+			}
+		});
+
+		return prev;
+	}, {});
 }
 
 export default VGFlipList;
