@@ -76,6 +76,8 @@ class VGFlipList {
 		// Вешаем класс инициализации
 		_this.settings.container.classList.add(_this.classes.container);
 
+		let textBack = _this.settings.container.dataset.textBack || 'Back';
+
 		// Найдем элементы на которые нужно тыкать, если они еще есть
 		let elementsClickTarget = [];
 		if (!_this.settings.target.length) {
@@ -101,7 +103,7 @@ class VGFlipList {
 
 				a.setAttribute('href', '#');
 				a.classList.add(_this.classes.back);
-				a.innerText = 'Back';
+				a.innerText = textBack;
 
 				li.prepend(a);
 				neighbour.prepend(li)
@@ -111,7 +113,7 @@ class VGFlipList {
 
 				a.setAttribute('href', '#');
 				a.classList.add(_this.classes.back);
-				a.innerText = 'Назад';
+				a.innerText = textBack;
 
 				div.prepend(a);
 				neighbour.prepend(div)
