@@ -87,7 +87,7 @@ class VGSidebar {
 		}
 
 		if (_this.settings.content_over) {
-			document.body.style.paddingRight = window.innerWidth - document.documentElement.clientWidth;
+			document.body.style.paddingRight = (window.innerWidth - document.documentElement.clientWidth) + 'px';
 			document.body.style.overflow = "hidden";
 		}
 
