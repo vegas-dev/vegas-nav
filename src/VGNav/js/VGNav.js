@@ -98,12 +98,14 @@ class VGNav {
 		}
 
 		// Устанавливаем указатель переключателя
-		let $dropdown_a = $container.querySelectorAll('.dropdown-mega > a, .dropdown > a'),
-			toggle = '<span class="toggle">' + _this.settings.toggle + '</span>';
+		if(_this.settings.toggle) {
+			let $dropdown_a = $container.querySelectorAll('.dropdown-mega > a, .dropdown > a'),
+				toggle = '<span class="toggle">' + _this.settings.toggle + '</span>';
 
-		$dropdown_a.forEach(function (elem) {
-			elem.insertAdjacentHTML('beforeend', toggle)
-		});
+			$dropdown_a.forEach(function (elem) {
+				elem.insertAdjacentHTML('beforeend', toggle)
+			});
+		}
 
 		// Устанавливаем гамбургер
 		_this.isResponsiveSize = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS)
