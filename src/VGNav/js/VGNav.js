@@ -20,6 +20,7 @@ class VGNav {
 	constructor (arg, callback) {
 		this.settings = mergeDeepObject({
 			expand: 'lg', // Медиа точка, принцип позаимствован у https://getbootstrap.com/
+			enableExpand: true,
 			placement: 'horizontal', // Расположение основной навигации. Либо она горизонтальная (horizontal), либо вертикальная (vertical)
 			hover: false, // Выпадающее меню будет открываться при наведении если определено как true, или при клике если false
 			toggle: '<span class="default"></span>', // Кастомный переключатель для выпадающего списка
@@ -92,13 +93,18 @@ class VGNav {
 		// Определим в основной контейнер конфигурационные классы
 		$container.classList.add('vg-nav-' + _this.settings.expand);
 
+		//
+		if (!_this.settings.enableExpand) {
+			$container.classList.add('vg-nav-noexpand')
+		}
+
 		// Метод открытия меню при клике или наведении
 		if (_this.settings.hover) {
 			$container.classList.add(_this.classes.hover);
 		}
 
 		// Устанавливаем указатель переключателя
-		if(_this.settings.toggle) {
+		if (_this.settings.toggle) {
 			let $dropdown_a = $container.querySelectorAll('.dropdown-mega > a, .dropdown > a'),
 				toggle = '<span class="toggle">' + _this.settings.toggle + '</span>';
 
@@ -109,7 +115,7 @@ class VGNav {
 
 		// Устанавливаем гамбургер
 		_this.isResponsiveSize = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS)
-		if (_this.isResponsiveSize) {
+		if (_this.isResponsiveSize && _this.settings.enableExpand) {
 			let mTitle = '',
 				hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
 
@@ -171,7 +177,10 @@ class VGNav {
 
 		_this.isInit = true;
 
-		_this.initSidebar();
+		if (_this.settings.enableExpand) {
+			_this.initSidebar();
+		}
+
 		_this.toggle(_this.callback);
 	}
 

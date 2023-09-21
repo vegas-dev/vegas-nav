@@ -1,6 +1,6 @@
 {
 	"name": "vgnav",
-	"version": "3.2.10",
+	"version": "3.2.11",
 	"description": "Just easy site navigation",
 	"author": {
 		"name": "Vegas Studio",
@@ -25,12 +25,11 @@
 		"url": "https://github.com/vegas-dev/vegas-nav/issues"
 	},
 	"scripts": {
+		"watch": "rollup -c -w",
 		"build:css": "node build-css.js",
 		"build:js": "rollup -c",
-		"postversion": "git push && git push --tags && npm publish --access=public",
-		"test": "karma start karma.conf.js",
-		"version": "npm run build:js && npm run build:css && git add .",
-		"watch": "npm-watch"
+		"production": "npm run build:js && npm run build:css",
+		"publish": "npm run build:js && npm run build:css && npm publish --access=public"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.16.7",
@@ -66,22 +65,5 @@
 		"not dead",
 		"not op_mini all"
 	],
-
-	"watch": {
-		"build:css": {
-			"patterns": [
-				"src"
-			],
-			"extensions": "scss",
-			"quiet": true
-		},
-		"build:js": {
-			"patterns": [
-				"src"
-			],
-			"extensions": "js",
-			"quiet": true
-		}
-	},
 	"dependencies": {}
 }

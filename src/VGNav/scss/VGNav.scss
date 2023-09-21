@@ -198,6 +198,16 @@
 	}
 }
 
+.vg-nav-noexpand {
+	.vg-nav-hamburger {
+		display: none !important;
+	}
+
+	> ul {
+		display: flex !important;
+	}
+}
+
 /**
 * Sidebar нам пригодится
 **/
@@ -207,3 +217,4 @@
 * Flip List тоже подключим
 **/
 @import '../../VGFlipList/scss/VGFlipList';
+

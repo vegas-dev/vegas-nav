@@ -2,12 +2,10 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import babel from "@rollup/plugin-babel";
-
-import { eslint } from "rollup-plugin-eslint";
-import { terser } from "rollup-plugin-terser";
-import banner from "rollup-plugin-banner";
 import filesize from "rollup-plugin-filesize";
-
+import {eslint} from "rollup-plugin-eslint";
+import {terser} from "rollup-plugin-terser";
+import banner from "rollup-plugin-banner";
 import pkg from "./package.json";
 
 const config = [];
@@ -31,30 +29,34 @@ for (const file_name of files) {
 
 	config.push({
 		input: `src/${input_file}`,
-		output: {
-			file: `dist/${output_file}.esm.js`,
-			format: "es",
-			exports: "named",
-		},
+		output: [
+			{
+				file: `dist/${output_file}.js`,
+				format: "iife",
+				name: "window",
+				esModule: false,
+				extend: true,
+				exports: "named",
+			},
+		],
 		plugins: [
+			commonjs(),
 			eslint(),
-			replace({ __VERSION__: pkg.version, preventAssignment: true }),
-			terser(),
-			banner(`@vegas-${file_name} v${pkg.version}`),
-			filesize({ showMinifiedSize: false }),
 		],
 	});
 
 	config.push({
 		input: `src/${input_file}`,
-		output: {
-			file: `dist/${output_file}.umd.js`,
-			format: "umd",
-			name: "window",
-			esModule: false,
-			extend: true,
-			exports: "named",
-		},
+		output: [
+			{
+				file: `dist/${output_file}.min.js`,
+				format: "umd",
+				name: "window",
+				esModule: false,
+				extend: true,
+				exports: "named",
+			},
+		],
 		plugins: [
 			babel({
 				babelrc: false,
