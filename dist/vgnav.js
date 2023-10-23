@@ -612,7 +612,7 @@
 
 			// Если меню слишком длинное переносим всё в дроп даун
 			if (_this.settings.move && _this.isResponsiveSize) {
-				let width_nav = $container.clientWidth,
+				let width_nav = $container.querySelector('.vg-nav-wrapper').clientWidth,
 					$links = $container.querySelectorAll('.vg-nav-wrapper > li'),
 					dots = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
 
@@ -795,6 +795,8 @@
 								if (!$li.classList.contains('show')) {
 									_this.dispose($navigation);
 									$li.classList.add('show');
+
+									console.log('я тут');
 								} else {
 									$li.classList.remove('show');
 								}
@@ -820,6 +822,8 @@
 
 									if ($children.length > 0) {
 										$_self.closest('li').classList.add('show');
+
+										console.log('а теперь тут');
 
 										// Функция обратного вызова после клика по ссылке
 										clickAfter(callback, _this, event);
