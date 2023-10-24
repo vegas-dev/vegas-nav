@@ -612,7 +612,7 @@
 			}
 
 			// Если меню слишком длинное переносим всё в дроп даун
-			if (_this.settings.move && _this.isResponsiveSize) {
+			if (_this.settings.move && _this.defineResponsive()) {
 				let width_nav = $container.querySelector('.vg-nav-wrapper').clientWidth,
 					$links = $container.querySelectorAll('.vg-nav-wrapper > li'),
 					dots = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
@@ -959,6 +959,19 @@
 		 * Где мы?
 		 * @returns {boolean}
 		 */
+		defineResponsive() {
+			let _this = this,
+				windowWidth = window.innerWidth,
+				responsive_size = _this.checkResponsiveClass(),
+				breakpoints = _this.breakpoints,
+				point = Object.keys(breakpoints).find(key => breakpoints[key] === responsive_size);
+
+			let keys = Object.keys(breakpoints),
+				loc = keys.indexOf(point);
+
+			return windowWidth >= breakpoints[keys[loc + 1]];
+		}
+
 		checkResponsiveClass() {
 			let $container = document.querySelector(this.container);
 
