@@ -1,6 +1,6 @@
 {
 	"name": "vgnav",
-	"version": "3.2.11",
+	"version": "3.2.12",
 	"description": "Just easy site navigation",
 	"author": {
 		"name": "Vegas Studio",
@@ -25,7 +25,7 @@
 		"url": "https://github.com/vegas-dev/vegas-nav/issues"
 	},
 	"scripts": {
-		"watch": "rollup -c -w",
+		"watch": "npm run build:css && rollup -c -w",
 		"build:css": "node build-css.js",
 		"build:js": "rollup -c",
 		"production": "npm run build:js && npm run build:css",

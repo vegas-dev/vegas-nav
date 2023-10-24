@@ -28,6 +28,7 @@ class VGNav {
 			mobileTitle: '', // Помимо иконки (с полосками), можно добавить заголовок, например: "Меню" или "Навигация"
 			move: false,
 			flip: false, // перелистывание выпадающего списка навигации
+			autoPostion: true, // Авто позиционирование выпадающего списка
 			sidebar: {
 				placement: 'right',
 				clone: null,
@@ -316,7 +317,9 @@ class VGNav {
 								_this.dispose($navigation);
 								$li.classList.add('show');
 
-								console.log('я тут')
+								if (_this.settings.autoPostion) {
+									setDropPosition($li.querySelector('ul'));
+								}
 							} else {
 								$li.classList.remove('show');
 							}
@@ -345,8 +348,6 @@ class VGNav {
 								if ($children.length > 0) {
 									$_self.closest('li').classList.add('show');
 
-									console.log('а теперь тут')
-
 									// Функция обратного вызова после клика по ссылке
 									clickAfter(callback, _this, event)
 
@@ -374,6 +375,28 @@ class VGNav {
 					clickAfter(callback, _this, event);
 				}
 			});
+
+			function setDropPosition($drop) {
+				let {width, right} = $drop.getBoundingClientRect(),
+					window_width = window.innerWidth;
+
+				let N_right = window_width - right - width;
+
+				$drop.removeAttribute('class');
+
+				let $parent = $drop.closest('li'),
+					$ul = $parent.querySelectorAll('ul');
+
+				if (N_right > width) {
+					for (const $el of $ul) {
+						$el.classList.add('left');
+					}
+				} else {
+					for (const $el of $ul) {
+						$el.classList.add('right');
+					}
+				}
+			}
 		}
 
 		// Скрываем дроп, если кликнули по экрану

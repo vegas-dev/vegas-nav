@@ -1,3 +1,7 @@
+# VEGAS-NAV 3.2.12 (OKTOBER 24, 2023)
+* Auto positioning of the drop-down list (default: true)
+* bugs fixed
+
 # VEGAS-NAV 3.2.5 (JUNE 29, 2023)
 * bugs fixed
 
