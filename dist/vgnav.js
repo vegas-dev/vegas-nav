@@ -505,6 +505,7 @@
 				hover: false, // Выпадающее меню будет открываться при наведении если определено как true, или при клике если false
 				toggle: '<span class="default"></span>', // Кастомный переключатель для выпадающего списка
 				hamburger: null, // Кастомный мобильный гамбургер
+				enableHamburger: true, //
 				mobileTitle: '', // Помимо иконки (с полосками), можно добавить заголовок, например: "Меню" или "Навигация"
 				move: false,
 				flip: false, // перелистывание выпадающего списка навигации
@@ -595,20 +596,22 @@
 			}
 
 			// Устанавливаем гамбургер
-			_this.isResponsiveSize = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS);
-			if (_this.isResponsiveSize && _this.settings.enableExpand) {
-				let mTitle = '',
-					hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
+			if (_this.settings.enableHamburger) {
+				_this.isResponsiveSize = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS);
+				if (_this.isResponsiveSize && _this.settings.enableExpand) {
+					let mTitle = '',
+						hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
 
-				if (_this.settings.mobileTitle) {
-					mTitle = '<span class="' + _this.classes.hamburger + '--title">'+ _this.settings.mobileTitle +'</span>';
+					if (_this.settings.mobileTitle) {
+						mTitle = '<span class="' + _this.classes.hamburger + '--title">'+ _this.settings.mobileTitle +'</span>';
+					}
+
+					if (_this.settings.hamburger !== null) {
+						hamburger = _this.settings.hamburger;
+					}
+
+					$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
 				}
-
-				if (_this.settings.hamburger !== null) {
-					hamburger = _this.settings.hamburger;
-				}
-
-				$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
 			}
 
 			// Если меню слишком длинное переносим всё в дроп даун
