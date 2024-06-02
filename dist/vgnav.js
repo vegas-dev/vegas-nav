@@ -599,18 +599,23 @@
 			if (_this.settings.enableHamburger) {
 				_this.isResponsiveSize = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS);
 				if (_this.isResponsiveSize && _this.settings.enableExpand) {
-					let mTitle = '',
-						hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
+					let isHamburger = [...$container.getElementsByClassName(_this.classes.hamburger)];
 
-					if (_this.settings.mobileTitle) {
-						mTitle = '<span class="' + _this.classes.hamburger + '--title">'+ _this.settings.mobileTitle +'</span>';
+					console.log(isHamburger.length);
+					if (!isHamburger.length) {
+						let mTitle = '',
+							hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
+
+						if (_this.settings.mobileTitle) {
+							mTitle = '<span class="' + _this.classes.hamburger + '--title">'+ _this.settings.mobileTitle +'</span>';
+						}
+
+						if (_this.settings.hamburger !== null) {
+							hamburger = _this.settings.hamburger;
+						}
+
+						$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
 					}
-
-					if (_this.settings.hamburger !== null) {
-						hamburger = _this.settings.hamburger;
-					}
-
-					$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
 				}
 			}
 
@@ -721,17 +726,19 @@
 
 			const $sidebar = new VGSidebar(_this.sidebar, sidebarOption);
 
-			$click_hamburger.onclick = function (e) {
-				let $_self = this;
+			if ($click_hamburger) {
+				$click_hamburger.onclick = function (e) {
+					let $_self = this;
 
-				if ($_self.classList.contains('vg-sidebar-active')) {
-					$sidebar.close();
-				} else {
-					$sidebar.open();
-				}
+					if ($_self.classList.contains('vg-sidebar-active')) {
+						$sidebar.close();
+					} else {
+						$sidebar.open();
+					}
 
-				return false;
-			};
+					return false;
+				};
+			}
 
 			// После того как разобрались с боковой панелью, сделаем внутри нее перелистывание меню
 			if (_this.settings.flip) {
