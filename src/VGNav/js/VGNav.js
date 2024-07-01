@@ -16,6 +16,8 @@ import VGSidebar from "../../VGSidebar/js/VGSidebar";
  */
 import VGFlipList from "../../VGFlipList/js/VGFlipList";
 
+let isInitHamburger = false;
+
 class VGNav {
 	constructor (arg, callback) {
 		this.settings = mergeDeepObject({
@@ -116,12 +118,11 @@ class VGNav {
 		}
 
 		// Устанавливаем гамбургер
-		if (_this.settings.enableHamburger) {
+		if (_this.settings.enableHamburger && !isInitHamburger) {
 			_this.isResponsiveSize = $container.classList.contains(_this.classes.XXL) || $container.classList.contains(_this.classes.XL) || $container.classList.contains(_this.classes.LG) || $container.classList.contains(_this.classes.MD) || $container.classList.contains(_this.classes.SM) || $container.classList.contains(_this.classes.XS)
 			if (_this.isResponsiveSize && _this.settings.enableExpand) {
 				let isHamburger = [...$container.getElementsByClassName(_this.classes.hamburger)];
 
-				console.log(isHamburger.length)
 				if (!isHamburger.length) {
 					let mTitle = '',
 						hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
@@ -135,6 +136,8 @@ class VGNav {
 					}
 
 					$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
+
+					isInitHamburger = true;
 				}
 			}
 		}
