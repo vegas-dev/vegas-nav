@@ -65,7 +65,7 @@
 	 */
 
 	const defaultSettings = {
-		breakpoint: 'lg',
+		breakpoint: 'md',
 		breakpoints: {
 			xs: 0,
 			sm: 576,
@@ -78,6 +78,7 @@
 		isExpand: true,
 		isHover: true,
 		isCollapse: true,
+		isAutoPosition: true,
 		toggle: '<span class="default"></span>',
 		placement: 'horizontal',
 	};
@@ -131,6 +132,13 @@
 
 			if (!$navigation) return false;
 
+			// Переменные для переноса ссылок и авто позиционирования
+			let movedLinks = [],
+				$links = $navigation.querySelectorAll('.' + _this.classes.wrapper + ' > li'),
+				$drops = _this.element.querySelectorAll('.dropdown'),
+				width_all_links = [...$links].map(($link) => $link.clientWidth).reduce((partialSum, a) => partialSum + a, 0),
+				dots = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
+
 			// Вешаем основные классы
 			$container.classList.add(_this.classes.container);
 			$container.classList.add('vg-nav-' + _this.settings.breakpoint);
@@ -162,14 +170,108 @@
 				}
 			}
 
-			if (_this.settings.isCollapse) {
-				getWindowResize(function() {
-					if (_this._defineResponsive()) {
-						_this.element.classList.add('d-none');
-					} else {
-						_this.element.classList.remove('d-none');
+			if (_this.settings.isCollapse && _this._defineResponsive()) {
+				setCollapse();
+			}
+
+			if (_this.settings.isAutoPosition) {
+				if ([...$drops].length) {
+					[...$drops].forEach(function ($drop) {
+						setDropPosition($drop.querySelector('ul'));
+					});
+				}
+			}
+
+			getWindowResize(function () {
+				if (_this.settings.isCollapse && _this._defineResponsive()) {
+					setCollapse();
+				}
+
+				if (_this.settings.isAutoPosition) {
+					if ([...$drops].length) {
+						[...$drops].forEach(function ($drop) {
+							setDropPosition($drop.querySelector('ul'));
+						});
 					}
-				});
+				}
+			});
+
+			function setCollapse() {
+				let width_navigation_responsive = $container.querySelector('.' + _this.classes.wrapper).clientWidth,
+					width_all_links_responsive = 0,
+					$dots = $navigation.querySelector('.dots');
+
+				if ($links.length) {
+					for (let $link of $links) {
+						let width = $link.clientWidth;
+						width_all_links_responsive = width_all_links_responsive + width;
+
+						if (width_all_links_responsive >= width_navigation_responsive) {
+							movedLinks.push($link);
+							$link.remove();
+						} else {
+							if (movedLinks.length) {
+								if ($dots) {
+									$navigation.insertBefore(movedLinks[0], $dots);
+								} else {
+									$navigation.appendChild(movedLinks[0]);
+								}
+								movedLinks.splice(0, 1);
+							}
+						}
+					}
+
+					if (width_all_links >= width_navigation_responsive && movedLinks.length) {
+						if (!$dots) {
+							$navigation.insertAdjacentHTML('beforeend','<li class="dropdown dots">' + '<a href="#">'+ dots +'</a></li>');
+						}
+					} else {
+						if ($dots) {
+							$dots.remove();
+						}
+					}
+
+					let $d = $navigation.querySelector('.dots');
+					if ($d && movedLinks.length) {
+						let $dropdown = $d.querySelector('ul');
+						if ($dropdown) {
+							for (let link of movedLinks) {
+								$dropdown.prepend(link);
+							}
+						} else {
+							let $dropdown = document.createElement('ul');
+							$dropdown.classList.add('right');
+
+							for (let link of movedLinks) {
+								$dropdown.prepend(link);
+							}
+
+							$d.appendChild($dropdown);
+						}
+					}
+				}
+			}
+
+			function setDropPosition($drop) {
+				let {width, right} = $drop.getBoundingClientRect(),
+					window_width = window.innerWidth;
+
+				let N_right = window_width - right - width;
+
+				$drop.removeAttribute('class');
+
+				let $parent = $drop.closest('li'),
+					$ul = $parent.querySelectorAll('ul');
+
+				if (N_right > width) {
+					for (const $el of $ul) {
+						$el.classList.add('left');
+					}
+				} else {
+					for (const $el of $ul) {
+						$el.classList.add('right');
+					}
+				}
 			}
 		}
 
@@ -190,7 +292,9 @@
 			const _this = this;
 			let $container = _this.element;
 
-			if ($container.classList.contains(_this.classes.XXL)) {
+			if ($container.classList.contains(_this.classes.XXXL)) {
+				_this.current_responsive_size = _this.settings.breakpoints.xxxl;
+			} else if ($container.classList.contains(_this.classes.XXL)) {
 				_this.current_responsive_size = _this.settings.breakpoints.xxl;
 			} else if ($container.classList.contains(_this.classes.XL)) {
 				_this.current_responsive_size = _this.settings.breakpoints.xl;

@@ -23,7 +23,7 @@
 					<div class="logo">
 						<a href="https://vegas-dev.com/" target="_blank">
 							<img src="https://vegas-dev.com/assets/_frontend/images/logo/logo.svg" class="img-fluid"
-							     alt="vegas dev">
+								 alt="vegas dev">
 						</a>
 					</div>
 				</div>
@@ -72,29 +72,6 @@
 							</li>
 							<li><a href="/">Another page</a></li>
 							<li class="dropdown">
-							<a href="#">Right dropdown</a>
-							<ul>
-								<li><a href="/">Any page</a></li>
-								<li class="dropdown">
-									<a href="#">Second level</a>
-									<ul>
-										<li><a href="/">Another page</a></li>
-										<li><a href="/">Any page</a></li>
-										<li class="dropdown">
-											<a href="#">Third level</a>
-											<ul>
-												<li><a href="/">Any page</a></li>
-												<li><a href="/">Another page</a></li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li><a href="/">Another page</a></li>
-							</ul>
-						</li>
-							<!--<li><a href="/">Another page</a></li>
-							<li><a href="/">Another page</a></li>
-							<li class="dropdown">
 								<a href="#">Right dropdown</a>
 								<ul>
 									<li><a href="/">Any page</a></li>
@@ -116,7 +93,6 @@
 								</ul>
 							</li>
 							<li><a href="/">Another page</a></li>
-							-->
 						</ul>
 					</nav>
 				</div>
@@ -144,12 +120,12 @@
 <script src="/dist/vgnav.min.js"></script>
 <script>
 	function enableNav() {
-		[...document.querySelectorAll('.vg-nav')].forEach(function(el) {
+		[...document.querySelectorAll('.vg-nav')].forEach(function (el) {
 			new VGNav(el);
 		})
 	}
 
-	document.addEventListener('DOMContentLoaded', function() {
+	document.addEventListener('DOMContentLoaded', function () {
 		enableNav();
 	});
 </script>

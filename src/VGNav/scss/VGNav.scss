@@ -12,6 +12,7 @@
 
 :root {
 	@include mix-vars('nav', $nav-map, $prefix);
+	@include mix-vars('nav-hamburger', $hamburger-map, $prefix);
 }
 
 .vg-nav-container {
@@ -23,27 +24,130 @@
 		display: flex;
 		padding: 0;
 		margin: 0;
-		list-style: none;
 
-		// todo
 		li {
-			ul, div {
-				display: none;
+			list-style: none;
+
+			a {
+				white-space: nowrap;
 			}
 
 			/** set toggle **/
 			@import "toggle";
+		}
+
+		.dropdown {
+			position: relative;
+
+			ul {
+				padding: 0;
+				z-index: 10;
+				list-style: none;
+			}
+
+			> ul {
+				transition: var(--vg-nav-transition);
+				position: absolute;
+				top: 120%;
+				opacity: 0;
+				visibility: hidden;
+				width: var(--vg-nav-dropdown-width);
+
+				&.left, .left {
+					left: 0;
+				}
+
+				&.right, .right {
+					right: 0;
+				}
+
+				ul {
+					transition: var(--vg-nav-transition);
+					position: absolute;
+					top: 20%;
+					opacity: 0;
+					visibility: hidden;
+					width: var(--vg-nav-dropdown-width);
+				}
+
+				.dropdown {
+					ul.left {
+						left: 100%;
+					}
+
+					ul.right {
+						right: 100%;
+					}
+
+					&.show > ul {
+						visibility: visible;
+						opacity: 1;
+						top: 0;
+					}
+				}
+			}
 
 			&.show {
-				.toggle {
+				> ul {
+					visibility: visible;
+					opacity: 1;
+					top: 100%;
+				}
+
+				> a span.toggle {
 					.default {
-						transform: rotate(180deg);
+						transform: rotate(-180deg);
 					}
+				}
+			}
+		}
+
+		.dropdown-mega {
+			.dropdown-mega-container {
+				transition: var(--vg-nav-transition);
+				position: absolute;
+				top: 120%;
+				opacity: 0;
+				visibility: hidden;
+				left: 0;
+				width: 100%;
+				min-height: 300px;
+			}
+
+			&.show {
+				> a span.toggle {
+					transform: rotate(-180deg);
+				}
+
+				> .dropdown-mega-container {
+					visibility: visible;
+					opacity: 1;
+					top: 100%;
 				}
 			}
 		}
 	}
 
+	/** set hover **/
+	@import "hover";
+
 	/** set placement **/
 	@import "placement";
+
+	/** set hamburger **/
+	@import "hamburger";
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+	@include media-breakpoint-down($breakpoint, $grid-breakpoints) {
+		.vg-nav-#{$breakpoint} {
+			.vg-nav-hamburger {
+				display: flex;
+			}
+
+			> .vg-nav-wrapper {
+				display: none;
+			}
+		}
+	}
 }
