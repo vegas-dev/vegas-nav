@@ -5,6 +5,7 @@
  * Лицензия: смотри LICENSE.md
  * --------------------------------------------------------------------------
  */
+import { findContainer, getDataAttributes, listener, mergeDeepObject } from "../../_util/function";
 
 class VGFlipList {
 	constructor(container, arg = {}) {
@@ -44,30 +45,6 @@ class VGFlipList {
 		if (!this.isInit) {
 			this.init();
 		}
-
-		function findContainer(target) {
-			if (!target) return false;
-			return document.querySelector(target)
-		}
-
-		function getDataAttributes(node, isRemoveDataName = false) {
-			if (!node) return false;
-
-			let obj = {},
-				arr = [].filter.call(node.attributes, function (at) {
-					return /^data-/.test(at.name);
-				});
-
-			if (arr.length) {
-				arr.forEach(function (v) {
-					let name = v.name;
-					if (isRemoveDataName) name = name.slice(5);
-					obj[name] = v.value
-				});
-			}
-
-			return obj;
-		}
 	}
 
 	init() {
@@ -86,7 +63,7 @@ class VGFlipList {
 			if (targets.length) {
 				elementsClickTarget = Array.prototype.slice.call(targets)
 			} else {
-				// так как тыкать не на что выходит из матрицы
+				// так как тыкать не на что выходим из матрицы
 				return false;
 			}
 		} else {
@@ -129,7 +106,7 @@ class VGFlipList {
 
 		const _this = this;
 
-		_this.listener('click', '.' + _this.classes.toggle, function (el) {
+		listener('click', '.' + _this.classes.toggle, function (el) {
 			let parent = el.parentElement;
 
 			parent.parentElement.classList.add(_this.classes.closed);
@@ -144,7 +121,7 @@ class VGFlipList {
 			return false;
 		});
 
-		_this.listener('click', '.' + _this.classes.back, function (el) {
+		listener('click', '.' + _this.classes.back, function (el) {
 			let elOpen = el.closest('.' + _this.classes.open),
 				elCosed = el.closest('.' + _this.classes.closed);
 
@@ -161,56 +138,6 @@ class VGFlipList {
 
 		return false;
 	}
-
-	listener(event, el, callback) {
-		document.addEventListener(event, function(e) {
-			let selectors = document.body.querySelectorAll(el),
-				element = e.target,
-				index = -1;
-
-			while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
-				element = element.parentElement;
-			}
-
-			if (index > -1) {
-				(function() {
-					if (typeof callback === "function") {
-						callback(element, e);
-					}
-
-					e.preventDefault();
-				}).call(element, e);
-			}
-		});
-	}
-}
-
-/**
- * Глубокое объединение объектов
- * @param objects
- * @returns {*}
- */
-function mergeDeepObject(...objects) {
-	const isObject = obj => obj && typeof obj === 'object';
-
-	return objects.reduce((prev, obj) => {
-		Object.keys(obj).forEach(key => {
-			const pVal = prev[key];
-			const oVal = obj[key];
-
-			if (Array.isArray(pVal) && Array.isArray(oVal)) {
-				prev[key] = pVal.concat(...oVal);
-			}
-			else if (isObject(pVal) && isObject(oVal)) {
-				prev[key] = mergeDeepObject(pVal, oVal);
-			}
-			else {
-				prev[key] = oVal;
-			}
-		});
-
-		return prev;
-	}, {});
 }
 
 export default VGFlipList;

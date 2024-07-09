@@ -6,6 +6,8 @@
  * --------------------------------------------------------------------------
  */
 import { checkMobileOrTablet, getWindowResize, mergeDeepObject } from "../../_util/function";
+import VGSidebar from "../../VGSidebar/js/VGSidebar";
+import VGFlipList from "../../VGFlipList/js/VGFlipList";
 
 const defaultSettings = {
 	breakpoint: 'md',
@@ -19,11 +21,20 @@ const defaultSettings = {
 		xxxl: 1600
 	},
 	isExpand: true,
-	isHover: true,
+	isHover: false,
 	isCollapse: true,
 	isAutoPosition: true,
+	isHamburger: true,
+	hamburger: null,
 	toggle: '<span class="default"></span>',
 	placement: 'horizontal',
+	mobileTitle: '',
+	methodOpenSubmenu: 'flip', // or dropdown
+	sidebar: {
+		placement: 'right',
+		clone: null,
+		hash: false
+	}
 }
 
 class VGNav {
@@ -60,6 +71,7 @@ class VGNav {
 				XS: 'vg-nav-xs'
 			}
 
+			this.sidebar = 'vg-nav-sidebar';
 			this.current_responsive_size = '';
 
 			this.init(callback)
@@ -113,10 +125,12 @@ class VGNav {
 			}
 		}
 
+		// Сворачиваем элементы меню, если они не помещаются в контейнер
 		if (_this.settings.isCollapse && _this._defineResponsive()) {
 			setCollapse();
 		}
 
+		// Позиционируем выпадающие списки
 		if (_this.settings.isAutoPosition) {
 			if ([...$drops].length) {
 				[...$drops].forEach(function ($drop) {
@@ -125,6 +139,29 @@ class VGNav {
 			}
 		}
 
+		// Устанавливаем гамбургер
+		if (_this.settings.isHamburger) {
+			if (_this.settings.isExpand) {
+				let isHamburger = $container.querySelector(_this.classes.hamburger);
+
+				if (!isHamburger) {
+					let mTitle = '',
+						hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
+
+					if (_this.settings.mobileTitle) {
+						mTitle = '<span class="' + _this.classes.hamburger + '--title">'+ _this.settings.mobileTitle +'</span>';
+					}
+
+					if (_this.settings.hamburger !== null) {
+						hamburger = _this.settings.hamburger;
+					}
+
+					$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '">' + mTitle + hamburger +'</a>');
+				}
+			}
+		}
+
+		// Window Resize
 		getWindowResize(function () {
 			if (_this.settings.isCollapse && _this._defineResponsive()) {
 				setCollapse();
@@ -137,12 +174,25 @@ class VGNav {
 					});
 				}
 			}
+
+			if (_this.settings.isHover) {
+				if (!_this._defineResponsive()) {
+					$container.classList.remove(_this.classes.hover)
+				} else {
+					$container.classList.add(_this.classes.hover);
+				}
+			}
 		});
 
+		/**
+		 * Функция сворачивания
+		 */
 		function setCollapse() {
 			let width_navigation_responsive = $container.querySelector('.' + _this.classes.wrapper).clientWidth,
 				width_all_links_responsive = 0,
 				$dots = $navigation.querySelector('.dots');
+
+			if ($dots) width_all_links_responsive = $dots.clientWidth;
 
 			if ($links.length) {
 				for (let $link of $links) {
@@ -164,7 +214,7 @@ class VGNav {
 					}
 				}
 
-				if (width_all_links >= width_navigation_responsive && movedLinks.length) {
+				if (movedLinks.length) {
 					if (!$dots) {
 						$navigation.insertAdjacentHTML('beforeend','<li class="dropdown dots">' + '<a href="#">'+ dots +'</a></li>');
 					}
@@ -195,11 +245,14 @@ class VGNav {
 			}
 		}
 
+		/**
+		 * Функция позиционирования
+		 */
 		function setDropPosition($drop) {
 			let {width, right} = $drop.getBoundingClientRect(),
 				window_width = window.innerWidth;
 
-			let N_right = window_width - right - width;
+			let N_right = window_width - right - width - 24;
 
 			$drop.removeAttribute('class');
 
@@ -215,6 +268,255 @@ class VGNav {
 					$el.classList.add('right');
 				}
 			}
+		}
+
+		_this.plugins();
+		_this.toggle(callback);
+	}
+
+	/**
+	 * Вкл/выкл дропа.. Тугл же
+	 * @param callback
+	 * @returns {boolean}
+	 */
+	toggle(callback) {
+		let _this = this,
+			$navigation = _this.element.querySelector('.' + _this.classes.wrapper),
+			$click_a = $navigation.querySelectorAll('li > a');
+
+		// Функция обратного вызова после инициализации скрипта
+		if (callback && 'afterInit' in callback) {
+			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
+		}
+
+		if (_this._clickable()) {
+			$click_a.forEach(function (elem) {
+				elem.onclick = function (event) {
+					let $_self = this,
+						$li = $_self.closest('li');
+
+					clickBefore(callback, _this, event);
+
+					// Открываем обычное меню
+					if ($li.classList.contains('dropdown')) {
+						_this._dispose($navigation, 'dropdown-mega');
+
+						if ($li.closest('ul').classList.contains(_this.classes.wrapper)) {
+							if (!$li.classList.contains('show')) {
+								_this._dispose($navigation);
+								$li.classList.add('show');
+							} else {
+								$li.classList.remove('show');
+							}
+
+							clickAfter(callback, _this, event)
+
+							return false;
+						} else  {
+							if ($li.classList.contains('show')) {
+								$_self.closest('li').classList.remove('show');
+								_this._dispose($li);
+
+								clickAfter(callback, _this, event)
+
+								return false;
+							} else {
+								let $ul, $children = $li.children;
+
+								for (let i = 1; i <= $children.length; i++) {
+									if ($children[i - 1].tagName === 'UL') {
+										$ul = $children[i - 1];
+									}
+								}
+
+								if ($children.length > 0) {
+									$_self.closest('li').classList.add('show');
+
+									// Функция обратного вызова после клика по ссылке
+									clickAfter(callback, _this, event)
+
+									return false;
+								}
+							}
+						}
+					}
+
+					// Открываем мега меню
+					if ($li.classList.contains('dropdown-mega')) {
+						if ($li.classList.contains('show')) {
+							$li.classList.remove('show');
+						} else {
+							_this._dispose($navigation);
+							$li.classList.add('show');
+						}
+
+						clickAfter(callback, _this, event)
+
+						return false;
+					}
+
+					clickAfter(callback, _this, event);
+				}
+			});
+		}
+
+		// Скрываем дроп, если кликнули по экрану
+		window.addEventListener('mouseup', e => {
+			if (!e.target.closest('.' + _this.classes.wrapper)) {
+				_this._dispose();
+			}
+		});
+
+		function clickBefore(callback, $this, event) {
+			// Функция обратного вызова клика по ссылке до начала анимации
+			if (callback && 'beforeClick' in callback) {
+				if (typeof callback.beforeClick === 'function') callback.beforeClick($this, event)
+			}
+		}
+
+		function clickAfter(callback, $this, event) {
+			// Функция обратного вызова клика по ссылке после показа анимации
+			if (callback && 'afterClick' in callback) {
+				if (typeof callback.afterClick === 'function') callback.afterClick($this, event)
+			}
+		}
+	}
+
+	plugins() {
+		const _this = this;
+		let $container = _this.element,
+			$elmSidebar = document.getElementById(_this.sidebar);
+
+		// Боковая панель
+		if (_this.settings.isExpand) {
+			let opt_sidebar = _this.settings.sidebar || false,
+				sidebarOpen = opt_sidebar.placement || 'right',
+				historyState = opt_sidebar.hash ? 'data-hash="true"' : '';
+
+			if (!$elmSidebar) {
+				let mTitle = '';
+				if (_this.settings.mobileTitle) {
+					mTitle = '<span class="vg-sidebar-title">'+ _this.settings.mobileTitle +'</span>';
+				}
+
+				document.body.insertAdjacentHTML('beforeend','<div class="vg-sidebar ' + sidebarOpen + '" id="'+ _this.sidebar +'" '+ historyState +'>' +
+					'<div class="vg-sidebar-content">' +
+					'<div class="vg-sidebar-header">'+ mTitle +'<div class="vg-sidebar-close" data-dismiss="vg-sidebar" data-target="#' + _this.sidebar +'">&times;</div></div>' +
+					'<div class="vg-sidebar-body"><div class="vg-nav-clone-area"></div></div>' +
+					'</div></div>');
+
+				let $clone_target = document.getElementById(_this.sidebar).querySelector('.vg-nav-clone-area');
+				$clone_target.classList.add(_this.classes.cloned);
+
+				_this._cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.wrapper));
+			} else {
+				if ('clone' in opt_sidebar) {
+					if (opt_sidebar.clone) {
+						let $clone_target = document.getElementById(_this.sidebar).querySelector(opt_sidebar.clone);
+
+						if ($clone_target) {
+							$clone_target.classList.add(_this.classes.cloned);
+							_this._cloneNavigation($clone_target, $container.querySelector('.' + _this.classes.wrapper));
+						}
+					}
+				}
+			}
+
+			// События боковой панели
+			let $click_hamburger = $container.querySelector('.' + this.classes.hamburger),
+				sidebarOption = {
+					button: $click_hamburger,
+					hash: this.settings.sidebar.hash
+				};
+
+			const $sidebar = new VGSidebar(_this.sidebar, sidebarOption);
+
+			if ($click_hamburger) {
+				$click_hamburger.onclick = function (e) {
+					let $_self = this;
+
+					if ($_self.classList.contains('vg-sidebar-active')) {
+						$sidebar.close();
+					} else {
+						$sidebar.open();
+					}
+
+					return false;
+				}
+			}
+		}
+
+		if (_this.settings.methodOpenSubmenu === 'flip') {
+			if (!$elmSidebar) $elmSidebar = document.getElementById(_this.sidebar);
+
+			if ($elmSidebar) {
+				let $_navigation = $elmSidebar.querySelector('.' + _this.classes.wrapper);
+				if ($_navigation) {
+					let targetSimple = $_navigation.querySelectorAll('.dropdown > a'),
+						targetMega = $_navigation.querySelectorAll('.dropdown-mega > a');
+
+					let arrSimple = makeArray(targetSimple),
+						arrMega = makeArray(targetMega);
+
+					$_navigation.classList.remove(_this.classes.container);
+
+					function makeArray(list){
+						return Array.prototype.slice.call(list);
+					}
+
+					new VGFlipList($_navigation, {target: arrSimple.concat(arrMega)});
+				}
+			}
+		}
+
+		if (_this.settings.methodOpenSubmenu === 'dropdown') {
+			if (!$elmSidebar) $elmSidebar = document.getElementById(_this.sidebar);
+
+			if ($elmSidebar) {
+
+			}
+		}
+	}
+
+	_clickable() {
+		const _this = this;
+
+		let $container = _this.element;
+
+		if ($container.classList.contains(_this.classes.hover)) {
+			const current_responsive_size = _this._checkResponsiveClass();
+			const detector = checkMobileOrTablet();
+
+			if (detector) return true;
+			return window.innerWidth <= current_responsive_size;
+		} else {
+			return true;
+		}
+	}
+
+	_dispose($container, className = 'dropdown') {
+		const _this = this;
+		let elements;
+
+		if ($container) {
+			elements = $container.getElementsByClassName(className)
+			hideElements(elements);
+
+			function hideElements (el) {
+				if (el) {
+					for (let i = 1; i <= el.length; i++) {
+						if (el[i - 1].classList.contains('show')) {
+							el[i - 1].classList.remove('show');
+						}
+					}
+				}
+			}
+		} else {
+			[..._this.element.querySelectorAll('.dropdown, .dropdown-mega')].forEach(function (el) {
+				if (el.classList.contains('show')) {
+					el.classList.remove('show');
+				}
+			})
 		}
 	}
 
@@ -254,6 +556,11 @@ class VGNav {
 		}
 
 		return _this.current_responsive_size;
+	}
+
+	_cloneNavigation($target_clone, $navigation) {
+		let clone_navigation = $navigation.cloneNode(true);
+		$target_clone.append(clone_navigation);
 	}
 }
 

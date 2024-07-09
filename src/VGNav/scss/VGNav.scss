@@ -15,7 +15,7 @@
 	@include mix-vars('nav-hamburger', $hamburger-map, $prefix);
 }
 
-.vg-nav-container {
+.vg-nav {
 	position: relative;
 	z-index: var(--vg-nav-z-index);
 	width: var(--vg-nav-width);
@@ -136,18 +136,33 @@
 
 	/** set hamburger **/
 	@import "hamburger";
-}
 
-@each $breakpoint in map-keys($grid-breakpoints) {
-	@include media-breakpoint-down($breakpoint, $grid-breakpoints) {
-		.vg-nav-#{$breakpoint} {
-			.vg-nav-hamburger {
-				display: flex;
-			}
+	&:not(.vg-nav-expand) {
+		@each $breakpoint in map-keys($grid-breakpoints) {
+			@include media-breakpoint-down($breakpoint, $grid-breakpoints) {
+				&.vg-nav-#{$breakpoint} {
+					.vg-nav-hamburger {
+						display: flex;
+					}
 
-			> .vg-nav-wrapper {
-				display: none;
+					> .vg-nav-wrapper {
+						display: none;
+					}
+				}
 			}
 		}
 	}
 }
+
+/** set cloned **/
+@import "cloned";
+
+/**
+* Sidebar нам пригодится
+**/
+@import '../../VGSidebar/scss/VGSidebar.scss';
+
+/**
+* Flip List тоже подключим
+**/
+@import '../../VGFlipList/scss/VGFlipList';

@@ -1,0 +1,27 @@
+.vg-nav-cloned {
+	.vg-nav-wrapper {
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		margin: 0;
+
+		li {
+			list-style: none;
+
+			@import "toggle";
+		}
+
+		.dropdown {
+			ul {
+				.left, .right {
+					left: 0 !important;
+					top: 0 !important;
+				}
+			}
+		}
+
+		.dropdown-mega {
+
+		}
+	}
+}

@@ -2,6 +2,56 @@
 	'use strict';
 
 	/**
+	 * Глубокое объединение объектов
+	 * @param objects
+	 * @returns {*}
+	 */
+	function mergeDeepObject(...objects) {
+		const isObject = obj => obj && typeof obj === 'object';
+
+		return objects.reduce((prev, obj) => {
+			Object.keys(obj).forEach(key => {
+				const pVal = prev[key];
+				const oVal = obj[key];
+
+				if (Array.isArray(pVal) && Array.isArray(oVal)) {
+					prev[key] = pVal.concat(...oVal);
+				}
+				else if (isObject(pVal) && isObject(oVal)) {
+					prev[key] = mergeDeepObject(pVal, oVal);
+				}
+				else {
+					prev[key] = oVal;
+				}
+			});
+
+			return prev;
+		}, {});
+	}
+
+	function listener(event, el, callback) {
+		document.addEventListener(event, function(e) {
+			let selectors = document.body.querySelectorAll(el),
+				element = e.target,
+				index = -1;
+
+			while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
+				element = element.parentElement;
+			}
+
+			if (index > -1) {
+				(function() {
+					if (typeof callback === "function") {
+						callback(element, e);
+					}
+
+					e.preventDefault();
+				}).call(element, e);
+			}
+		});
+	}
+
+	/**
 	 * --------------------------------------------------------------------------
 	 * Module: VGSidebar
 	 * Автор: Vegas DEV
@@ -217,61 +267,6 @@
 			sidebar.open();
 		}
 	});
-
-	/**
-	 *
-	 * @param event
-	 * @param el
-	 * @param callback
-	 */
-	function listener(event, el, callback) {
-		document.addEventListener(event, function(e) {
-			let selectors = document.body.querySelectorAll(el),
-				element = e.target,
-				index = -1;
-
-			while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
-				element = element.parentElement;
-			}
-			if (index > -1) {
-				(function() {
-					if (typeof callback === "function") {
-						callback(element);
-					}
-
-					e.preventDefault();
-				}).call(element, e);
-			}
-		});
-	}
-
-	/**
-	 * Глубокое объединение объектов
-	 * @param objects
-	 * @returns {*}
-	 */
-	function mergeDeepObject(...objects) {
-		const isObject = obj => obj && typeof obj === 'object';
-
-		return objects.reduce((prev, obj) => {
-			Object.keys(obj).forEach(key => {
-				const pVal = prev[key];
-				const oVal = obj[key];
-
-				if (Array.isArray(pVal) && Array.isArray(oVal)) {
-					prev[key] = pVal.concat(...oVal);
-				}
-				else if (isObject(pVal) && isObject(oVal)) {
-					prev[key] = mergeDeepObject(pVal, oVal);
-				}
-				else {
-					prev[key] = oVal;
-				}
-			});
-
-			return prev;
-		}, {});
-	}
 
 	exports.VGSidebar = VGSidebar;
 

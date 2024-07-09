@@ -53,4 +53,50 @@ function getWindowResize(callback) {
 	};
 }
 
-export {mergeDeepObject, checkMobileOrTablet, getWindowResize}
+function findContainer(target) {
+	if (!target) return false;
+	return document.querySelector(target)
+}
+
+function getDataAttributes(node, isRemoveDataName = false) {
+	if (!node) return false;
+
+	let obj = {},
+		arr = [].filter.call(node.attributes, function (at) {
+			return /^data-/.test(at.name);
+		});
+
+	if (arr.length) {
+		arr.forEach(function (v) {
+			let name = v.name;
+			if (isRemoveDataName) name = name.slice(5);
+			obj[name] = v.value
+		});
+	}
+
+	return obj;
+}
+
+function listener(event, el, callback) {
+	document.addEventListener(event, function(e) {
+		let selectors = document.body.querySelectorAll(el),
+			element = e.target,
+			index = -1;
+
+		while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
+			element = element.parentElement;
+		}
+
+		if (index > -1) {
+			(function() {
+				if (typeof callback === "function") {
+					callback(element, e);
+				}
+
+				e.preventDefault();
+			}).call(element, e);
+		}
+	});
+}
+
+export {mergeDeepObject, checkMobileOrTablet, getWindowResize, findContainer, getDataAttributes, listener}
