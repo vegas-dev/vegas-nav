@@ -119,9 +119,7 @@
 <script src="/dist/vgnav.min.js"></script>
 <script>
 	function enableNav() {
-		[...document.querySelectorAll('.vg-nav')].forEach(function (el) {
-			new VGNav(el);
-		})
+		new VGNav('.vg-nav');
 	}
 
 	document.addEventListener('DOMContentLoaded', function () {

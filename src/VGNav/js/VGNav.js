@@ -6,8 +6,9 @@
  * --------------------------------------------------------------------------
  */
 import { checkMobileOrTablet, getWindowResize, mergeDeepObject } from "../../_util/function";
-import VGSidebar from "../../VGSidebar/js/VGSidebar";
-import VGFlipList from "../../VGFlipList/js/VGFlipList";
+import { VGSidebar } from "../../VGSidebar";
+import { VGFlipList } from "../../VGFlipList";
+import { VGDropdown } from "../../VGDropdown";
 
 const defaultSettings = {
 	breakpoint: 'md',
@@ -29,7 +30,7 @@ const defaultSettings = {
 	toggle: '<span class="default"></span>',
 	placement: 'horizontal',
 	mobileTitle: '',
-	methodOpenSubmenu: 'flip', // or dropdown
+	methodOpenSubmenu: 'dropdown', // flip or dropdown
 	sidebar: {
 		placement: 'right',
 		clone: null,
@@ -274,11 +275,6 @@ class VGNav {
 		_this.toggle(callback);
 	}
 
-	/**
-	 * Вкл/выкл дропа.. Тугл же
-	 * @param callback
-	 * @returns {boolean}
-	 */
 	toggle(callback) {
 		let _this = this,
 			$navigation = _this.element.querySelector('.' + _this.classes.wrapper),
@@ -452,17 +448,10 @@ class VGNav {
 			if ($elmSidebar) {
 				let $_navigation = $elmSidebar.querySelector('.' + _this.classes.wrapper);
 				if ($_navigation) {
-					let targetSimple = $_navigation.querySelectorAll('.dropdown > a'),
-						targetMega = $_navigation.querySelectorAll('.dropdown-mega > a');
+					let arrSimple = [...$_navigation.querySelectorAll('.dropdown > a')],
+						arrMega = [...$_navigation.querySelectorAll('.dropdown-mega > a')];
 
-					let arrSimple = makeArray(targetSimple),
-						arrMega = makeArray(targetMega);
-
-					$_navigation.classList.remove(_this.classes.container);
-
-					function makeArray(list){
-						return Array.prototype.slice.call(list);
-					}
+					$_navigation.classList.remove(_this.classes.wrapper);
 
 					new VGFlipList($_navigation, {target: arrSimple.concat(arrMega)});
 				}
@@ -473,7 +462,9 @@ class VGNav {
 			if (!$elmSidebar) $elmSidebar = document.getElementById(_this.sidebar);
 
 			if ($elmSidebar) {
+				let $_navigation = $elmSidebar.querySelector('.' + _this.classes.wrapper);
 
+				new VGDropdown($_navigation, {target: ['dropdown', 'dropdown-mega']});
 			}
 		}
 	}
@@ -561,6 +552,21 @@ class VGNav {
 	_cloneNavigation($target_clone, $navigation) {
 		let clone_navigation = $navigation.cloneNode(true);
 		$target_clone.append(clone_navigation);
+
+		let $dots = clone_navigation.querySelector('.dots');
+		if ($dots) {
+			let $ul = $dots.querySelector('ul');
+			if ($ul) {
+				let $li = [...$ul.childNodes];
+				$li.reverse();
+
+				[...$li].forEach(function (el) {
+					clone_navigation.append(el)
+				})
+
+				$dots.remove();
+			}
+		}
 	}
 }
 
