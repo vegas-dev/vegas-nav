@@ -5,7 +5,7 @@
  * Лицензия: смотри LICENSE.md
  * --------------------------------------------------------------------------
  */
-import { checkMobileOrTablet, getWindowResize, mergeDeepObject } from "../../_util/function";
+import { checkMobileOrTablet, getWindowResize, listener, mergeDeepObject } from "../../_util/function";
 import { VGSidebar } from "../../VGSidebar";
 import { VGFlipList } from "../../VGFlipList";
 import { VGCollapse } from "../../VGCollapse";
@@ -30,7 +30,7 @@ const defaultSettings = {
 	toggle: '<span class="default"></span>',
 	placement: 'horizontal',
 	mobileTitle: '',
-	methodOpenSubmenu: 'collapse', // flip or collapse
+	methodOpenSubmenu: 'flip', // flip or collapse
 	sidebar: {
 		placement: 'right',
 		clone: null,
@@ -286,74 +286,72 @@ class VGNav {
 		}
 
 		if (_this._clickable()) {
-			$click_a.forEach(function (elem) {
-				elem.onclick = function (event) {
-					let $_self = this,
-						$li = $_self.closest('li');
+			listener('click', '.vg-nav-wrapper li > a', function(element, event) {
+				let $_self = element,
+					$li = $_self.closest('li');
 
-					clickBefore(callback, _this, event);
+				clickBefore(callback, _this, event);
 
-					// Открываем обычное меню
-					if ($li.classList.contains('dropdown')) {
-						_this._dispose($navigation, 'dropdown-mega');
+				// Открываем обычное меню
+				if ($li.classList.contains('dropdown')) {
+					_this._dispose($navigation, 'dropdown-mega');
 
-						if ($li.closest('ul').classList.contains(_this.classes.wrapper)) {
-							if (!$li.classList.contains('show')) {
-								_this._dispose($navigation);
-								$li.classList.add('show');
-							} else {
-								$li.classList.remove('show');
-							}
-
-							clickAfter(callback, _this, event)
-
-							return false;
-						} else  {
-							if ($li.classList.contains('show')) {
-								$_self.closest('li').classList.remove('show');
-								_this._dispose($li);
-
-								clickAfter(callback, _this, event)
-
-								return false;
-							} else {
-								let $ul, $children = $li.children;
-
-								for (let i = 1; i <= $children.length; i++) {
-									if ($children[i - 1].tagName === 'UL') {
-										$ul = $children[i - 1];
-									}
-								}
-
-								if ($children.length > 0) {
-									$_self.closest('li').classList.add('show');
-
-									// Функция обратного вызова после клика по ссылке
-									clickAfter(callback, _this, event)
-
-									return false;
-								}
-							}
-						}
-					}
-
-					// Открываем мега меню
-					if ($li.classList.contains('dropdown-mega')) {
-						if ($li.classList.contains('show')) {
-							$li.classList.remove('show');
-						} else {
+					if ($li.closest('ul').classList.contains(_this.classes.wrapper)) {
+						if (!$li.classList.contains('show')) {
 							_this._dispose($navigation);
 							$li.classList.add('show');
+						} else {
+							$li.classList.remove('show');
 						}
 
 						clickAfter(callback, _this, event)
 
 						return false;
+					} else  {
+						if ($li.classList.contains('show')) {
+							$_self.closest('li').classList.remove('show');
+							_this._dispose($li);
+
+							clickAfter(callback, _this, event)
+
+							return false;
+						} else {
+							let $ul, $children = $li.children;
+
+							for (let i = 1; i <= $children.length; i++) {
+								if ($children[i - 1].tagName === 'UL') {
+									$ul = $children[i - 1];
+								}
+							}
+
+							if ($children.length > 0) {
+								$_self.closest('li').classList.add('show');
+
+								// Функция обратного вызова после клика по ссылке
+								clickAfter(callback, _this, event)
+
+								return false;
+							}
+						}
+					}
+				}
+
+				// Открываем мега меню
+				if ($li.classList.contains('dropdown-mega')) {
+					if ($li.classList.contains('show')) {
+						$li.classList.remove('show');
+					} else {
+						_this._dispose($navigation);
+						$li.classList.add('show');
 					}
 
-					clickAfter(callback, _this, event);
+					clickAfter(callback, _this, event)
+
+					return false;
 				}
-			});
+
+				clickAfter(callback, _this, event);
+			})
 		}
 
 		// Скрываем дроп, если кликнули по экрану
