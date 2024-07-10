@@ -6,8 +6,8 @@
  * --------------------------------------------------------------------------
  */
 
-import VGDropdown from "./js/VGDropdown";
+import VGCollapse from "./js/VGCollapse";
 
 export {
-	VGDropdown
+	VGCollapse
 };

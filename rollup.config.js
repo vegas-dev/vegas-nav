@@ -9,7 +9,7 @@ import banner from "rollup-plugin-banner";
 import pkg from "./package.json";
 
 const config = [];
-const files = ["VGNav", "VGSidebar", "VGFlipList", "VGDropdown"];
+const files = ["VGNav", "VGSidebar", "VGFlipList", "VGCollapse"];
 
 for (const file_name of files) {
 	let input_file;

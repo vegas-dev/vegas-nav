@@ -8,7 +8,7 @@
 import { checkMobileOrTablet, getWindowResize, mergeDeepObject } from "../../_util/function";
 import { VGSidebar } from "../../VGSidebar";
 import { VGFlipList } from "../../VGFlipList";
-import { VGDropdown } from "../../VGDropdown";
+import { VGCollapse } from "../../VGCollapse";
 
 const defaultSettings = {
 	breakpoint: 'md',
@@ -30,7 +30,7 @@ const defaultSettings = {
 	toggle: '<span class="default"></span>',
 	placement: 'horizontal',
 	mobileTitle: '',
-	methodOpenSubmenu: 'dropdown', // flip or dropdown
+	methodOpenSubmenu: 'collapse', // flip or collapse
 	sidebar: {
 		placement: 'right',
 		clone: null,
@@ -458,13 +458,11 @@ class VGNav {
 			}
 		}
 
-		if (_this.settings.methodOpenSubmenu === 'dropdown') {
+		if (_this.settings.methodOpenSubmenu === 'collapse') {
 			if (!$elmSidebar) $elmSidebar = document.getElementById(_this.sidebar);
 
 			if ($elmSidebar) {
-				let $_navigation = $elmSidebar.querySelector('.' + _this.classes.wrapper);
-
-				new VGDropdown($_navigation, {target: ['dropdown', 'dropdown-mega']});
+				new VGCollapse();
 			}
 		}
 	}
