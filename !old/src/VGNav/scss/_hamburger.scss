@@ -40,22 +40,22 @@
 		display: inline-block;
 		margin-right: 3px;
 	}
-}
 
-&.vg-sidebar-active {
-	.vg-nav-hamburger--lines {
-		span {
-			&:first-child {
-				opacity: 0;
-			}
+	&.vg-sidebar-active {
+		.vg-nav-hamburger--lines {
+			span {
+				&:first-child {
+					opacity: 0;
+				}
 
-			&:nth-child(2) {
-				transform: rotate(45deg);
-			}
+				&:nth-child(2) {
+					transform: rotate(45deg);
+				}
 
-			&:last-child {
-				transform: rotate(-45deg);
-				top: 10px;
+				&:last-child {
+					transform: rotate(-45deg);
+					top: 10px;
+				}
 			}
 		}
 	}

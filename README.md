@@ -1,2 +1,1 @@
-# VEGAS NAV
-Just easy site navigation
+# vegas-log
