@@ -1,0 +1,38 @@
+$prefix: vg-;
+
+$grid-breakpoints: (
+		xs: 576px,
+		sm: 768px,
+		md: 992px,
+		lg: 1200px,
+		xl: 1400px,
+		xxl: 1600px,
+		xxxl: 1800px
+);
+
+$nav-map: (
+		z-index: 100,
+		width: 100%,
+		transition: all 0.4s ease,
+		dropdown-width: 200px,
+		item-margin: 0,
+		item-padding: 23px 25px,
+		item-font-size: 1rem,
+		item-font-weight: 400,
+		item-line-height: 1.4,
+		item-color: white,
+		item-decoration: none,
+		item-display: inline-block,
+		item-border: none,
+		item-border-radius: 0,
+		item-white-space: nowrap,
+		item-position: relative,
+);
+
+$hamburger-map: (
+		height: 27px,
+		line-width: 35px,
+		line-color: #333333,
+		line-height: 3px,
+		line-indent-top: 7px
+)

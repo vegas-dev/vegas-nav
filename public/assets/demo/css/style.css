@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+
+body {
+	--vg-nav-hamburger-line-color: var(--bs-body-color, white);
+
+	/** **/
+	.header {
+		position: relative;
+		height: 100px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	main {
+		min-height: calc(100vh - 148px);
+	}
+
+	.menu-sidebar {
+		--vg-nav-item-padding: 1rem;
+		--vg-nav-item-border: 1px solid var(--bs-border-color, rgba(255, 255, 255, .15));
+		--vg-nav-item-display: block;
+	}
+
+	.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+		background-color: var(--vg-nav-hamburger-line-color);
+	}
+
+	/* */
+	a {
+		color: var(--vg-link-color);
+		text-decoration: var(--vg-link-color-hover);
+		transition: var(--vg-transition);
+	}
+
+	a:hover {
+		color: var(--vg-link-color-hover);
+		text-decoration: var(--vg-link-decoration-hover);
+	}
+}

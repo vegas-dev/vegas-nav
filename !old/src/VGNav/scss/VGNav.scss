@@ -142,7 +142,7 @@
 			@include media-breakpoint-down($breakpoint, $grid-breakpoints) {
 				&.vg-nav-#{$breakpoint} {
 					.vg-nav-hamburger {
-						display: flex;
+						display: inline-block;
 					}
 
 					> .vg-nav-wrapper {

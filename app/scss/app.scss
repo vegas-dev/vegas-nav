@@ -1,1 +1,149 @@
+/**
+*--------------------------------------------------------------------------
+* Модуль: VGNav
+* Автор: Vegas DEV
+* Лицензия: смотри LICENSE.md
+*--------------------------------------------------------------------------
+**/
 
+@import "./option/variables";
+@import "./option/breakpoints";
+@import "./option/mixin";
+
+:root {
+	@include mix-vars('nav', $nav-map, $prefix);
+	@include mix-vars('nav-hamburger', $hamburger-map, $prefix);
+}
+
+.vg-nav {
+	.vg-nav-wrapper {
+		display: flex;
+		padding: 0;
+		margin: 0;
+		position: relative;
+
+		> li {
+			list-style: none;
+			margin: var(--vg-nav-item-margin);
+
+			> a {
+				white-space: var(--vg-nav-item-white-space);
+				position: var(--vg-nav-item-position);
+				display: var(--vg-nav-item-display);
+				padding: var(--vg-nav-item-padding);
+				font-size: var(--vg-nav-item-font-size);
+				font-weight: var(--vg-nav-item-font-weight);
+				line-height: var(--vg-nav-item-line-height);
+				color: var(--vg-nav-item-color);
+				text-decoration: var(--vg-nav-item-decoration);
+				border: var(--vg-nav-item-border);
+				border-radius: var(--vg-nav-item-border-radius);
+			}
+
+		}
+
+		.dropdown {
+			position: relative;
+
+			ul {
+				padding: 0;
+				z-index: 10;
+				list-style: none;
+			}
+
+			> ul {
+				transition: var(--vg-nav-transition);
+				position: absolute;
+				top: 120%;
+				opacity: 0;
+				visibility: hidden;
+				width: var(--vg-nav-dropdown-width);
+
+				&.left, .left {
+					left: 0;
+				}
+
+				&.right, .right {
+					right: 0;
+				}
+
+				ul {
+					transition: var(--vg-nav-transition);
+					position: absolute;
+					top: 20%;
+					opacity: 0;
+					visibility: hidden;
+					width: var(--vg-nav-dropdown-width);
+				}
+
+				.dropdown {
+					ul.left {
+						left: 100%;
+					}
+
+					ul.right {
+						right: 100%;
+					}
+
+					&.show > ul {
+						visibility: visible;
+						opacity: 1;
+						top: 0;
+					}
+				}
+			}
+
+			&.show {
+				> ul {
+					visibility: visible;
+					opacity: 1;
+					top: 100%;
+				}
+
+				> a span.toggle {
+					.default {
+						transform: rotate(-180deg);
+					}
+				}
+			}
+		}
+
+		.dropdown-mega {
+			.dropdown-mega-container {
+				transition: var(--vg-nav-transition);
+				position: absolute;
+				top: 120%;
+				opacity: 0;
+				visibility: hidden;
+				left: 0;
+				width: 100%;
+				min-height: 300px;
+			}
+		}
+	}
+
+	/** set hover **/
+	@import "hover";
+
+	/** set placement **/
+	@import "placement";
+
+	/** set hamburger **/
+	@import "hamburger";
+
+	&:not(.vg-nav-expand) {
+		@each $breakpoint in map-keys($grid-breakpoints) {
+			@include media-breakpoint-down($breakpoint, $grid-breakpoints) {
+				&.vg-nav-#{$breakpoint} {
+					.vg-nav-hamburger {
+						display: flex;
+					}
+
+					> .vg-nav-wrapper {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,41 @@
+&.vg-nav-hover {
+	> ul {
+		.dropdown {
+			&:hover {
+				> a span.toggle .default {
+					transform: rotate(-180deg);
+				}
+
+				> ul {
+					visibility: visible;
+					opacity: 1;
+					top: 100%;
+				}
+
+				.dropdown {
+					&:hover {
+						> ul {
+							visibility: visible;
+							opacity: 1;
+							top: 0;
+						}
+					}
+				}
+			}
+		}
+
+		.dropdown-mega {
+			&:hover {
+				.dropdown-mega-container {
+					visibility: visible;
+					opacity: 1;
+					top: 100%;
+				}
+
+				> a span.toggle .default {
+					transform: rotate(-180deg);
+				}
+			}
+		}
+	}
+}

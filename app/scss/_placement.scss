@@ -1,0 +1,11 @@
+&.vg-nav-horizontal {
+	.vg-nav-wrapper {
+		flex-direction: row;
+	}
+}
+
+&.vg-nav-vertical {
+	.vg-nav-wrapper {
+		flex-direction: column;
+	}
+}
