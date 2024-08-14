@@ -194,46 +194,12 @@ class VGNav {
 			}
 		}
 
-		// Позиционируем выпадающие списки
-		if (_this.settings.isAutoPosition) {
-			if ([...$drops].length) {
-				[...$drops].forEach(function ($drop) {
-					setDropPosition($drop.querySelector('ul'));
-				});
-			}
-		}
-
 		// Сворачиваем элементы меню, если они не помещаются в контейнер
 		if (_this.settings.isCollapse && _this._defineResponsive() && _this.settings.placement !== 'vertical') {
 			setCollapse();
 		}
 
 		_this.toggle(callback);
-
-		/**
-		 * Функция позиционирования
-		 */
-		function setDropPosition($drop) {
-			let {width, right} = $drop.getBoundingClientRect(),
-				window_width = window.innerWidth;
-
-			let N_right = window_width - right - width - 24;
-
-			$drop.removeAttribute('class');
-
-			let $parent = $drop.closest('li'),
-				$ul = $parent.querySelectorAll('ul');
-
-			if (N_right > width) {
-				for (const $el of $ul) {
-					$el.classList.add('left');
-				}
-			} else {
-				for (const $el of $ul) {
-					$el.classList.add('right');
-				}
-			}
-		}
 
 		/**
 		 * Функция сворачивания
@@ -314,24 +280,33 @@ class VGNav {
 					let $_self = this,
 						$li = $_self.closest('li');
 
-					clickBefore(callback, _this, event);
-
 					// Открываем обычное меню
 					if ($li.classList.contains('dropdown')) {
 						_this.destroy($navigation, 'dropdown-mega');
 
 						if ($li.closest('ul').classList.contains(_this.classes.wrapper)) {
-							if (!$li.classList.contains('show')) {
-								_this.destroy($navigation);
-								$li.classList.add('show');
-							} else {
-								$li.classList.remove('show');
-							}
+							let $drop = findContainer('ul', $li);
+							$drop.style.display = 'block';
+							setDropPosition($drop);
+							clickBefore(callback, _this, event);
+
+							setTimeout(() => {
+								if (!$li.classList.contains('show')) {
+									_this.destroy($navigation);
+									$li.classList.add('show');
+								} else {
+									$li.classList.remove('show');
+
+									setTimeout(() => {
+										findContainer('ul', $li).style.display = 'none';
+									}, 400);
+								}
+							}, 50)
 
 							clickAfter(callback, _this, event)
 
 							return false;
-						} else  {
+						} else {
 							if ($li.classList.contains('show')) {
 								$_self.closest('li').classList.remove('show');
 								_this.destroy($li);
@@ -349,10 +324,17 @@ class VGNav {
 								}
 
 								if ($children.length > 0) {
-									$_self.closest('li').classList.add('show');
+									let $drop = findContainer('ul', $li);
+									$drop.style.display = 'block';
+									setDropPosition($drop);
+									clickBefore(callback, _this, event);
 
-									// Функция обратного вызова после клика по ссылке
-									clickAfter(callback, _this, event)
+									setTimeout(() => {
+										$_self.closest('li').classList.add('show');
+
+										// Функция обратного вызова после клика по ссылке
+										clickAfter(callback, _this, event)
+									}, 50)
 
 									return false;
 								}
@@ -362,12 +344,23 @@ class VGNav {
 
 					// Открываем мега меню
 					if ($li.classList.contains('dropdown-mega')) {
-						if ($li.classList.contains('show')) {
-							$li.classList.remove('show');
-						} else {
-							_this.destroy($navigation);
-							$li.classList.add('show');
-						}
+						let $drop = findContainer('.dropdown-mega-container', $li);
+						$drop.style.display = 'block';
+						setDropPosition($drop, true);
+						clickBefore(callback, _this, event);
+
+						setTimeout(() => {
+							if ($li.classList.contains('show')) {
+								$li.classList.remove('show');
+
+								setTimeout(() => {
+									findContainer('.dropdown-mega-container', $li).style.display = 'none';
+								}, 400);
+							} else {
+								_this.destroy($navigation);
+								$li.classList.add('show');
+							}
+						}, 50)
 
 						clickAfter(callback, _this, event)
 
@@ -379,6 +372,17 @@ class VGNav {
 					return false;
 				}
 			});
+		} else {
+			/** TODO Тут действия при наведении **/
+			$click_a.forEach(function($link) {
+				let $drop = $link.closest('li').querySelector('ul');
+
+				$link.onmouseover = function() {
+					if ($drop) {
+						setDropPosition($drop);
+					}
+				}
+			});
 		}
 
 		// Скрываем дроп, если кликнули по экрану
@@ -387,6 +391,50 @@ class VGNav {
 				_this.destroy();
 			}
 		});
+
+		/**
+		 * Функция позиционирования
+		 */
+		function setDropPosition($drop, isMegaMenu = false) {
+			// Позиционируем выпадающие списки
+			if (_this.settings.isAutoPosition) {
+				let {width, height, right, top} = $drop.getBoundingClientRect(),
+					window_width = window.innerWidth,
+					window_height = window.innerHeight;
+
+				let N_right = window_width - right - width - 24,
+					N_bottom = window_height - top - height;
+
+				if (!isMegaMenu) {
+					$drop.removeAttribute('class');
+				}
+
+				let $parent = $drop.closest('li'),
+					$ul = $parent.querySelectorAll('ul');
+
+				if (N_bottom <= 0) {
+					for (const $el of $ul) {
+						$el.classList.add('bottom');
+					}
+
+					if (isMegaMenu) {
+						$drop.style.top = height * (-1) + 'px';
+					}
+				}
+
+				if (!isMegaMenu) {
+					if (N_right > width) {
+						for (const $el of $ul) {
+							$el.classList.add('left');
+						}
+					} else {
+						for (const $el of $ul) {
+							$el.classList.add('right');
+						}
+					}
+				}
+			}
+		}
 
 		/**
 		 * Проверим можно ли кликнуть
@@ -431,6 +479,11 @@ class VGNav {
 					for (let i = 1; i <= el.length; i++) {
 						if (el[i - 1].classList.contains('show')) {
 							el[i - 1].classList.remove('show');
+
+							setTimeout(() => {
+								let $ul = el[i - 1].querySelector('ul');
+								if ($ul) $ul.style.display = 'none';
+							}, 400)
 						}
 					}
 				}
@@ -439,6 +492,12 @@ class VGNav {
 			[..._this.element.querySelectorAll('.dropdown, .dropdown-mega')].forEach(function (el) {
 				if (el.classList.contains('show')) {
 					el.classList.remove('show');
+
+					setTimeout(() => {
+						el.querySelectorAll('ul, .dropdown-mega-container').forEach(function(elm) {
+							elm.style.display = 'none';
+						});
+					}, 400)
 				}
 			})
 		}

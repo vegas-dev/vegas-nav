@@ -17,8 +17,9 @@ body {
 		justify-content: center;
 	}
 
-	main {
-		min-height: calc(100vh - 148px);
+	footer {
+		margin-top: 300px;
+		padding: 2rem 0;
 	}
 
 	.menu-sidebar {

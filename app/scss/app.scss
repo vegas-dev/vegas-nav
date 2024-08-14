@@ -55,6 +55,7 @@
 				list-style: none;
 				padding: 0;
 				z-index: var(--vg-nav-drop-z-index);
+				display: none;
 			}
 
 			> ul {
@@ -88,6 +89,10 @@
 				> ul {
 					@extend %dropUlShow;
 					top: 100%;
+
+					&.bottom, .bottom {
+						top: -200%;
+					}
 				}
 
 				> a span.toggle {
@@ -104,6 +109,7 @@
 				left: 0;
 				width: 100%;
 				min-height: 300px;
+				display: none;
 			}
 
 			&.show {
@@ -114,6 +120,10 @@
 				> .dropdown-mega-container {
 					@extend %dropUlShow;
 					top: 100%;
+
+					&.bottom, .bottom {
+						top: -200%;
+					}
 				}
 			}
 		}
