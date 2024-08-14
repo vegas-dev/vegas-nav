@@ -91,28 +91,6 @@ function getDataAttributes(node, isRemoveDataName = false) {
 	return obj;
 }
 
-function listener(event, el, callback) {
-	document.addEventListener(event, function(e) {
-		let selectors = document.body.querySelectorAll(el),
-			element = e.target,
-			index = -1;
-
-		while (element && ((index = Array.prototype.indexOf.call(selectors, element)) === -1)) {
-			element = element.parentElement;
-		}
-
-		if (index > -1) {
-			(function() {
-				if (typeof callback === "function") {
-					callback(element, e);
-				}
-
-				e.preventDefault();
-			}).call(element, e);
-		}
-	});
-}
-
 /**
  * isJsonString
  * @param str
@@ -149,4 +127,4 @@ function isEmptyObj(obj) {
  */
 const isObject = obj => obj && typeof obj === 'object';
 
-export {mergeDeepObject, checkMobileOrTablet, getWindowResize, findContainerAll, findContainer, getDataAttributes, listener, isJsonString, isObject, isEmptyObj}
+export {mergeDeepObject, checkMobileOrTablet, getWindowResize, findContainerAll, findContainer, getDataAttributes, isJsonString, isObject, isEmptyObj}

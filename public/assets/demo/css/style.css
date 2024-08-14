@@ -6,6 +6,7 @@ body {
 	--vg-nav-drop-item-border-color-hover: var(--bs-border-color, rgba(255, 255, 255, .15));
 	--vg-nav-drop-border-color: var(--bs-border-color, rgba(255, 255, 255, .15));
 	--vg-nav-drop-item-bg-hover: var(--bs-secondary-bg, rgba(255, 255, 255, .15));
+	--vg-nav-drop-bg: var(--bs-body-bg, black);
 
 	/** **/
 	.header {

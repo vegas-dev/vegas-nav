@@ -105,6 +105,17 @@
 				width: 100%;
 				min-height: 300px;
 			}
+
+			&.show {
+				> a span.toggle {
+					transform: rotate(-180deg);
+				}
+
+				> .dropdown-mega-container {
+					@extend %dropUlShow;
+					top: 100%;
+				}
+			}
 		}
 	}
 

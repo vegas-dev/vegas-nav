@@ -813,7 +813,7 @@
 			// Скрываем дроп, если кликнули по экрану
 			window.addEventListener('mouseup', e => {
 				if (!e.target.closest('.' + _this.classes.wrapper)) {
-					_this._dispose();
+					_this._dispose(undefined, "dropdown");
 				}
 			});
 

@@ -4,7 +4,7 @@ import {
 	getDataAttributes,
 	isEmptyObj,
 	isJsonString,
-	isObject,
+	isObject, listener,
 	mergeDeepObject
 } from "./_util/function";
 
@@ -28,6 +28,9 @@ let setParams = function (nav, params, arg) {
 				switch (datum) {
 					case 'hover':
 						mParams.isHover = value;
+					break;
+					case 'collapse':
+						mParams.isCollapse = value;
 					break;
 					default:
 						mParams[datum] = value;
@@ -69,6 +72,7 @@ const defaultSettings = {
 	isExpand: true,
 	isHover: false,
 	isAutoPosition: true,
+	isCollapse: true,
 	toggle: '<span class="default"></span>',
 	hamburger: {
 		title: '',
@@ -93,6 +97,7 @@ class VGNav {
 
 		this.settings = setParams(element, defaultSettings, arg);
 		this.classes = mergeDeepObject({
+			hamburgerActive: 'vg-nav-hamburger-active',
 			hamburger: 'vg-nav-hamburger',
 			container: 'vg-nav-container',
 			wrapper: 'vg-nav-wrapper',
@@ -120,7 +125,6 @@ class VGNav {
 
 		// Обязательная разметка с навигаций под классом vg-nav-wrapper
 		let $container = _this.element,
-			$drops = findContainerAll('.dropdown', $container),
 			$navigation = findContainer('.' + _this.classes.wrapper, $container);
 
 		if (!$navigation) {
@@ -128,15 +132,21 @@ class VGNav {
 			return false;
 		}
 
+		// Переменные для переноса ссылок и авто позиционирования
+		let movedLinks = [],
+			$links = findContainerAll('.' + _this.classes.wrapper + ' > li', $container),
+			$drops = findContainerAll('.dropdown', $container),
+			dots = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
+
 		// Вешаем основные классы
 		$container.classList.add(_this.classes.container);
 		$container.classList.add('vg-nav-' + _this.settings.placement);
 
+		// Если нужно оставить список меню или установить медиа точку
 		if (_this.settings.breakpoint === null) {
 			_this.settings.isExpand = false;
 		}
 
-		// Если нужно оставить список меню или установить медиа точку
 		if (_this.settings.breakpoint === null || !_this.settings.isExpand) {
 			$container.classList.add(_this.classes.expand);
 		} else {
@@ -192,7 +202,13 @@ class VGNav {
 				});
 			}
 		}
-		console.log(_this.settings);
+
+		// Сворачиваем элементы меню, если они не помещаются в контейнер
+		if (_this.settings.isCollapse && _this._defineResponsive() && _this.settings.placement !== 'vertical') {
+			setCollapse();
+		}
+
+		_this.toggle(callback);
 
 		/**
 		 * Функция позиционирования
@@ -201,7 +217,7 @@ class VGNav {
 			let {width, right} = $drop.getBoundingClientRect(),
 				window_width = window.innerWidth;
 
-			let N_right = window_width - right - 24;
+			let N_right = window_width - right - width - 24;
 
 			$drop.removeAttribute('class');
 
@@ -218,6 +234,252 @@ class VGNav {
 				}
 			}
 		}
+
+		/**
+		 * Функция сворачивания
+		 */
+		function setCollapse() {
+			let width_navigation_responsive = findContainer('.' + _this.classes.wrapper, $container).clientWidth,
+				width_all_links_responsive = 0,
+				$dots = findContainer('.dots', $navigation);
+
+			if ($dots) width_all_links_responsive = $dots.clientWidth;
+
+			if ($links.length) {
+				for (let $link of $links) {
+					let width = $link.clientWidth;
+					width_all_links_responsive = width_all_links_responsive + width;
+
+					if (width_all_links_responsive >= width_navigation_responsive) {
+						movedLinks.push($link);
+						$link.remove();
+					} else {
+						if (movedLinks.length) {
+							if ($dots) {
+								$navigation.insertBefore(movedLinks[0], $dots)
+							} else {
+								$navigation.appendChild(movedLinks[0])
+							}
+							movedLinks.splice(0, 1);
+						}
+					}
+				}
+
+				if (movedLinks.length) {
+					if (!$dots) {
+						$navigation.insertAdjacentHTML('beforeend','<li class="dropdown dots">' + '<a href="#">'+ dots +'</a></li>');
+					}
+				} else {
+					if ($dots) {
+						$dots.remove();
+					}
+				}
+
+				let $d = $navigation.querySelector('.dots');
+				if ($d && movedLinks.length) {
+					let $dropdown = $d.querySelector('ul');
+					if ($dropdown) {
+						for (let link of movedLinks) {
+							$dropdown.prepend(link);
+						}
+					} else {
+						let $dropdown = document.createElement('ul');
+						$dropdown.classList.add('right');
+
+						for (let link of movedLinks) {
+							$dropdown.prepend(link);
+						}
+
+						$d.appendChild($dropdown);
+					}
+				}
+			}
+		}
+	}
+
+	toggle(callback) {
+		let _this = this,
+			$container = _this.element,
+			$navigation  = findContainer('.' + _this.classes.wrapper, $container),
+			$click_a = findContainerAll('li > a', $navigation);
+
+		// Функция обратного вызова после инициализации скрипта
+		if (callback && 'afterInit' in callback) {
+			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
+		}
+
+		if (clickable()) {
+			$click_a.forEach(function($link) {
+				$link.onclick = function(event) {
+					let $_self = this,
+						$li = $_self.closest('li');
+
+					clickBefore(callback, _this, event);
+
+					// Открываем обычное меню
+					if ($li.classList.contains('dropdown')) {
+						_this.destroy($navigation, 'dropdown-mega');
+
+						if ($li.closest('ul').classList.contains(_this.classes.wrapper)) {
+							if (!$li.classList.contains('show')) {
+								_this.destroy($navigation);
+								$li.classList.add('show');
+							} else {
+								$li.classList.remove('show');
+							}
+
+							clickAfter(callback, _this, event)
+
+							return false;
+						} else  {
+							if ($li.classList.contains('show')) {
+								$_self.closest('li').classList.remove('show');
+								_this.destroy($li);
+
+								clickAfter(callback, _this, event)
+
+								return false;
+							} else {
+								let $ul, $children = $li.children;
+
+								for (let i = 1; i <= $children.length; i++) {
+									if ($children[i - 1].tagName === 'UL') {
+										$ul = $children[i - 1];
+									}
+								}
+
+								if ($children.length > 0) {
+									$_self.closest('li').classList.add('show');
+
+									// Функция обратного вызова после клика по ссылке
+									clickAfter(callback, _this, event)
+
+									return false;
+								}
+							}
+						}
+					}
+
+					// Открываем мега меню
+					if ($li.classList.contains('dropdown-mega')) {
+						if ($li.classList.contains('show')) {
+							$li.classList.remove('show');
+						} else {
+							_this.destroy($navigation);
+							$li.classList.add('show');
+						}
+
+						clickAfter(callback, _this, event)
+
+						return false;
+					}
+
+					clickAfter(callback, _this, event);
+
+					return false;
+				}
+			});
+		}
+
+		// Скрываем дроп, если кликнули по экрану
+		window.addEventListener('mouseup', e => {
+			if (!e.target.closest('.' + _this.classes.wrapper)) {
+				_this.destroy();
+			}
+		});
+
+		/**
+		 * Проверим можно ли кликнуть
+		 */
+		function clickable() {
+			if (!_this.settings.isHover) {
+				if (!checkMobileOrTablet()) return true;
+				return window.innerWidth <= _this._checkResponsiveClass();
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Колбеки
+		 */
+		function clickBefore(callback, $this, event) {
+			// Функция обратного вызова клика по ссылке до начала анимации
+			if (callback && 'beforeClick' in callback) {
+				if (typeof callback.beforeClick === 'function') callback.beforeClick($this, event)
+			}
+		}
+
+		function clickAfter(callback, $this, event) {
+			// Функция обратного вызова клика по ссылке после показа анимации
+			if (callback && 'afterClick' in callback) {
+				if (typeof callback.afterClick === 'function') callback.afterClick($this, event)
+			}
+		}
+	}
+
+	destroy($container = null, className = 'dropdown') {
+		const _this = this;
+		let elements;
+
+		if ($container) {
+			elements = $container.getElementsByClassName(className)
+			hideElements(elements);
+
+			function hideElements (el) {
+				if (el) {
+					for (let i = 1; i <= el.length; i++) {
+						if (el[i - 1].classList.contains('show')) {
+							el[i - 1].classList.remove('show');
+						}
+					}
+				}
+			}
+		} else {
+			[..._this.element.querySelectorAll('.dropdown, .dropdown-mega')].forEach(function (el) {
+				if (el.classList.contains('show')) {
+					el.classList.remove('show');
+				}
+			})
+		}
+	}
+
+	_defineResponsive() {
+		let _this = this,
+			windowWidth = window.innerWidth,
+			responsive_size = _this._checkResponsiveClass(),
+			breakpoints = _this.settings.breakpoints,
+			point = Object.keys(breakpoints).find(key => breakpoints[key] === responsive_size);
+
+		let keys = Object.keys(breakpoints),
+			loc = keys.indexOf(point);
+
+		return windowWidth >= breakpoints[keys[loc + 1]];
+	}
+
+	_checkResponsiveClass() {
+		const _this = this;
+		let $container = _this.element;
+
+		if ($container.classList.contains(_this.classes.XXXL)) {
+			_this.current_responsive_size = _this.settings.breakpoints.xxxl;
+		} else if ($container.classList.contains(_this.classes.XXL)) {
+			_this.current_responsive_size = _this.settings.breakpoints.xxl;
+		} else if ($container.classList.contains(_this.classes.XL)) {
+			_this.current_responsive_size = _this.settings.breakpoints.xl;
+		} else if ($container.classList.contains(_this.classes.LG)) {
+			_this.current_responsive_size = _this.settings.breakpoints.lg;
+		} else if ($container.classList.contains(_this.classes.MD)) {
+			_this.current_responsive_size = _this.settings.breakpoints.md;
+		} else if ($container.classList.contains(_this.classes.SM)) {
+			_this.current_responsive_size = _this.settings.breakpoints.sm;
+		} else if ($container.classList.contains(_this.classes.XS)) {
+			_this.current_responsive_size = _this.settings.breakpoints.xs;
+		} else {
+			_this.current_responsive_size = _this.settings.breakpoints.xs;
+		}
+
+		return _this.current_responsive_size;
 	}
 }
 
