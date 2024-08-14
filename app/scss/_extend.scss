@@ -1,0 +1,31 @@
+%dropUl {
+	transition: var(--vg-nav-drop-transition);
+	position: absolute;
+	top: 120%;
+	opacity: 0;
+	visibility: hidden;
+	width: var(--vg-nav-drop-width);
+	padding: var(--vg-nav-drop-padding);
+	border: 1px solid var(--vg-nav-drop-border-color);
+	border-radius: var(--vg-nav-drop-border-radius);
+}
+
+%dropUlShow {
+	visibility: visible;
+	opacity: 1;
+}
+
+%dropUlLink {
+	display: block;
+	padding: var(--vg-nav-drop-item-padding);
+	border-top: 1px solid var(--vg-nav-drop-item-border-color);
+	background-color: var(--vg-nav-drop-item-bg);
+	transition: var(--vg-nav-drop-item-transition);
+	color: var(--vg-nav-drop-item-color);
+
+	&:hover {
+		background-color: var(--vg-nav-drop-item-bg-hover);
+		color: var(--vg-nav-drop-item-color-hover);
+		border-color: var(--vg-nav-drop-item-border-color-hover);
+	}
+}

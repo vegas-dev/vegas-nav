@@ -9,9 +9,13 @@
 @import "./option/variables";
 @import "./option/breakpoints";
 @import "./option/mixin";
+@import "./extend";
 
 :root {
 	@include mix-vars('nav', $nav-map, $prefix);
+	@include mix-vars('nav-item', $nav-item-map, $prefix);
+	@include mix-vars('nav-drop', $nav-drop-map, $prefix);
+	@include mix-vars('nav-drop-item', $nav-drop-item-map, $prefix);
 	@include mix-vars('nav-hamburger', $hamburger-map, $prefix);
 }
 
@@ -40,54 +44,41 @@
 				border-radius: var(--vg-nav-item-border-radius);
 			}
 
+			/** set toggle **/
+			@import "toggle";
 		}
 
 		.dropdown {
 			position: relative;
 
 			ul {
-				padding: 0;
-				z-index: 10;
 				list-style: none;
+				padding: 0;
+				z-index: var(--vg-nav-drop-z-index);
 			}
 
 			> ul {
-				transition: var(--vg-nav-transition);
-				position: absolute;
-				top: 120%;
-				opacity: 0;
-				visibility: hidden;
-				width: var(--vg-nav-dropdown-width);
+				@extend %dropUl;
 
-				&.left, .left {
-					left: 0;
-				}
+				li {
+					a {
+						@extend %dropUlLink;
+					}
 
-				&.right, .right {
-					right: 0;
+					&:first-child {
+						a {
+							border: none;
+						}
+					}
 				}
 
 				ul {
-					transition: var(--vg-nav-transition);
-					position: absolute;
-					top: 20%;
-					opacity: 0;
-					visibility: hidden;
-					width: var(--vg-nav-dropdown-width);
+					@extend %dropUl;
 				}
 
 				.dropdown {
-					ul.left {
-						left: 100%;
-					}
-
-					ul.right {
-						right: 100%;
-					}
-
 					&.show > ul {
-						visibility: visible;
-						opacity: 1;
+						@extend %dropUlShow;
 						top: 0;
 					}
 				}
@@ -95,8 +86,7 @@
 
 			&.show {
 				> ul {
-					visibility: visible;
-					opacity: 1;
+					@extend %dropUlShow;
 					top: 100%;
 				}
 
@@ -110,11 +100,7 @@
 
 		.dropdown-mega {
 			.dropdown-mega-container {
-				transition: var(--vg-nav-transition);
-				position: absolute;
-				top: 120%;
-				opacity: 0;
-				visibility: hidden;
+				@extend %dropUl;
 				left: 0;
 				width: 100%;
 				min-height: 300px;

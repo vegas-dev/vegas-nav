@@ -38,4 +38,25 @@
 			}
 		}
 	}
+
+	&.vg-nav-vertical {
+		> ul {
+			.dropdown {
+				&:hover {
+					> ul {
+						top: 0;
+					}
+				}
+			}
+
+			.dropdown-mega {
+				&:hover {
+					.dropdown-mega-container {
+						left: 100%;
+						top: 0;
+					}
+				}
+			}
+		}
+	}
 }

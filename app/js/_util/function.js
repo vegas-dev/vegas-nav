@@ -62,6 +62,15 @@ function findContainer(target, $container = null) {
 		return document.querySelector(target)
 	}
 }
+function findContainerAll(target, $container = null) {
+	if (!target) return false;
+
+	if ($container) {
+		return $container.querySelectorAll(target)
+	} else {
+		return document.querySelectorAll(target)
+	}
+}
 
 function getDataAttributes(node, isRemoveDataName = false) {
 	if (!node) return false;
@@ -140,4 +149,4 @@ function isEmptyObj(obj) {
  */
 const isObject = obj => obj && typeof obj === 'object';
 
-export {mergeDeepObject, checkMobileOrTablet, getWindowResize, findContainer, getDataAttributes, listener, isJsonString, isObject, isEmptyObj}
+export {mergeDeepObject, checkMobileOrTablet, getWindowResize, findContainerAll, findContainer, getDataAttributes, listener, isJsonString, isObject, isEmptyObj}

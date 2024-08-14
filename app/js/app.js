@@ -1,6 +1,6 @@
 import {
 	checkMobileOrTablet,
-	findContainer,
+	findContainer, findContainerAll,
 	getDataAttributes,
 	isEmptyObj,
 	isJsonString,
@@ -68,6 +68,8 @@ const defaultSettings = {
 	},
 	isExpand: true,
 	isHover: false,
+	isAutoPosition: true,
+	toggle: '<span class="default"></span>',
 	hamburger: {
 		title: '',
 		body: null
@@ -118,6 +120,7 @@ class VGNav {
 
 		// Обязательная разметка с навигаций под классом vg-nav-wrapper
 		let $container = _this.element,
+			$drops = findContainerAll('.dropdown', $container),
 			$navigation = findContainer('.' + _this.classes.wrapper, $container);
 
 		if (!$navigation) {
@@ -169,7 +172,52 @@ class VGNav {
 			}
 		}
 
-		console.log(_this.settings)
+		// Устанавливаем указатель переключателя
+		if (_this.settings.toggle) {
+			let $dropdown_a = [...$container.querySelectorAll('.dropdown-mega > a, .dropdown > a')],
+				toggle = '<span class="toggle">' + _this.settings.toggle + '</span>';
+
+			if ($dropdown_a.length) {
+				$dropdown_a.forEach(function (elem) {
+					elem.insertAdjacentHTML('beforeend', toggle)
+				});
+			}
+		}
+
+		// Позиционируем выпадающие списки
+		if (_this.settings.isAutoPosition) {
+			if ([...$drops].length) {
+				[...$drops].forEach(function ($drop) {
+					setDropPosition($drop.querySelector('ul'));
+				});
+			}
+		}
+		console.log(_this.settings);
+
+		/**
+		 * Функция позиционирования
+		 */
+		function setDropPosition($drop) {
+			let {width, right} = $drop.getBoundingClientRect(),
+				window_width = window.innerWidth;
+
+			let N_right = window_width - right - 24;
+
+			$drop.removeAttribute('class');
+
+			let $parent = $drop.closest('li'),
+				$ul = $parent.querySelectorAll('ul');
+
+			if (N_right > width) {
+				for (const $el of $ul) {
+					$el.classList.add('left');
+				}
+			} else {
+				for (const $el of $ul) {
+					$el.classList.add('right');
+				}
+			}
+		}
 	}
 }
 

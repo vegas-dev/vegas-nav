@@ -1,11 +1,56 @@
 &.vg-nav-horizontal {
 	.vg-nav-wrapper {
 		flex-direction: row;
+
+		.dropdown {
+			> ul {
+				&.left, .left {
+					left: 0;
+				}
+
+				&.right, .right {
+					right: 0;
+				}
+
+				.dropdown {
+					ul.left {
+						left: 100%;
+					}
+
+					ul.right {
+						right: 100%;
+					}
+				}
+			}
+		}
 	}
 }
 
 &.vg-nav-vertical {
 	.vg-nav-wrapper {
 		flex-direction: column;
+
+		.dropdown {
+			> ul {
+				top: 100%;
+
+				&.left, .left {
+					left: 100%;
+				}
+
+				&.right, .right {
+					right: 100%;
+				}
+			}
+		}
+
+		.dropdown-mega {
+			position: relative;
+
+			.dropdown-mega-container {
+				left: 100%;
+				top: 100%;
+			}
+		}
 	}
 }

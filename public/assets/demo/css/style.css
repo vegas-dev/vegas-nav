@@ -2,6 +2,10 @@
 
 body {
 	--vg-nav-hamburger-line-color: var(--bs-body-color, white);
+	--vg-nav-drop-item-border-color: var(--bs-border-color, rgba(255, 255, 255, .15));
+	--vg-nav-drop-item-border-color-hover: var(--bs-border-color, rgba(255, 255, 255, .15));
+	--vg-nav-drop-border-color: var(--bs-border-color, rgba(255, 255, 255, .15));
+	--vg-nav-drop-item-bg-hover: var(--bs-secondary-bg, rgba(255, 255, 255, .15));
 
 	/** **/
 	.header {
@@ -20,6 +24,7 @@ body {
 		--vg-nav-item-padding: 1rem;
 		--vg-nav-item-border: 1px solid var(--bs-border-color, rgba(255, 255, 255, .15));
 		--vg-nav-item-display: block;
+		--vg-nav-drop-item-padding: 1rem;
 	}
 
 	.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
