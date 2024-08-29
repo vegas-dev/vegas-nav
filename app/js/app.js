@@ -4,7 +4,7 @@ import {
 	getDataAttributes,
 	isEmptyObj,
 	isJsonString,
-	isObject, listener,
+	isObject,
 	mergeDeepObject
 } from "./_util/function";
 
