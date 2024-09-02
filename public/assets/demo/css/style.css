@@ -7,18 +7,40 @@ body {
 	--vg-nav-drop-border-color: var(--bs-border-color, rgba(255, 255, 255, .15));
 	--vg-nav-drop-item-bg-hover: var(--bs-secondary-bg, rgba(255, 255, 255, .15));
 	--vg-nav-drop-bg: var(--bs-body-bg, black);
+	--bs-heading-color: #fff;
 
-	/** **/
-	.header {
-		position: relative;
-		height: 100px;
+	.wrapper .main-image {
+		background: url("/assets/demo/images/bg-image.jpg") no-repeat;
+		background-size: cover;
+		height: 700px;
+		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 
+	.wrapper .main-image .content {
+
+	}
+
+	/** **/
+	.header {
+		position: relative;
+	}
+
+	.header .header-wrapper {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(255, 255, 255, .1);
+	}
+
 	footer {
-		margin-top: 300px;
 		padding: 2rem 0;
 	}
 
@@ -43,5 +65,24 @@ body {
 	a:hover {
 		color: var(--vg-link-color-hover);
 		text-decoration: var(--vg-link-decoration-hover);
+	}
+
+	/* */
+	.text-bold {
+		font-weight: bold;
+	}
+
+	.text-gray-soft {
+		color: #c1ccd3 !important
+	}
+
+	/* */
+	.btn-dark {
+		--bs-btn-hover-bg: #252525;
+		--bs-btn-hover-border-color: #252525;
+	}
+
+	.btn-group-lg>.btn, .btn-lg {
+		--bs-btn-border-radius: 0;
 	}
 }
