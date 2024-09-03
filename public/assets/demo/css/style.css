@@ -33,11 +33,31 @@ body {
 		left: 0;
 		top: 0;
 		width: 100%;
+	}
+
+	.header .header-wrapper .header-top {
+		background: var(--bs-body-bg);
+	}
+
+	.header .header-wrapper .header-top .vg-nav-top {
+		--vg-nav-item-padding: 8px 25px;
+		--vg-nav-item-font-size: 14px;
+	}
+
+	.header .header-wrapper .header-bottom {
+		width: 100%;
 		height: 100px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background: rgba(255, 255, 255, .1);
+	}
+
+	.header .header-wrapper .header-bottom .vg-nav-bottom .vg-nav-wrapper {
+		width: 100%;
+		height: 100px;
+		justify-content: flex-end;
+		align-items: center;
 	}
 
 	footer {
