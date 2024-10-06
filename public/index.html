@@ -18,6 +18,8 @@
 
 	<link href="/assets/build/vgnav.css" rel="stylesheet">
 	<script src="/assets/build/vgnav.js"></script>
+
+
 </head>
 <body>
 <div class="wrapper">
@@ -25,7 +27,7 @@
 		<div class="header-wrapper">
 			<div class="header-top">
 				<div class="container">
-					<nav class="vg-nav vg-nav-top" data-breakpoint="lg" data-hamburger="false">
+					<nav class="vg-nav vg-nav-top" data-hover="true" data-breakpoint="lg" data-hamburger="false">
 						<ul class="vg-nav-wrapper">
 							<li class="active">
 								<a href="/">Home page</a>
@@ -96,16 +98,16 @@
 			</div>
 			<div class="header-bottom">
 				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-lg-4 col-xl-3 col-8">
+					<div class="row align-items-center justify-content-between">
+						<div class=" col-xl-3 col-lg-4 col-sm-10 col-9">
 							<div class="logo">
 								<a href="https://vegas-dev.com/" target="_blank">
 									<img src="https://vegas-dev.com/assets/_frontend/images/logo/logo-white.svg" style="max-width: 70%" class="img-fluid" alt="vegas dev">
 								</a>
 							</div>
 						</div>
-						<div class="col-lg-8 col-xl-9 col-4">
-							<nav class="vg-nav vg-nav-bottom" data-breakpoint="lg" data-params='{"classes": {"hamburgerActive": "is-active"}}'>
+						<div class="col-xl-9 col-lg-8 col-sm-2 col-3">
+							<nav class="vg-nav vg-nav-bottom" data-breakpoint="md" data-params='{"classes": {"hamburgerActive": "is-active"}}'>
 								<button class="vg-nav-hamburger hamburger hamburger--vortex" data-vg-toggle="vgnav" type="button">
 									<span class="hamburger-box"><span class="hamburger-inner"></span></span>
 								</button>
@@ -274,7 +276,11 @@
 
 <script>
 	[... document.querySelectorAll('.vg-nav')].forEach(function(nav) {
-		new vg.VGNav(nav, {})
+		new vg.VGNav(nav, {}, {
+			clickHamburger: function (self, event, isShow) {
+
+			}
+		})
 	})
 </script>
 

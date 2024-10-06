@@ -66,13 +66,12 @@ const defaultSettings = {
 		xxxl: 1600
 	},
 	placement: 'horizontal',
-	classes: {
-		active: 'vg-nav-active',
-	},
+	classes: {},
 	isExpand: true,
 	isHover: false,
 	isAutoPosition: true,
 	isCollapse: true,
+	isHamburger: true,
 	toggle: '<span class="default"></span>',
 	hamburger: {
 		title: '',
@@ -166,7 +165,7 @@ class VGNav {
 		if (_this.settings.isExpand) {
 			let isHamburger = findContainer('.' + _this.classes.hamburger, $container);
 
-			if (!isHamburger) {
+			if (!isHamburger && _this.classes.isHamburger) {
 				let mTitle = '',
 					hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
 
@@ -393,6 +392,26 @@ class VGNav {
 		});
 
 		/**
+		 * Клик по гамбургеру
+		 */
+		let toggleHamburger = findContainer('[data-vg-toggle="vgnav"]', $container);
+		if (toggleHamburger) {
+			toggleHamburger.addEventListener('click', function (e) {
+				e.preventDefault();
+
+				if(toggleHamburger.classList.contains(_this.settings.classes.hamburgerActive)) {
+					toggleHamburger.classList.remove(_this.settings.classes.hamburgerActive)
+
+					clickHamburger(callback, toggleHamburger, e, false)
+				} else {
+					toggleHamburger.classList.add(_this.settings.classes.hamburgerActive)
+
+					clickHamburger(callback, toggleHamburger, e, true)
+				}
+			});
+		}
+
+		/**
 		 * Функция позиционирования
 		 */
 		function setDropPosition($drop, isMegaMenu = false) {
@@ -462,6 +481,13 @@ class VGNav {
 			// Функция обратного вызова клика по ссылке после показа анимации
 			if (callback && 'afterClick' in callback) {
 				if (typeof callback.afterClick === 'function') callback.afterClick($this, event)
+			}
+		}
+
+		function clickHamburger(callback, $this, event, isShow) {
+			// Функция обратного вызова клика по гамбургеру
+			if (callback && 'clickHamburger' in callback) {
+				if (typeof callback.clickHamburger === 'function') callback.clickHamburger($this, event, isShow)
 			}
 		}
 	}

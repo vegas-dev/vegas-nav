@@ -110,6 +110,7 @@
 				width: 100%;
 				min-height: 300px;
 				display: none;
+				z-index: var(--vg-nav-drop-z-index);
 			}
 
 			&.show {
