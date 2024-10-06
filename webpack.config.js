@@ -38,7 +38,7 @@ module.exports = outputPaths.map(outputPath => {
 			output: {
 				path: path.resolve(__dirname, outputPath),
 				filename: args.filename.js,
-				library: 'vg'
+				library: 'vgn'
 			},
 			module: {
 				rules: [

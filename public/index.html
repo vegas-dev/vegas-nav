@@ -19,7 +19,8 @@
 	<link href="/assets/build/vgnav.css" rel="stylesheet">
 	<script src="/assets/build/vgnav.js"></script>
 
-
+	<link href="/assets/demo/sidebar/vgsidebar.css" rel="stylesheet">
+	<script src="/assets/demo/sidebar/vgsidebar.js"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -274,11 +275,30 @@
 	</footer>
 </div>
 
+<div class="vg-sidebar left" id="sidebar-navigation">
+	<div class="vg-sidebar-header">
+		<div class="vg-sidebar-header--title">Панель справа</div>
+		<button type="button" class="vg-sidebar-close" data-vg-dismiss="sidebar" aria-label="Close"></button>
+	</div>
+	<div class="vg-sidebar-body">
+		<div id="sidebar-ajax-content"></div>
+	</div>
+	<div class="vg-sidebar-footer">
+		<button type="button" class="btn btn-primary" data-vg-dismiss="sidebar" aria-label="Close">Закрыть</button>
+	</div>
+</div>
+
 <script>
 	[... document.querySelectorAll('.vg-nav')].forEach(function(nav) {
-		new vg.VGNav(nav, {}, {
+		new vgn.VGNav(nav, {}, {
 			clickHamburger: function (self, event, isShow) {
+				let sidebar = new vg.VGSidebar('sidebar-navigation', {});
+				sidebar.toggle();
 
+				let $_sidebar = document.getElementById('sidebar-navigation');
+				$_sidebar.addEventListener('vg.sidebar.hide', function () {
+					self.classList.remove('is-active');
+				})
 			}
 		})
 	})
