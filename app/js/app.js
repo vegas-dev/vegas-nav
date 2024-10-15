@@ -162,10 +162,10 @@ class VGNav {
 		}
 
 		// Устанавливаем гамбургер
-		if (_this.settings.isExpand) {
+		if (_this.settings.isExpand && _this.settings.isHamburger) {
 			let isHamburger = findContainer('.' + _this.classes.hamburger, $container);
 
-			if (!isHamburger && _this.classes.isHamburger) {
+			if (isHamburger === null) {
 				let mTitle = '',
 					hamburger = '<span class="' + _this.classes.hamburger + '--lines"><span></span><span></span><span></span></span>';
 
@@ -177,7 +177,7 @@ class VGNav {
 					hamburger = _this.settings.hamburger.body;
 				}
 
-				$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '" data-vg-toggle="sidebar">' + mTitle + hamburger +'</a>');
+				$container.insertAdjacentHTML('afterbegin','<a href="#" class="' + _this.classes.hamburger + '" data-vg-toggle="vgnav">' + mTitle + hamburger +'</a>');
 			}
 		}
 
