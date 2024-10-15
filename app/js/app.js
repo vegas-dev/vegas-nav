@@ -66,7 +66,9 @@ const defaultSettings = {
 		xxxl: 1600
 	},
 	placement: 'horizontal',
-	classes: {},
+	classes: {
+		hamburgerActive: 'vg-nav-hamburger-active',
+	},
 	isExpand: true,
 	isHover: false,
 	isAutoPosition: true,
@@ -96,7 +98,6 @@ class VGNav {
 
 		this.settings = setParams(element, defaultSettings, arg);
 		this.classes = mergeDeepObject({
-			hamburgerActive: 'vg-nav-hamburger-active',
 			hamburger: 'vg-nav-hamburger',
 			container: 'vg-nav-container',
 			wrapper: 'vg-nav-wrapper',
