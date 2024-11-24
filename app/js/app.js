@@ -395,7 +395,7 @@ class VGNav {
 		/**
 		 * Клик по гамбургеру
 		 */
-		let toggleHamburger = findContainer('[data-vg-toggle="vgnav"]', $container);
+		let toggleHamburger = findContainer('.' + _this.classes.hamburger, $container);
 		if (toggleHamburger) {
 			toggleHamburger.addEventListener('click', function (e) {
 				e.preventDefault();
