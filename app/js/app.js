@@ -459,7 +459,8 @@ class VGNav {
 		/**
 		 * Проверим можно ли кликнуть
 		 */
-		function clickable() {
+		function
+		clickable() {
 			if (!_this.settings.isHover) {
 				if (!checkMobileOrTablet()) return true;
 				return window.innerWidth <= _this._checkResponsiveClass();
