@@ -368,8 +368,6 @@ class VGNav {
 					}
 
 					clickAfter(callback, _this, event);
-
-					return false;
 				}
 			});
 		} else {
