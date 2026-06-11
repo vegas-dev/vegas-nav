@@ -1,6 +1,6 @@
 {
 	"name": "vgnav",
-	"version": "3.2.23-beta7",
+	"version": "3.2.24",
 	"description": "Just easy site navigation. Beta Version",
 	"author": {
 		"name": "Vegas Studio",
@@ -36,7 +36,6 @@
 		"css-loader": "^7.1.2",
 		"html-webpack-plugin": "^5.6.0",
 		"mini-css-extract-plugin": "^2.9.0",
-		"node-sass": "^9.0.0",
 		"postcss-loader": "^8.1.1",
 		"postcss-preset-env": "^9.6.0",
 		"sass": "^1.77.8",

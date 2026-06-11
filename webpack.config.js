@@ -5,6 +5,7 @@ const outputPaths = ['./build', './public/assets/build']
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const sass = require('sass');
 
 module.exports = outputPaths.map(outputPath => {
 	return (env, argv) => {
@@ -48,7 +49,17 @@ module.exports = outputPaths.map(outputPath => {
 					},
 					{
 						test: /\.(scss|css)$/,
-						use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+						use: [
+							MiniCssExtractPlugin.loader,
+							'css-loader',
+							'postcss-loader',
+							{
+								loader: 'sass-loader',
+								options: {
+									implementation: sass,
+								},
+							},
+						],
 					}
 				],
 			},

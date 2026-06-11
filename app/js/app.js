@@ -81,9 +81,31 @@ const defaultSettings = {
 	},
 }
 
+const callbackNames = ['afterInit', 'beforeClick', 'afterClick', 'clickHamburger'];
+
+function normalizeCallbacks(callbacks) {
+	if (!isObject(callbacks) || Array.isArray(callbacks)) {
+		return {};
+	}
+
+	return callbackNames.reduce((result, name) => {
+		if (typeof callbacks[name] === 'function') {
+			result[name] = callbacks[name];
+		}
+
+		return result;
+	}, {});
+}
+
 class VGNav {
-	constructor(element, arg, callback) {
+	constructor(element, arg, callbacks) {
 		this.element = null;
+		this.current_responsive_size = '';
+		this._baseLinks = [];
+		this._windowMouseUpHandler = null;
+		this._windowResizeHandler = null;
+		this._resizeTimer = null;
+		this._callbacks = {};
 
 		if (!element) {
 			return console.error('Первый параметр не должен быть пустым');
@@ -116,12 +138,13 @@ class VGNav {
 		}, this.settings.classes)
 
 		if (!this.element.classList.contains('vg-nav-init')) {
-			this.init(callback);
+			this.init(callbacks);
 		}
 	}
 
-	init(callback) {
+	init(callbacks) {
 		const _this = this;
+		_this._callbacks = normalizeCallbacks(callbacks);
 
 		// Обязательная разметка с навигаций под классом vg-nav-wrapper
 		let $container = _this.element,
@@ -132,11 +155,13 @@ class VGNav {
 			return false;
 		}
 
+		if (!_this._baseLinks.length) {
+			_this._baseLinks = [...$navigation.children].filter(function (node) {
+				return node.tagName === 'LI';
+			});
+		}
+
 		// Переменные для переноса ссылок и авто позиционирования
-		let movedLinks = [],
-			$links = findContainerAll('.' + _this.classes.wrapper + ' > li', $container),
-			$drops = findContainerAll('.dropdown', $container),
-			dots = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
 
 		// Вешаем основные классы
 		$container.classList.add(_this.classes.container);
@@ -196,83 +221,26 @@ class VGNav {
 
 		// Сворачиваем элементы меню, если они не помещаются в контейнер
 		if (_this.settings.isCollapse && _this._defineResponsive() && _this.settings.placement !== 'vertical') {
-			setCollapse();
+			_this._setCollapse($navigation);
 		}
 
-		_this.toggle(callback);
-
-		/**
-		 * Функция сворачивания
-		 */
-		function setCollapse() {
-			let width_navigation_responsive = findContainer('.' + _this.classes.wrapper, $container).clientWidth,
-				width_all_links_responsive = 0,
-				$dots = findContainer('.dots', $navigation);
-
-			if ($dots) width_all_links_responsive = $dots.clientWidth;
-
-			if ($links.length) {
-				for (let $link of $links) {
-					let width = $link.clientWidth;
-					width_all_links_responsive = width_all_links_responsive + width;
-
-					if (width_all_links_responsive >= width_navigation_responsive) {
-						movedLinks.push($link);
-						$link.remove();
-					} else {
-						if (movedLinks.length) {
-							if ($dots) {
-								$navigation.insertBefore(movedLinks[0], $dots)
-							} else {
-								$navigation.appendChild(movedLinks[0])
-							}
-							movedLinks.splice(0, 1);
-						}
-					}
-				}
-
-				if (movedLinks.length) {
-					if (!$dots) {
-						$navigation.insertAdjacentHTML('beforeend','<li class="dropdown dots">' + '<a href="#">'+ dots +'</a></li>');
-					}
-				} else {
-					if ($dots) {
-						$dots.remove();
-					}
-				}
-
-				let $d = $navigation.querySelector('.dots');
-				if ($d && movedLinks.length) {
-					let $dropdown = $d.querySelector('ul');
-					if ($dropdown) {
-						for (let link of movedLinks) {
-							$dropdown.prepend(link);
-						}
-					} else {
-						let $dropdown = document.createElement('ul');
-						$dropdown.classList.add('right');
-
-						for (let link of movedLinks) {
-							$dropdown.prepend(link);
-						}
-
-						$d.appendChild($dropdown);
-					}
-				}
-			}
-		}
+		_this.toggle();
+		_this._bindWindowEvents($navigation);
+		$container.classList.add('vg-nav-init');
 	}
 
-	toggle(callback) {
+	toggle() {
 		let _this = this,
 			$container = _this.element,
 			$navigation  = findContainer('.' + _this.classes.wrapper, $container),
 			$click_a = findContainerAll('li > a', $navigation);
 
 		// Функция обратного вызова после инициализации скрипта
-		if (callback && 'afterInit' in callback) {
-			if (typeof callback.afterInit === 'function') callback.afterInit(_this)
-		}
+		_this._emitCallback('afterInit', {
+			nav: _this,
+			element: _this.element,
+			settings: _this.settings
+		});
 
 		if (clickable()) {
 			$click_a.forEach(function($link) {
@@ -288,7 +256,14 @@ class VGNav {
 							let $drop = findContainer('ul', $li);
 							$drop.style.display = 'block';
 							setDropPosition($drop);
-							clickBefore(callback, _this, event);
+							_this._emitCallback('beforeClick', {
+								nav: _this,
+								event,
+								trigger: $_self,
+								item: $li,
+								dropdown: $drop,
+								isMegaMenu: false
+							});
 
 							setTimeout(() => {
 								if (!$li.classList.contains('show')) {
@@ -303,7 +278,15 @@ class VGNav {
 								}
 							}, 50)
 
-							clickAfter(callback, _this, event)
+							_this._emitCallback('afterClick', {
+								nav: _this,
+								event,
+								trigger: $_self,
+								item: $li,
+								dropdown: $drop,
+								isMegaMenu: false,
+								isOpen: !$li.classList.contains('show')
+							})
 
 							return false;
 						} else {
@@ -311,7 +294,14 @@ class VGNav {
 								$_self.closest('li').classList.remove('show');
 								_this.destroy($li);
 
-								clickAfter(callback, _this, event)
+								_this._emitCallback('afterClick', {
+									nav: _this,
+									event,
+									trigger: $_self,
+									item: $li,
+									isMegaMenu: false,
+									isOpen: false
+								})
 
 								return false;
 							} else {
@@ -327,13 +317,28 @@ class VGNav {
 									let $drop = findContainer('ul', $li);
 									$drop.style.display = 'block';
 									setDropPosition($drop);
-									clickBefore(callback, _this, event);
+									_this._emitCallback('beforeClick', {
+										nav: _this,
+										event,
+										trigger: $_self,
+										item: $li,
+										dropdown: $drop,
+										isMegaMenu: false
+									});
 
 									setTimeout(() => {
 										$_self.closest('li').classList.add('show');
 
 										// Функция обратного вызова после клика по ссылке
-										clickAfter(callback, _this, event)
+										_this._emitCallback('afterClick', {
+											nav: _this,
+											event,
+											trigger: $_self,
+											item: $li,
+											dropdown: $drop,
+											isMegaMenu: false,
+											isOpen: true
+										})
 									}, 50)
 
 									return false;
@@ -347,7 +352,14 @@ class VGNav {
 						let $drop = findContainer('.dropdown-mega-container', $li);
 						$drop.style.display = 'block';
 						setDropPosition($drop, true);
-						clickBefore(callback, _this, event);
+						_this._emitCallback('beforeClick', {
+							nav: _this,
+							event,
+							trigger: $_self,
+							item: $li,
+							dropdown: $drop,
+							isMegaMenu: true
+						});
 
 						setTimeout(() => {
 							if ($li.classList.contains('show')) {
@@ -362,12 +374,26 @@ class VGNav {
 							}
 						}, 50)
 
-						clickAfter(callback, _this, event)
+						_this._emitCallback('afterClick', {
+							nav: _this,
+							event,
+							trigger: $_self,
+							item: $li,
+							dropdown: $drop,
+							isMegaMenu: true,
+							isOpen: !$li.classList.contains('show')
+						})
 
 						return false;
 					}
 
-					clickAfter(callback, _this, event);
+					_this._emitCallback('afterClick', {
+						nav: _this,
+						event,
+						trigger: $_self,
+						item: $li,
+						isOpen: $li.classList.contains('show')
+					});
 				}
 			});
 		} else {
@@ -383,13 +409,6 @@ class VGNav {
 			});
 		}
 
-		// Скрываем дроп, если кликнули по экрану
-		window.addEventListener('mouseup', e => {
-			if (!e.target.closest('.' + _this.classes.wrapper)) {
-				_this.destroy();
-			}
-		});
-
 		/**
 		 * Клик по гамбургеру
 		 */
@@ -401,11 +420,21 @@ class VGNav {
 				if(toggleHamburger.classList.contains(_this.settings.classes.hamburgerActive)) {
 					toggleHamburger.classList.remove(_this.settings.classes.hamburgerActive)
 
-					clickHamburger(callback, toggleHamburger, e, false)
+					_this._emitCallback('clickHamburger', {
+						nav: _this,
+						event: e,
+						trigger: toggleHamburger,
+						isShow: false
+					})
 				} else {
 					toggleHamburger.classList.add(_this.settings.classes.hamburgerActive)
 
-					clickHamburger(callback, toggleHamburger, e, true)
+					_this._emitCallback('clickHamburger', {
+						nav: _this,
+						event: e,
+						trigger: toggleHamburger,
+						isShow: true
+					})
 				}
 			});
 		}
@@ -424,7 +453,7 @@ class VGNav {
 					N_bottom = window_height - top - height;
 
 				if (!isMegaMenu) {
-					$drop.removeAttribute('class');
+					$drop.classList.remove('left', 'right', 'bottom');
 				}
 
 				let $parent = $drop.closest('li'),
@@ -457,8 +486,7 @@ class VGNav {
 		/**
 		 * Проверим можно ли кликнуть
 		 */
-		function
-		clickable() {
+		function clickable() {
 			if (!_this.settings.isHover) {
 				if (!checkMobileOrTablet()) return true;
 				return window.innerWidth <= _this._checkResponsiveClass();
@@ -466,28 +494,102 @@ class VGNav {
 				return false;
 			}
 		}
+	}
 
-		/**
-		 * Колбеки
-		 */
-		function clickBefore(callback, $this, event) {
-			// Функция обратного вызова клика по ссылке до начала анимации
-			if (callback && 'beforeClick' in callback) {
-				if (typeof callback.beforeClick === 'function') callback.beforeClick($this, event)
+	_emitCallback(name, payload = {}) {
+		const callback = this._callbacks[name];
+
+		if (typeof callback === 'function') {
+			callback(payload);
+		}
+	}
+
+	_bindWindowEvents($navigation) {
+		const _this = this;
+
+		if (_this._windowMouseUpHandler) {
+			window.removeEventListener('mouseup', _this._windowMouseUpHandler);
+		}
+
+		_this._windowMouseUpHandler = e => {
+			if (!e.target.closest('.' + _this.classes.wrapper)) {
+				_this.destroy();
+			}
+		};
+
+		window.addEventListener('mouseup', _this._windowMouseUpHandler);
+
+		if (!_this._windowResizeHandler) {
+			_this._windowResizeHandler = () => {
+				clearTimeout(_this._resizeTimer);
+				_this._resizeTimer = setTimeout(() => {
+					if (!_this.element || !_this.element.isConnected) return;
+
+					_this.destroy();
+					if (_this.settings.isCollapse && _this.settings.placement !== 'vertical') {
+						_this._setCollapse($navigation);
+					}
+				}, 50);
+			};
+
+			window.addEventListener('resize', _this._windowResizeHandler);
+		}
+	}
+
+	_setCollapse($navigation) {
+		const _this = this;
+
+		if (!$navigation || !_this._baseLinks.length) return;
+
+		let $dots = findContainer('.dots', $navigation),
+			dots = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16"><path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
+
+		if ($dots) {
+			let $dropdown = $dots.querySelector('ul');
+			if ($dropdown) {
+				while ($dropdown.firstChild) {
+					$navigation.insertBefore($dropdown.firstChild, $dots);
+				}
 			}
 		}
 
-		function clickAfter(callback, $this, event) {
-			// Функция обратного вызова клика по ссылке после показа анимации
-			if (callback && 'afterClick' in callback) {
-				if (typeof callback.afterClick === 'function') callback.afterClick($this, event)
-			}
-		}
+		let width_navigation_responsive = $navigation.clientWidth,
+			width_all_links_responsive = $dots ? $dots.clientWidth : 0,
+			movedLinks = [],
+			$links = [...$navigation.children].filter(function (node) {
+				return node.tagName === 'LI' && !node.classList.contains('dots');
+			});
 
-		function clickHamburger(callback, $this, event, isShow) {
-			// Функция обратного вызова клика по гамбургеру
-			if (callback && 'clickHamburger' in callback) {
-				if (typeof callback.clickHamburger === 'function') callback.clickHamburger($this, event, isShow)
+		if ($links.length) {
+			for (let $link of $links) {
+				let width = $link.clientWidth;
+				width_all_links_responsive = width_all_links_responsive + width;
+
+				if (width_all_links_responsive >= width_navigation_responsive) {
+					movedLinks.push($link);
+					$link.remove();
+				}
+			}
+
+			if (movedLinks.length) {
+				if (!$dots) {
+					$navigation.insertAdjacentHTML('beforeend','<li class="dropdown dots"><a href="#">'+ dots +'</a></li>');
+					$dots = findContainer('.dots', $navigation);
+				}
+
+				let $dropdown = $dots.querySelector('ul');
+				if (!$dropdown) {
+					$dropdown = document.createElement('ul');
+					$dropdown.classList.add('right');
+					$dots.appendChild($dropdown);
+				}
+
+				$dropdown.innerHTML = '';
+				for (let link of movedLinks) {
+					$dropdown.appendChild(link);
+				}
+			} else if ($dots) {
+				$dots.remove();
 			}
 		}
 	}
@@ -526,6 +628,11 @@ class VGNav {
 					}, 400)
 				}
 			})
+		}
+
+		let toggleHamburger = findContainer('.' + _this.classes.hamburger, _this.element);
+		if (toggleHamburger) {
+			toggleHamburger.classList.remove(_this.settings.classes.hamburgerActive);
 		}
 	}
 
