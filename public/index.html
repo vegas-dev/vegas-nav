@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Vegas Navigation</title>
+
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<link href="/assets/demo/css/style.css" rel="stylesheet">
+	<link href="/assets/demo/css/hamburgers.css" rel="stylesheet">
+	<script src="/assets/demo/js/script.js"></script>
+
+	<link href="/assets/build/vgnav.css" rel="stylesheet">
+	<script src="/assets/build/vgnav.js"></script>
+
+	<link href="/assets/demo/sidebar/vgsidebar.css" rel="stylesheet">
+	<script src="/assets/demo/sidebar/vgsidebar.js"></script>
+</head>
+<body>
+<div class="wrapper">
+	<header class="header">
+		<div class="header-wrapper">
+			<div class="header-top">
+				<div class="container">
+					<nav class="vg-nav vg-nav-top" data-hover="true" data-breakpoint="lg" data-hamburger="false">
+						<ul class="vg-nav-wrapper">
+							<li class="active">
+								<a href="/">Home page</a>
+							</li>
+							<li class="dropdown">
+								<a href="#">Left dropdown</a>
+								<ul>
+									<li><a href="/">Any page</a></li>
+									<li class="dropdown">
+										<a href="#">Second level</a>
+										<ul>
+											<li><a href="/">Another page</a></li>
+											<li><a href="/">Any page</a></li>
+											<li class="dropdown">
+												<a href="#">Third level</a>
+												<ul>
+													<li><a href="/">Any page</a></li>
+													<li><a href="/">Another page</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li><a href="/">Another page</a></li>
+								</ul>
+							</li>
+							<li class="dropdown-mega">
+								<a href="/">Mega Menu</a>
+								<div class="dropdown-mega-container">
+									<div class="row">
+										<div class="col-md-4 text-start">
+											Left
+										</div>
+										<div class="col-md-4 text-center">
+											Center
+										</div>
+										<div class="col-md-4 text-end">
+											Right
+										</div>
+									</div>
+								</div>
+							</li>
+							<li><a href="/">Another page</a></li>
+							<li class="dropdown">
+								<a href="#">Right dropdown</a>
+								<ul>
+									<li><a href="/">Any page</a></li>
+									<li class="dropdown">
+										<a href="#">Second level</a>
+										<ul>
+											<li><a href="/">Another page</a></li>
+											<li><a href="/">Any page</a></li>
+											<li class="dropdown">
+												<a href="#">Third level</a>
+												<ul>
+													<li><a href="/">Any page</a></li>
+													<li><a href="/">Another page</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li><a href="/">Another page</a></li>
+								</ul>
+							</li>
+							<li><a href="/">Another page</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+			<div class="header-bottom">
+				<div class="container">
+					<div class="row align-items-center justify-content-between">
+						<div class=" col-xl-3 col-lg-4 col-sm-10 col-9">
+							<div class="logo">
+								<a href="https://vegas-dev.com/" target="_blank">
+									<img src="https://vegas-dev.com/assets/_frontend/images/logo/logo-white.svg" style="max-width: 70%" class="img-fluid" alt="vegas dev">
+								</a>
+							</div>
+						</div>
+						<div class="col-xl-9 col-lg-8 col-sm-2 col-3">
+							<nav class="vg-nav vg-nav-bottom" data-breakpoint="md" data-params='{"classes": {"hamburgerActive": "is-active"}}'>
+								<button class="vg-nav-hamburger hamburger hamburger--vortex" data-vg-toggle="vgnav" type="button">
+									<span class="hamburger-box"><span class="hamburger-inner"></span></span>
+								</button>
+								<ul class="vg-nav-wrapper">
+									<li class="active">
+										<a href="/">Home page</a>
+									</li>
+									<li class="dropdown-mega">
+										<a href="/">Catalog</a>
+										<div class="dropdown-mega-container">
+											<div class="row">
+												<div class="col-md-4 text-start">
+													Left
+												</div>
+												<div class="col-md-4 text-center">
+													Center
+												</div>
+												<div class="col-md-4 text-end">
+													Right
+												</div>
+											</div>
+										</div>
+									</li>
+									<li class="dropdown">
+										<a href="#">Services</a>
+										<ul>
+											<li><a href="/">Any page</a></li>
+											<li class="dropdown">
+												<a href="#">Second level</a>
+												<ul>
+													<li><a href="/">Another page</a></li>
+													<li><a href="/">Any page</a></li>
+													<li class="dropdown">
+														<a href="#">Third level</a>
+														<ul>
+															<li><a href="/">Any page</a></li>
+															<li><a href="/">Another page</a></li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<li><a href="/">Another page</a></li>
+										</ul>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<section class="main-image">
+		<div class="content text-center">
+			<h1 class="display-1 text-bold">Vegas Navigation</h1>
+			<h5 class="text-gray-soft text-regular mt-3">Just easy site navigation by Vegas's creators.</h5>
+			<p><a class="btn btn-dark btn-lg mt-5" href="https://www.npmjs.com/package/vgnav" target="_blank">Go to Package</a></p>
+		</div>
+	</section>
+	<main class="container pt-5">
+		<div class="row">
+			<div class="col-xl-3 col-lg-4">
+				<nav class="vg-nav menu-sidebar" data-hover="true" data-placement="vertical" data-breakpoint="null">
+					<ul class="vg-nav-wrapper">
+						<li class="active">
+							<a href="/">Home page</a>
+						</li>
+						<li class="dropdown">
+							<a href="#">Left dropdown</a>
+							<ul>
+								<li><a href="/">Any page</a></li>
+								<li class="dropdown">
+									<a href="#">Second level</a>
+									<ul>
+										<li><a href="/">Another page</a></li>
+										<li><a href="/">Any page</a></li>
+										<li class="dropdown">
+											<a href="#">Third level</a>
+											<ul>
+												<li><a href="/">Any page</a></li>
+												<li><a href="/">Another page</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a href="/">Another page</a></li>
+							</ul>
+						</li>
+						<li class="dropdown-mega">
+							<a href="#">Mega Menu</a>
+							<div class="dropdown-mega-container">
+								<div class="row">
+									<div class="col-md-4 text-start">
+										Left
+									</div>
+									<div class="col-md-4 text-center">
+										Center
+									</div>
+									<div class="col-md-4 text-end">
+										Right
+									</div>
+								</div>
+							</div>
+						</li>
+						<li><a href="/">Another page</a></li>
+						<li class="dropdown">
+							<a href="#">Right dropdown</a>
+							<ul>
+								<li><a href="/">Any page</a></li>
+								<li class="dropdown">
+									<a href="#">Second level</a>
+									<ul>
+										<li><a href="/">Another page</a></li>
+										<li><a href="/">Any page</a></li>
+										<li class="dropdown">
+											<a href="#">Third level</a>
+											<ul>
+												<li><a href="/">Any page</a></li>
+												<li><a href="/">Another page</a></li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+								<li><a href="/">Another page</a></li>
+							</ul>
+						</li>
+						<li><a href="/">Another page</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="col-lg-8">
+				<div class="text">
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, quos, voluptate, sunt, in suscipit quibusdam quis dignissimos eligendi repellendus ipsam exercitationem adipisci nostrum fugit accusamus quae cum nisi accusantium eaque.
+					</p>
+
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti. Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure, vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+					</p>
+
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti. Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure, vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+					</p>
+
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, quos, voluptate, sunt, in suscipit quibusdam quis dignissimos eligendi repellendus ipsam exercitationem adipisci nostrum fugit accusamus quae cum nisi accusantium eaque.
+					</p>
+
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti. Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure, vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+					</p>
+
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, dolore, impedit eveniet necessitatibus voluptate distinctio quam repellendus voluptates voluptatum inventore rem sapiente minus esse saepe iste harum architecto numquam quis vero dignissimos beatae est id libero adipisci enim odio natus commodi explicabo modi similique nesciunt deserunt vel consectetur velit omnis quaerat corrupti. Cumque, perspiciatis, culpa, reprehenderit laboriosam obcaecati deleniti soluta tempora ipsum ipsam iure temporibus dolore modi quidem cum doloribus ex vel suscipit sapiente ut esse optio voluptates molestias natus nostrum illo nihil quisquam facilis hic atque voluptas quae pariatur placeat officia doloremque quia ea recusandae rem iste asperiores iusto debitis quod incidunt id nemo repellendus itaque. Iure, vel, expedita quam repellendus aliquam fugit autem obcaecati libero reiciendis excepturi officia voluptate molestiae quis itaque consequatur nulla ea sunt facilis cupiditate tempora sequi nam in asperiores! Sunt, maxime at id eaque debitis quasi a possimus eveniet eum velit tempore quidem voluptates expedita quibusdam officiis. Ipsum, quaerat, vero, adipisci enim autem inventore eum maiores consectetur culpa molestiae cumque sed qui dolorem. Placeat, quae deleniti molestiae minima cupiditate quaerat sit est perspiciatis error iste. Ratione, minus, commodi, magni laborum doloribus libero ullam quos tenetur quis molestias ipsam consequuntur harum asperiores culpa nostrum omnis.
+					</p>
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer>
+		<div class="container">
+
+		</div>
+	</footer>
+</div>
+
+<div class="vg-sidebar left" id="sidebar-navigation">
+	<div class="vg-sidebar-header">
+		<div class="vg-sidebar-header--title">Панель справа</div>
+		<button type="button" class="vg-sidebar-close" data-vg-dismiss="sidebar" aria-label="Close"></button>
+	</div>
+	<div class="vg-sidebar-body">
+		<div id="sidebar-ajax-content"></div>
+	</div>
+	<div class="vg-sidebar-footer">
+		<button type="button" class="btn btn-primary" data-vg-dismiss="sidebar" aria-label="Close">Закрыть</button>
+	</div>
+</div>
+
+<script>
+	[... document.querySelectorAll('.vg-nav')].forEach(function(nav) {
+		new vgn.VGNav(nav, {}, {
+			clickHamburger: function (self, event, isShow) {
+				let sidebar = new vg.VGSidebar('sidebar-navigation', {});
+				sidebar.toggle();
+
+				let $_sidebar = document.getElementById('sidebar-navigation');
+				$_sidebar.addEventListener('vg.sidebar.hide', function () {
+					self.classList.remove('is-active');
+				})
+			}
+		})
+	})
+</script>
+
+</body>
+</html>

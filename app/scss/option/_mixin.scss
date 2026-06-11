@@ -1,0 +1,5 @@
+@mixin mix-vars($class, $properties, $prefix) {
+	@each $key, $value in $properties {
+		--#{$prefix}#{$class}-#{$key}: #{$value}
+	}
+}

@@ -1,0 +1,20 @@
+.toggle {
+	transition: var(--vg-nav-transition);
+	transform: rotate(0);
+
+	span {
+		&.default {
+			border-top: .3em solid;
+			border-right: .3em solid transparent;
+			border-bottom: 0;
+			border-left: .3em solid transparent;
+			width: 0;
+			height: 0;
+			transition: var(--vg-nav-transition);
+			transform: rotate(0);
+			display: inline-block;
+			margin-left: .355em;
+			vertical-align: .255em;
+		}
+	}
+}

@@ -1,0 +1,59 @@
+$prefix: vg-;
+
+$grid-breakpoints: (
+		xs: 576px,
+		sm: 768px,
+		md: 992px,
+		lg: 1200px,
+		xl: 1400px,
+		xxl: 1600px,
+		xxxl: 1800px
+);
+
+$nav-map: (
+		transition: all 0.4s ease
+);
+
+$nav-item-map: (
+		margin: 0,
+		padding: 23px 25px,
+		font-size: 1rem,
+		font-weight: 400,
+		line-height: 1.4,
+		color: white,
+		decoration: none,
+		display: inline-block,
+		border: none,
+		border-radius: 0,
+		white-space: nowrap,
+		position: relative,
+);
+
+$hamburger-map: (
+		height: 27px,
+		line-width: 35px,
+		line-color: #333333,
+		line-height: 3px,
+		line-indent-top: 7px
+);
+
+$nav-drop-map: (
+		z-index: 10,
+		transition: map-get($nav-map, transition),
+		width: 200px,
+		border: transparent,
+		border-radius: 0,
+		padding: 0,
+		bg: transparent
+);
+
+$nav-drop-item-map: (
+		padding: .75rem 1rem,
+		border-color: transparent,
+		border-color-hover: transparent,
+		bg: transparent,
+		bg-hover: transparent,
+		color: inherit,
+		color-hover: inherit,
+		transition: map-get($nav-map, transition),
+);

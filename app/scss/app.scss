@@ -1,0 +1,157 @@
+/**
+*--------------------------------------------------------------------------
+* Модуль: VGNav
+* Автор: Vegas DEV
+* Лицензия: смотри LICENSE.md
+*--------------------------------------------------------------------------
+**/
+
+@import "./option/variables";
+@import "./option/breakpoints";
+@import "./option/mixin";
+@import "./extend";
+
+:root {
+	@include mix-vars('nav', $nav-map, $prefix);
+	@include mix-vars('nav-item', $nav-item-map, $prefix);
+	@include mix-vars('nav-drop', $nav-drop-map, $prefix);
+	@include mix-vars('nav-drop-item', $nav-drop-item-map, $prefix);
+	@include mix-vars('nav-hamburger', $hamburger-map, $prefix);
+}
+
+.vg-nav {
+	.vg-nav-wrapper {
+		display: flex;
+		padding: 0;
+		margin: 0;
+		position: relative;
+
+		> li {
+			list-style: none;
+			margin: var(--vg-nav-item-margin);
+
+			> a {
+				white-space: var(--vg-nav-item-white-space);
+				position: var(--vg-nav-item-position);
+				display: var(--vg-nav-item-display);
+				padding: var(--vg-nav-item-padding);
+				font-size: var(--vg-nav-item-font-size);
+				font-weight: var(--vg-nav-item-font-weight);
+				line-height: var(--vg-nav-item-line-height);
+				color: var(--vg-nav-item-color);
+				text-decoration: var(--vg-nav-item-decoration);
+				border: var(--vg-nav-item-border);
+				border-radius: var(--vg-nav-item-border-radius);
+			}
+
+			/** set toggle **/
+			@import "toggle";
+		}
+
+		.dropdown {
+			position: relative;
+
+			ul {
+				list-style: none;
+				padding: 0;
+				z-index: var(--vg-nav-drop-z-index);
+				display: none;
+			}
+
+			> ul {
+				@extend %dropUl;
+
+				li {
+					a {
+						@extend %dropUlLink;
+					}
+
+					&:first-child {
+						a {
+							border: none;
+						}
+					}
+				}
+
+				ul {
+					@extend %dropUl;
+				}
+
+				.dropdown {
+					&.show > ul {
+						@extend %dropUlShow;
+						top: 0;
+					}
+				}
+			}
+
+			&.show {
+				> ul {
+					@extend %dropUlShow;
+					top: 100%;
+
+					&.bottom, .bottom {
+						top: -200%;
+					}
+				}
+
+				> a span.toggle {
+					.default {
+						transform: rotate(-180deg);
+					}
+				}
+			}
+		}
+
+		.dropdown-mega {
+			.dropdown-mega-container {
+				@extend %dropUl;
+				left: 0;
+				width: 100%;
+				min-height: 300px;
+				display: none;
+				z-index: var(--vg-nav-drop-z-index);
+			}
+
+			&.show {
+				> a span.toggle {
+					transform: rotate(-180deg);
+				}
+
+				> .dropdown-mega-container {
+					@extend %dropUlShow;
+					top: 100%;
+
+					&.bottom, .bottom {
+						top: -200%;
+					}
+				}
+			}
+		}
+	}
+
+	/** set hover **/
+	@import "hover";
+
+	/** set placement **/
+	@import "placement";
+
+	/** set hamburger **/
+	@import "hamburger";
+
+	&:not(.vg-nav-expand) {
+		@each $breakpoint in map-keys($grid-breakpoints) {
+			@include media-breakpoint-down($breakpoint, $grid-breakpoints) {
+				&.vg-nav-#{$breakpoint} {
+					.vg-nav-hamburger {
+						display: flex;
+					}
+
+					> .vg-nav-wrapper {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+}

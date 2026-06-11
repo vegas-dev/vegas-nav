@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap');
+
+body {
+	--vg-nav-hamburger-line-color: var(--bs-body-color, white);
+	--vg-nav-drop-item-border-color: var(--bs-border-color, rgba(255, 255, 255, .15));
+	--vg-nav-drop-item-border-color-hover: var(--bs-border-color, rgba(255, 255, 255, .15));
+	--vg-nav-drop-border-color: var(--bs-border-color, rgba(255, 255, 255, .15));
+	--vg-nav-drop-item-bg-hover: var(--bs-secondary-bg, rgba(255, 255, 255, .15));
+	--vg-nav-drop-bg: var(--bs-body-bg, black);
+	--bs-heading-color: #fff;
+
+	.wrapper .main-image {
+		background: url("/assets/demo/images/bg-image.jpg") no-repeat;
+		background-size: cover;
+		height: 700px;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.wrapper .main-image .content {
+
+	}
+
+	/** **/
+	.header {
+		position: relative;
+	}
+
+	.header .header-wrapper {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+	}
+
+	.header .header-wrapper .header-top {
+		background: var(--bs-body-bg);
+	}
+
+	.header .header-wrapper .header-top .vg-nav-top {
+		--vg-nav-item-padding: 8px 25px;
+		--vg-nav-item-font-size: 14px;
+	}
+
+	.header .header-wrapper .header-bottom {
+		width: 100%;
+		height: 100px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(255, 255, 255, .1);
+	}
+
+	.header .header-wrapper .header-bottom .vg-nav-bottom .vg-nav-wrapper {
+		width: 100%;
+		height: 100px;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	footer {
+		padding: 2rem 0;
+	}
+
+	.menu-sidebar {
+		--vg-nav-item-padding: 1rem;
+		--vg-nav-item-border: 1px solid var(--bs-border-color, rgba(255, 255, 255, .15));
+		--vg-nav-item-display: block;
+		--vg-nav-drop-item-padding: 1rem;
+	}
+
+	.hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+		background-color: var(--vg-nav-hamburger-line-color);
+	}
+
+	/* */
+	a {
+		color: var(--vg-link-color);
+		text-decoration: var(--vg-link-color-hover);
+		transition: var(--vg-transition);
+	}
+
+	a:hover {
+		color: var(--vg-link-color-hover);
+		text-decoration: var(--vg-link-decoration-hover);
+	}
+
+	/* */
+	.text-bold {
+		font-weight: bold;
+	}
+
+	.text-gray-soft {
+		color: #c1ccd3 !important
+	}
+
+	/* */
+	.btn-dark {
+		--bs-btn-hover-bg: #252525;
+		--bs-btn-hover-border-color: #252525;
+	}
+
+	.btn-group-lg>.btn, .btn-lg {
+		--bs-btn-border-radius: 0;
+	}
+}
